@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style/style.css">
+    <link rel="stylesheet" href="style/login_registration.css">
+    <title>Pax Patron | Login</title>
+</head>
+<body>
+    <header class="site-header">
+        <!-- header container -->
+        <div class="inner-header">
+            <!-- logo -->
+            <a href="#" class="logo">
+                <div class="logo-icon">
+                    <span class="material-symbols-outlined">PP</span>
+                </div>
+                <span class="logo-text">PaxPatron</span>
+            </a>
+            <!-- navbar -->
+             <nav>
+                <a href="#about">About</a>
+                <a href="#login" class="active">Login</a>
+                <a href="#contact_us">Contact Us</a>
+             </nav>
+        </div>
+    </header>
+    <main  id="login">
+        <div class="about"></div>
+        <!-- container for whole main -->
+        <div class="container">
+            <!-- login field card -->
+            <div class="card">
+                <!-- blob style -->
+                <div class="card-blob">
+                    <img src="assets/blob.svg" alt="blob" class="blob-img blob-img--1">
+                    <img src="assets/blob.svg" alt="blob" class="blob-img blob-img--2">
+                    <img src="assets/blob.svg" alt="blob" class="blob-img blob-img--3">
+                </div>
+                <!-- header -->
+                <div class="card-header">
+                    Welcome Back!
+                    <h1 class="logo-text">PaxPatron</h1>
+                </div>
+                <!-- form starts here  sends post to auth_service.php-->
+                <form class="form-group" action="/auth_service.php" method="POST">
+                    <div class="wrapper">
+                            <input class="form-input" id="uname" type="email" placeholder=" " required>
+                            <label class="form-label" for="uname">Email address</label>
+                    </div>
+                    <div class="wrapper">
+                        <input class="form-input" id="pword" type="password" placeholder=" " required>
+                        <label class="form-label" for="pword">Password</label>
+                    </div>
+                    <!-- forgot pass -->
+                    <a class="forgot-link" href="#">forgot password?</a>
+
+                    <!-- submit -->
+                    <div class="submit-btn">
+                        <p class="signin-label">Sign in as</p>
+                        <!-- btn harus dalam 1 row -->
+                        <div class="btn-row">
+                            <button type="submit" id="donatur" class="form-btn donatur"> 
+                                Donatur
+                            </button>
+                            <button type="submit" id="penyelenggara" class="form-btn penyelenggara"> 
+                                Penyelenggara
+                            </button>
+                        </div>
+                    </div>
+                    <!-- alternative with tele request -->
+                    <div class="divider">
+                        <span class="continue-with">Or continue with</span>
+                    </div>
+                    <div class="form-bottom">
+                        <button class="telegram-btn"><img width="30px" src="assets/telegram.png" alt="telegram logo"></button>
+                    </div>
+                    <div class="card-footer">
+                        <span>New to PaxPatron? <a href="registration.html">Create an account</a></span>
+                    </div>
+                </form>
+            <!-- form ends -->
+            </div>
+        </div>
+    </main>
+    <footer id="contact_us">
+        <table class="footer-content">
+            <thead class="footer-head">
+                <th>
+                    <div class="inner-header">
+                        <!-- logo -->
+                        <a href="#" class="logo">
+                            <div class="logo-icon">
+                                <span class="material-symbols-outlined">PP</span>
+                            </div>
+                            <span class="logo-text">PaxPatron</span>
+                        </a>
+                    </div>
+                </th>
+                <th></th>
+            </thead>
+        </table>
+    </footer>
+</body>
+</html>
