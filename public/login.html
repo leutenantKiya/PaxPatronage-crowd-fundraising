@@ -16,7 +16,7 @@
                 <div class="logo-icon">
                     <span class="material-symbols-outlined">PP</span>
                 </div>
-                <span class="logo-text">PaxPatron</span>
+        
             </a>
             <!-- navbar -->
              <nav>
@@ -26,12 +26,52 @@
              </nav>
         </div>
     </header>
-    <main  id="login">
-        <div class="about"></div>
+    <section class="about" id="about">
+        <div class="about-split">
+            <!-- about us kiri -->
+            <div class="about-card about-card-left">
+                <div class="about-image-wrapper">
+                    <img src="assets/about.png" alt="PaxPatron Community">
+                </div>
+                <div class="quote-box">
+                    <span class="quote-mark">"</span>
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Nam nemo distinctio veniam iure nihil magni ipsam officia doloribus incidunt, quasi, eaque illum! Commodi non iure, omnis ratione quisquam corrupti doloribus.
+                    <span class="quote-mark">"</span>
+                </div>
+            </div>
+
+            <!-- aboit us -kanan -->
+            <div class="about-card about-card-right">
+                <h2 class="about-heading">About Us</h2>
+                <p>
+                    <strong>PaxPatron</strong> adalah platform <span class="highlight-text">Crowdfunding No.1</span> 
+                    yang bergerak membantu komunitas dan organisasi 
+                    <span class="highlight-text highlight--blue">dana sosial</span> di 
+                    <span class="highlight-text highlight--red">Indonesia</span>.
+                </p>
+                <p>
+                    bla bla Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugit at maiores, vel laudantium eius unde possimus animi, cupiditate libero fugiat amet illo distinctio officiis magni culpa velit dolore ea? Rem.
+                </p>
+                
+            </div>
+        </div>
+
+        <div class="down-arrow">
+            <p class="crowd-funding">Join Us Today</p>
+            <a href="#login"><img src="assets/down-arrow.png" alt="Scroll down"></a>
+            
+        </div>
+    </section>
+    <main  id="main-content">
+        <!-- <div class="login wrapper"></div> -->
+         <!-- vision and mission -->
+        <div class="sidebar-mission-vision">
+
+        </div>
         <!-- container for whole main -->
-        <div class="container">
+        <div class="container" id="login">
             <!-- login field card -->
-            <div class="card">
+            <div class="card" >
                 <!-- blob style -->
                 <div class="card-blob">
                     <img src="assets/blob.svg" alt="blob" class="blob-img blob-img--1">
@@ -43,8 +83,8 @@
                     Welcome Back!
                     <h1 class="logo-text">PaxPatron</h1>
                 </div>
-                <!-- form starts here  sends post to auth_service.php-->
-                <form class="form-group" action="/auth_service.php" method="POST">
+                <!-- form starts here  sends post to auth_service.php later-->
+                <form class="form-group" action="../services/auth_service.php" method="POST">
                     <div class="wrapper">
                             <input class="form-input" id="uname" type="email" placeholder=" " required>
                             <label class="form-label" for="uname">Email address</label>
@@ -84,23 +124,39 @@
             </div>
         </div>
     </main>
-    <footer id="contact_us">
-        <table class="footer-content">
-            <thead class="footer-head">
-                <th>
-                    <div class="inner-header">
-                        <!-- logo -->
-                        <a href="#" class="logo">
-                            <div class="logo-icon">
-                                <span class="material-symbols-outlined">PP</span>
-                            </div>
-                            <span class="logo-text">PaxPatron</span>
-                        </a>
+       <footer id="contact_us">
+        <div class="footer-container">
+            <div class="footer-content">
+                <div class="footer-info">
+                    <h3>Hubungi Kami</h3>
+                    <ul class="contact-list">
+                        <li>
+                            <span class="material-symbols-outlined">mail</span>
+                            <a href="mailto:support@paxpatron.com">support@paxpatron.com</a>
+                        </li>
+                        <li>
+                            <span class="material-symbols-outlined">Location on</span>
+                            <span>Yogyakarta, Indonesia</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="footer-social">
+                    <h3>Media Sosial</h3>
+                    <div class="social-icons">
+                        <a href="https://www.instagram.com/gwkiyaco/?hl=en" title="Instagram"><img src="assets/instagram.png" alt="Instagram" width="24"></a>
+                        <a href="#" title="Twitter"><img src="assets/twitter.png" alt="Twitter" width="24"></a>
+                        <a href="#" title="LinkedIn"><img src="assets/linkedin.png" alt="LinkedIn" width="24"></a>
                     </div>
-                </th>
-                <th></th>
-            </thead>
-        </table>
+                </div>
+            </div>
+
+            <span class="horizontal-line"></span>
+
+            <div class="copyright">
+                <p>&copy; 2026 Copyright PaxPatron Non-Profit Company. Kiya-Kevi</p>
+            </div>
+        </div>
     </footer>
 </body>
 </html>

@@ -1,10 +1,21 @@
+
+
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
+/* #about{
+    scroll-margin-top: 60px;
+} */
+
+#login{
+    scroll-margin-top: 50px;
+}
+
 :root{
+    --bg-surface: #E5F4FB;
     --primary: #0ea5e9;
     --primary-dark: #0284c7;
     --primary-soft: #e0f2fe;
@@ -21,7 +32,14 @@
     --radius-full: 9999px;
 }
 
+
+social-icons a{
+    background: var(--text-light);
+    background-size: cover;
+}
+
 main{
+    /* margin-top: 100px; */
     background-color: var(--bg);
     display: flex;
     justify-content: center; /*usually works with flex display*/
@@ -35,7 +53,193 @@ main{
      because the viewport point is to the center (this is the end point)
      so 100% percent of viewport point should b  alternatively -> 
      align-items: end and 60 vh*/
-}              
+}   
+/* about */
+section.about {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 20px;
+    min-height: 700px;
+}
+
+/* about with 2 section */
+.about-split {
+    /* padding-top: 75px; */
+    display: flex;
+    gap: 2rem;
+    max-width: 1100px;
+    width: 100%;
+    align-items: stretch;
+}
+
+/* wrapper */
+.about-card {
+    background: var(--surface);
+    border-radius: 24px;
+    box-shadow: var(--shadow-md);
+    overflow: hidden;
+    animation: aboutCardIn .7s ease-out both;
+}
+
+.about-card-left {
+    flex: 1.2;
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    animation-delay: .1s;
+}
+
+.about-card-right {
+    flex: 1;
+    padding: 2.5rem 2.5rem 2.5rem 2.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    animation-delay: .3s;
+}
+
+/* Image inside left card */
+.about-image-wrapper {
+    width: 100%;
+    aspect-ratio: 16 / 10;
+    overflow: hidden;
+    border-radius: 24px 24px 0 0;
+}
+
+.about-image-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform .4s ease;
+}
+
+.about-card--left:hover .about-image-wrapper img {
+    transform: scale(1.03);
+}
+
+/* quote -> need things to get done :) */
+.quote-box {
+    padding: 1.5rem 2rem;
+    font-style: italic;
+    color: #334155;
+    font-size: 1rem;
+    font-weight: 500;
+    line-height: 1.7;
+    border-left: 5px solid #8b5cf6;
+    margin: 1.5rem;
+    background: linear-gradient(to right, rgba(139, 92, 246, 0.05), rgba(59, 130, 246, 0.05));
+    border-radius: 12px;
+}
+
+.quote-mark {
+    font-size: 1.6rem;
+    color: #8b5cf6;
+    font-weight: 700;
+    vertical-align: middle;
+}
+
+/* header for about */
+.about-heading {
+    font-size: 1.75rem;
+    font-weight: 800;
+    color: var(--text);
+    letter-spacing: -.02em;
+    position: relative;
+    padding-bottom: .75rem;
+}
+
+.about-heading::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 50px;
+    height: 4px;
+    background: linear-gradient(90deg, var(--primary), #8b5cf6);
+    border-radius: 4px;
+}
+
+/* About text */
+.about-card--right p {
+    font-size: .95rem;
+    line-height: 1.75;
+    color: var(--text-muted);
+}
+
+.about-card--right p strong {
+    color: var(--text);
+}
+
+/* Highlighted keywords */
+.highlight-text {
+    font-weight: 600;
+    font-style: italic;
+    color: var(--primary-dark);
+}
+
+.highlight--blue {
+    color: #0ea5e9;
+}
+
+.highlight--red {
+    color: #e11d48;
+}
+
+/* Entrance animation */
+@keyframes aboutCardIn {
+    from { opacity: 0; transform: translateY(28px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Responsive: stack on small screens */
+@media (max-width: 768px) {
+    .about-split {
+        flex-direction: column;
+    }
+
+    .about-card--left,
+    .about-card--right {
+        flex: none;
+    }
+
+    .about-card--right {
+        padding: 2rem 1.5rem;
+    }
+}
+
+.crowd-funding{
+    font-style: italic;
+    font-weight: 500;
+    font-size: 15px;
+}
+
+.down-arrow {
+    text-align: center;
+    margin-top: 20px;
+}
+
+/* arrow */
+.down-arrow img {
+    width: 40px;
+    height: auto;
+    animation: bounce 2s infinite;
+}
+
+/* bouncing animation */
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% {
+        transform: translateY(0);
+    }
+    40% {
+        transform: translateY(10px);
+    }
+    60% {
+        transform: translateY(5px);
+    }
+}
 
 .container{
     background-color: white;
@@ -161,8 +365,6 @@ main{
     margin-bottom: 24px;
 }
 
-
-
 .submit-btn {
     width: 100%;
     margin-bottom: 20px;
@@ -272,10 +474,6 @@ main{
     }
 }
 
-
-#contact_us {
-    background: #FDFDFE;
-}
 
 @media(max-width: 480px){
     .card{

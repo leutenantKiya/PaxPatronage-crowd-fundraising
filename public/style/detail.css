@@ -44,16 +44,6 @@
     width: 30px;
 }
 
-.breadcrumb-home{
-    text-decoration: none;
-    font-weight: 500;
-    color: var(--text-muted);
-}
-
-.breadcrumb-home:hover{
-    color: var(--primary);
-}
-
 .detail-logo{
     display: flex;
     text-decoration: none;
@@ -62,18 +52,17 @@
     /* background: ;  ntar cari*/ 
 }
 
-.bread-crumb{
+main{
     max-width: 1200px;
     margin: 2.5rem auto;
     padding: 0 1.5rem;
     position: relative;
 }
 
-main{
+.bread-crumb {
     max-width: 1200px;
-    margin: 2.5rem auto;
-    padding: 0 1.5rem;
-    position: relative;
+    margin: 0 auto;
+    padding-bottom: 2rem;
 }
 
 .main-content-card {
@@ -210,23 +199,17 @@ h1 {
 }
 
 .funding-plan ul {
-    list-style: none;
+    list-style: square;
     color: #475569;
+    padding-left: 15px ;
 }
 
 .funding-plan li {
+    /* list-style-type: disc; */
     margin-bottom: 0.75rem;
-    display: flex;
     align-items: center;
     gap: 0.75rem;
     font-size: 0.9375rem;
-}
-
-.funding-plan li::before {
-    content: 'check_circle';
-    font-family: 'Material Symbols Outlined';
-    color: #8b5cf6;
-    font-size: 1.25rem;
 }
 
 .sidebar{
@@ -306,5 +289,39 @@ h1 {
     color: white;
     font-size: 14px;
 }
+
+.donation-card{
+    margin-bottom: 10px;
+}
+
+.bank-transfer-header{
+    margin-bottom: 0.5rem;
+}
+
+.bank-account{
+    padding: 16px;
+    background-color: var(--bg);
+    border-radius: 20px;
+}
+
+.bank-name{
+    font-weight: 500;
+    color: var(--text-muted);
+    margin-bottom: 15px;
+}
+
+.acc-row {
+    color: var(--text);
+    font-size: 30px;
+    margin-bottom: 0.75rem;
+}
+
+.acc-holder{
+    color: var(--text-light)
+}
+
+
+
+
 
 

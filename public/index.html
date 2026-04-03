@@ -28,8 +28,8 @@
 
             <!-- navbar -->
              <nav>
-                <a href="#" class="active">Home</a>
-                <a href="#">Galang Dana</a>
+                <a href="#home" class="active">Home</a>
+                <!-- in case this one is permitted :) -->
                 <a href="#">Donasi Saya</a>
                 <a href="#">Profile</a>
              </nav>
@@ -47,12 +47,138 @@
     </header>
 
     <!-- main -->
-
     <main>
+        <div class="bread-crumb">
+            <a href="index.html" class="breadcrumb-home">Home</a>
+        </div>
         <div class="hero">
             <h1>Temukan Kampanye Donasi</h1>
             <p>Wujudkan kebaikan melalui bantuan kecil</p>
         </div>
+        <!-- card for crowd funding -->
+         <!-- plan : lazy load for efficient v pick axe ragsagesakfasjdadjkfadhjshgfhjdgfhahjd -->
+        <div class="funding-content">
+            <a href="detail.html" class="funding-card" style="grid-area: box-1">
+                <div class="hero-img-container">
+                    <img src="assets/example-detail.png" alt="Poster Kampanye" class="hero-img">
+                </div>
+                <span class="category-badge">Pendidikan</span>
+                <div class="card-content">
+                    <h3 class="card-title">Wujudkan Mimpi Anak Indonesia</h3>
+                    <p class="card-organizer">oleh Yayasan Belajar Maju</p>
+                    <div class="card-progress">
+                        <!-- progress will be reolaced with calculation of current sum money / target * 100 -->
+                        <div class="progress-bar"><div class="progress-fill" style="width: 64%"></div></div>
+                        <div class="progress-info">
+                            <span class="amount-raised">Rp 64.250.000</span>
+                            <span class="amount-target">terkumpul dari Rp 100.000.000</span>
+                        </div>
+                    </div>
+                </div>
+            </a>  
+            <a href="detail.html" class="funding-card" style="grid-area: box-2">
+                <div class="hero-img-container">
+                    <img src="assets/example-detail.png" alt="Poster Kampanye" class="hero-img">
+                </div>
+                <span class="category-badge">Pendidikan</span>
+                <div class="card-content">
+                    <h3 class="card-title">Bantu Anak Nelayan Sekolah</h3>
+                    <p class="card-organizer">oleh Komunitas Nelayan Muda</p>
+                    <div class="card-progress">
+                        <div class="progress-bar"><div class="progress-fill" style="width: 45%"></div></div>
+                        <div class="progress-info">
+                            <span class="amount-raised">Rp 45.000.000</span>
+                            <span class="amount-target">terkumpul dari Rp 100.000.000</span>
+                        </div>
+                    </div>
+                </div>
+            </a> 
+            <a href="detail.html" class="funding-card" style="grid-area: box-2">
+                <div class="hero-img-container">
+                    <img src="assets/example-detail.png" alt="Poster Kampanye" class="hero-img">
+                </div>
+                <span class="category-badge">Pendidikan</span>
+                <div class="card-content">
+                    <h3 class="card-title">Beasiswa untuk Siswa Miskin</h3>
+                    <p class="card-organizer">oleh Yayasan Pendidikan Nesia</p>
+                    <div class="card-progress">
+                        <div class="progress-bar"><div class="progress-fill" style="width: 80%"></div></div>
+                        <div class="progress-info">
+                            <span class="amount-raised">Rp 80.000.000</span>
+                            <span class="amount-target">terkumpul dari Rp 100.000.000</span>
+                        </div>
+                    </div>
+                </div>
+            </a> 
+            <a href="detail.html" class="funding-card" style="grid-area: box-3">
+                <div class="hero-img-container">
+                    <img src="assets/example-detail.png" alt="Poster Kampanye" class="hero-img">
+                </div>
+                <span class="category-badge">Pendidikan</span>
+                <div class="card-content">
+                    <h3 class="card-title">Sekola Digital untuk Desa</h3>
+                    <p class="card-organizer">oleh Techno for Education</p>
+                    <div class="card-progress">
+                        <div class="progress-bar"><div class="progress-fill" style="width: 30%"></div></div>
+                        <div class="progress-info">
+                            <span class="amount-raised">Rp 30.000.000</span>
+                            <span class="amount-target">terkumpul dari Rp 100.000.000</span>
+                        </div>
+                    </div>
+                </div>
+            </a> 
+            <a href="detail.html" class="funding-card" style="grid-area: box-4">
+                <div class="hero-img-container">
+                    <img src="assets/example-detail.png" alt="Poster Kampanye" class="hero-img">
+                </div>
+                <span class="category-badge">Pendidikan</span>
+                <div class="card-content">
+                    <h3 class="card-title">Paket Belajar untuk Anak Jalanan</h3>
+                    <p class="card-organizer">oleh Komunitas Sosial</p>
+                    <div class="card-progress">
+                        <div class="progress-bar"><div class="progress-fill" style="width: 55%"></div></div>
+                        <div class="progress-info">
+                            <span class="amount-raised">Rp 55.000.000</span>
+                            <span class="amount-target">terkumpul dari Rp 100.000.000</span>
+                        </div>
+                    </div>
+                </div>
+            </a> 
+        </div>
     </main>
+    <footer id="contact_us">
+        <div class="footer-container">
+            <div class="footer-content">
+                <div class="footer-info">
+                    <h3>Hubungi Kami</h3>
+                    <ul class="contact-list">
+                        <li>
+                            <span class="material-symbols-outlined">mail</span>
+                            <a href="mailto:support@paxpatron.com">support@paxpatron.com</a>
+                        </li>
+                        <li>
+                            <span class="material-symbols-outlined">Location on</span>
+                            <span>Yogyakarta, Indonesia</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="footer-social">
+                    <h3>Media Sosial</h3>
+                    <div class="social-icons">
+                        <a href="#" title="Instagram"><img src="assets/instagram.png" alt="Instagram" width="24"></a>
+                        <a href="#" title="Twitter"><img src="assets/twitter.png" alt="Twitter" width="24"></a>
+                        <a href="#" title="LinkedIn"><img src="assets/linkedin.png" alt="LinkedIn" width="24"></a>
+                    </div>
+                </div>
+            </div>
+
+            <span class="horizontal-line"></span>
+
+        </div>
+        <div class="copyright">
+            <p>&copy; 2026 Copyright PaxPatron Non-Profit Company. Kiya-Kevi</p>
+        </div>
+    </footer>
 </body>
 </html>
