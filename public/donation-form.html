@@ -3,24 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pengajuan Lamaran | nama crowd funding</title>
     <link rel="stylesheet" href="style/style.css">
-    <link rel="stylesheet" href="style/detail.css">
-    <title>Detail - PaxPatron</title>
+    <link rel="stylesheet" href="style/lamaran.css">
 </head>
 <body>
-    <header class="detail-header">
-        <div class="detail-inner-header">
-            <a href="index.html" class="back" id="bac">
-                <div class="back-logo">
-                    <img width="40px" src="assets/back.png" alt="back" class="material-symbols-outlined">
-                </div>
-            </a>
-            <a href="#" class="detail-logo">
+    <header class="site-header">
+        <!-- header container -->
+        <div class="inner-header">
+            <!-- logo -->
+            <a href="#" class="logo">
                 <div class="logo-icon">
                     <span class="material-symbols-outlined">PP</span>
                 </div>
-                <span class="logo-text">PaxPatron</span>
+        
             </a>
+            <!-- navbar -->
+            <nav>
+                <a href="#about">About</a>
+                <a href="#login" class="active">Login</a>
+                <a href="#contact_us">Contact Us</a>
+            </nav>
         </div>
     </header>
 
@@ -29,10 +32,11 @@
             <a href="index.html" class="breadcrumb-home">Home</a>
             <span class="material-symbols-outlined" style="font-size: 16px;">></span>
             <span class="material-symbols-outlined" style="font-size: 16px;">Detail ></span>
-            <span style="color: var(--text); font-weight: 700;"><strong>Wujudkan Mimpi Mas Amba</strong></span>
+            <span class="material-symbols-outlined" style="font-size: 16px;">Wujudkan Mimpi Mas Amba ></span>
+            <span style="color: var(--text); font-weight: 700;"><strong>Donasi</strong></span>
         </div>
 
-        <div class="main-content-card">
+        <div class="main-content-card" style="width: 90%">
             <div class="main-content">
                 <div class="campaign-img">
                     <div class="hero-img-container">
@@ -40,65 +44,37 @@
                     </div>
                     <span class="category-badge">Pendidikan</span>
                 </div>
+
                 <div class="content-padding">
                     <h1>Wujudkan Mimpi Mas Amba bertemu Mas Nasir</h1>
                     <p class="organizer-info" style="font-size: 14px; margin-bottom: 1rem;">Oleh: <strong>Yayasan Anggrek Mekar</strong> | Lokasi: <strong>Yogyakarta</strong></p>
-                    
-                    <div class="tabs">
-                        <div class="tab active">Cerita</div>
-                        <div class="tab">Donatur (124)</div>
-                    </div>
-
-                    <div class="story-content">
-                        <p>Di balik keindahan pantai kita, ribuan anak nelayan terpaksa putus sekolah demi membantu ekonomi keluarga. Pendidikan adalah satu-satunya jalan keluar untuk memutus rantai kemiskinan yang telah berlangsung turun-temurun di desa-desa pesisir.</p>
-                        <p>Kampanye ini bertujuan untuk menyediakan 50 paket beasiswa penuh selama satu tahun ajaran bagi anak-anak di Desa Teluk Hijau. Paket ini mencakup biaya SPP, seragam, buku, dan alat tulis.</p>
-                        
-                        <div class="quote-box">
-                            "Setiap kontribusi Anda, sekecil apapun, adalah investasi besar bagi masa depan bangsa Indonesia dari garis terdepan pantai kita."
-                        </div>
-
-                        <div class="funding-plan">
-                            <h3>Rencana penggunaan dana:</h3>
-                            <ul>
-                                <li>Biaya Pendidikan 50 Siswa (Rp 75.000.000)</li>
-                                <li>Perlengkapan Sekolah (Rp 15.000.000)</li>
-                                <li>Program Pendampingan Belajar (Rp 10.000.000)</li>
-                            </ul>
-                        </div>
-                    </div>
                 </div>
             </div>
+            
 
             <div class="sidebar">
                 <div class="sticky-sidebar">
+
                     <div class="donation-card">
-                        <p class="collected-amount" id="collected-amount">Terkumpul</p>
-                        <p class="current-amount" id="current-amount">Rp 64.250.000</p>
-                        <span class="target-amount">dari target <span class="target-amount" id="target-amount">Rp 100.000.000</span></span>
-                        
-                        <div class="progress-bar-container">
-                            <div class="progress-bar" style="width: 64%;"></div>
-                        </div>
-
-                        <div class="stat-donation">
-                            <div class="stat">
-                                <span class="stat-value">124</span>
-                                <span class="stat-label">Donatur</span>
-                            </div>
-                            <div class="stat">
-                                <span class="stat-value">12</span>
-                                <span class="stat-label">Hari Lagi</span>
-                            </div>
-                        </div>
-
-                        <a href="donation-form.html" class="donation-container">
-                            <button class="primary-btn">Donasi Sekarang</button>
-                        </a>
-                    </div>
-
-                    <div class="donation-card" style="margin-top: 1.5rem;">
                         <div class="bank-transfer-header">
-                            <span class="material-symbols-outlined" style="color: var(--primary); font-weight: bold;">Transfer Bank Manual</span>
+                            <span 
+                            class="material-symbols-outlined" 
+                            style="color: var(--primary); font-weight:bold;
+                            font-size: 30px;">Isi Data Donasi</span>
+                        </div>
+                        <span class="horizontal-line"></span>
+                        <div class="nominal-container">
+                            <h3>
+                                Pilih Nominal Donasi
+                            </h3>
+                            <div class="nominal-btn-container">
+                                <div class="nominal-btn">RP 10.000</div>
+                                <div class="nominal-btn">RP 20.000</div>
+                                <div class="nominal-btn">RP 50.000</div>
+                                <div class="nominal-btn">RP 100.000</div>
+                                <div class="nominal-btn">RP 250.000</div>
+                                <div class="nominal-btn">RP 500.000</div>
+                            </div>
                         </div>
                         
                         <div class="bank-account">
@@ -119,14 +95,14 @@
 
                         <p class="disclaimer" style="color: red; padding-top: 20px;">
                             <!-- the mesasge is created when the funding created to ensure the purpose of the fund -->
-                            *Tambahkan Pesan "Untuk bla bla bla" guna mempermudah identifikasi
+                            <!-- *Tambahkan Pesan "Untuk bla bla bla" guna mempermudah identifikasi -->
                         </p>
                     </div>
                 </div>
             </div>
         </div>
     </main>
-    
+
     <footer id="contact_us">
         <div class="footer-container">
             <div class="footer-content">
@@ -153,12 +129,10 @@
                     </div>
                 </div>
             </div>
-
             <span class="horizontal-line"></span>
-
-            <div class="copyright">
-                <p>&copy; 2026 Copyright PaxPatron Non-Profit Company. Kiya-Kevi</p>
-            </div>
+        </div>
+        <div class="copyright">
+            <p>&copy; 2026 Copyright PaxPatron Non-Profit Company. Kiya-Kevi</p>
         </div>
     </footer>
 </body>
