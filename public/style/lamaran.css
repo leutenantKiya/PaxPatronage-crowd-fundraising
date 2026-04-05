@@ -18,6 +18,46 @@
     --radius-full:  9999px;
 }
 
+/* ============================================
+    HEADER
+============================================ */
+
+.detail-inner-header {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    gap: 3rem;
+}
+
+/* back icon */
+.back {
+    /* display: flex; */
+    align-items: center;
+    text-decoration: none;
+    color: var(--text-muted); 
+    font-size: 14px;
+    font-weight: 500;
+    transition: 0.3s ease;
+}
+
+.back:hover {
+    transform: scale(0.9);
+}
+
+.back-logo{
+    width: 30px;
+}
+
+.detail-logo{
+    display: flex;
+    text-decoration: none;
+    align-items: center;
+    gap: 0.5rem;
+    /* background: ;  ntar cari*/ 
+}
 
 /* ============================================
     LAYOUT
@@ -41,7 +81,7 @@ main {
 /* ============================================
     BREADCRUMB
 ============================================ */
-.bread-crumb {
+/* .bread-crumb {
     max-width: 1200px;
     margin: 0 auto;
     padding-bottom: 2rem;
@@ -63,7 +103,7 @@ main {
 li strong{
     margin-left: 10px;
 }
-
+ */
 
 /* ============================================
     CAMPAIGN CARD (KIRI)
@@ -219,6 +259,11 @@ h1 {
 /* ============================================
     PAYMENT METHOD
 ============================================ */
+
+.payment-method-container{
+    margin: 25px 0;
+}
+
 .payment-method {
     display: block; /* FIX: ganti dari inline ke block */
     margin-bottom: 10px;
