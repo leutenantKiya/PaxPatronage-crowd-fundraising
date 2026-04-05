@@ -6,6 +6,7 @@
     <title>Pengajuan Lamaran | nama crowd funding</title>
     <link rel="stylesheet" href="style/style.css">
     <link rel="stylesheet" href="style/lamaran.css">
+    <script src="script.js" defer></script>
 </head>
 <body>
     <header class="site-header">
@@ -63,41 +64,83 @@
                             font-size: 30px;">Isi Data Donasi</span>
                         </div>
                         <span class="horizontal-line"></span>
-                        <div class="nominal-container">
+
+                        <!-- AMOUNT -->
+                        <div class="amount-container">
                             <h3>
-                                Pilih Nominal Donasi
+                                Pilih amount Donasi
                             </h3>
-                            <div class="nominal-btn-container">
-                                <div class="nominal-btn">RP 10.000</div>
-                                <div class="nominal-btn">RP 20.000</div>
-                                <div class="nominal-btn">RP 50.000</div>
-                                <div class="nominal-btn">RP 100.000</div>
-                                <div class="nominal-btn">RP 250.000</div>
-                                <div class="nominal-btn">RP 500.000</div>
+                            <div class="amount-btn-container">
+                                <div class="amount-btn">RP 10.000</div>
+                                <div class="amount-btn">RP 20.000</div>
+                                <div class="amount-btn">RP 50.000</div>
+                                <div class="amount-btn">RP 100.000</div>
+                                <div class="amount-btn">RP 250.000</div>
+                                <div class="amount-btn">RP 500.000</div>
                             </div>
+                            <div class="user-donation-container">
+                                <label for="user-donation">RP</label>
+                                <input type="text" id="rupiah" min="0" step="10000" placeholder="nominal Lainnya" name="user-donation">
+
+                            </div>
+                        </div>
+
+                        <!-- PAYMENT METHOD -->
+                        <div class="payment-method-container">
+                            <h3>METODE PEMBAYARAN</h3>
+                        
+                            <label class="payment-method">
+                                <input type="radio" name="payment-method" value="bank" checked>
+                                <div class="method-content">
+                                    <span>Bank Transfer (BCA/Mandiri)</span>
+                                </div>
+                            </label>
+                        
+                            <label class="payment-method">
+                                <input type="radio" name="payment-method" value="ewallet">
+                                <div class="method-content">
+                                    <span>GoPay / OVO / DANA</span>
+                                    <span class="icon">⚡</span>
+                                </div>
+                            </label>
                         </div>
                         
-                        <div class="bank-account">
-                            <p class="bank-name">Bank Central Asia (BCA)</p>
-                            <div class="acc-row">
-                                <span class="acc-number">8830 1922 44</span>
+                        <!-- DONATUR -->
+                        <div class="donor-container">
+                            <h3>NAMA DONATUR</h3>
+                        
+                            <div class="input-box">
+                                <input type="text" placeholder="Nama Lengkap">
                             </div>
-                            <div class="acc-holder">A.N. YAYASAN ANGGREK MEKAR</div>
+                        
+                            <label class="anonymous">
+                                <input type="checkbox">
+                                <span>Sembunyikan nama saya (Donasi Anonim)</span>
+                            </label>
                         </div>
-
-                        <div class="bank-account" style="margin-top: 1rem;">
-                            <p class="bank-name">Bank Madura</p>
-                            <div class="acc-row">
-                                <span class="acc-number">911</span>
-                            </div>
-                            <div class="acc-holder">A.N. YAYASAN PINILIH</div>
+                        
+                        <!-- UPLOAD -->
+                        <div class="upload-container">
+                            <h3>BUKTI TRANSFER (OPSIONAL)</h3>
+                        
+                            <label class="upload-box">
+                                <input type="file" hidden>
+                                <div class="upload-content">
+                                    <div>☁️</div>
+                                    <p><strong>Klik atau seret file ke sini</strong></p>
+                                    <small>Mendukung Format: JPG, PNG, PDF (Maks. 2MB)</small>
+                                </div>
+                            </label>
                         </div>
-
-                        <p class="disclaimer" style="color: red; padding-top: 20px;">
-                            <!-- the mesasge is created when the funding created to ensure the purpose of the fund -->
-                            <!-- *Tambahkan Pesan "Untuk bla bla bla" guna mempermudah identifikasi -->
-                        </p>
-                    </div>
+                        
+                        <!-- BUTTON -->
+                        <div class="submit-container">
+                            <button class="donate-btn">Donasi Sekarang ❤️</button>
+                            <p class="terms">
+                                Dengan menekan tombol di atas, saya menyetujui 
+                                <a href="#">Syarat & Ketentuan</a>
+                            </p>
+                        </div>
                 </div>
             </div>
         </div>
