@@ -9,17 +9,15 @@
     <script src="script.js" defer></script>
 </head>
 <body>
+
+    <!-- ===== HEADER ===== -->
     <header class="site-header">
-        <!-- header container -->
         <div class="inner-header">
-            <!-- logo -->
             <a href="#" class="logo">
                 <div class="logo-icon">
-                    <span class="material-symbols-outlined">PP</span>
+                    <span>PP</span>
                 </div>
-        
             </a>
-            <!-- navbar -->
             <nav>
                 <a href="#about">About</a>
                 <a href="#login" class="active">Login</a>
@@ -28,16 +26,21 @@
         </div>
     </header>
 
+    <!-- ===== MAIN ===== -->
     <main>
-        <div class="bread-crumb">
-            <a href="index.html" class="breadcrumb-home">Home</a>
-            <span class="material-symbols-outlined" style="font-size: 16px;">></span>
-            <span class="material-symbols-outlined" style="font-size: 16px;">Detail ></span>
-            <span class="material-symbols-outlined" style="font-size: 16px;">Wujudkan Mimpi Mas Amba ></span>
-            <span style="color: var(--text); font-weight: 700;"><strong>Donasi</strong></span>
-        </div>
 
-        <div class="main-content-card" style="width: 90%">
+        <nav class="bread-crumb" aria-label="breadcrumb">
+            <ol class="breadcrumb-list">
+                <li><a href="index.html">Home</a></li>
+                <li><span class="breadcrumb-sep" aria-hidden="true">></span><a href="#">Detail</a></li>
+                <li><span class="breadcrumb-sep" aria-hidden="true">></span><a href="#">Wujudkan Mimpi Mas Amba</a></li>
+                <li><span class="breadcrumb-sep" aria-hidden="true">></span><strong>Donasi</strong></li>
+            </ol>
+        </nav>
+
+        <div class="main-content-card">
+
+            <!-- Info Kampanye -->
             <div class="main-content">
                 <div class="campaign-img">
                     <div class="hero-img-container">
@@ -45,107 +48,132 @@
                     </div>
                     <span class="category-badge">Pendidikan</span>
                 </div>
-
                 <div class="content-padding">
                     <h1>Wujudkan Mimpi Mas Amba bertemu Mas Nasir</h1>
-                    <p class="organizer-info" style="font-size: 14px; margin-bottom: 1rem;">Oleh: <strong>Yayasan Anggrek Mekar</strong> | Lokasi: <strong>Yogyakarta</strong></p>
+                    <p class="organizer-info">
+                        Oleh: <strong>Yayasan Anggrek Mekar</strong> | Lokasi: <strong>Yogyakarta</strong>
+                    </p>
                 </div>
             </div>
-            
 
+            <!-- Form Donasi -->
             <div class="sidebar">
                 <div class="sticky-sidebar">
-
                     <div class="donation-card">
+
                         <div class="bank-transfer-header">
-                            <span 
-                            class="material-symbols-outlined" 
-                            style="color: var(--primary); font-weight:bold;
-                            font-size: 30px;">Isi Data Donasi</span>
+                            <h2 class="donation-card-title">Isi Data Donasi</h2>
                         </div>
                         <span class="horizontal-line"></span>
 
-                        <!-- AMOUNT -->
-                        <div class="amount-container">
-                            <h3>
-                                Pilih amount Donasi
-                            </h3>
-                            <div class="amount-btn-container">
-                                <div class="amount-btn">RP 10.000</div>
-                                <div class="amount-btn">RP 20.000</div>
-                                <div class="amount-btn">RP 50.000</div>
-                                <div class="amount-btn">RP 100.000</div>
-                                <div class="amount-btn">RP 250.000</div>
-                                <div class="amount-btn">RP 500.000</div>
-                            </div>
-                            <div class="user-donation-container">
-                                <label for="user-donation">RP</label>
-                                <input type="text" id="rupiah" min="0" step="10000" placeholder="nominal Lainnya" name="user-donation">
+                        <form class="donation-form">
 
+                            <!-- PILIH AMOUNT -->
+                            <div class="amount-container">
+                                <h3>Pilih Amount Donasi</h3>
+                                <div class="amount-btn-container">
+                                    <label class="amount-btn">
+                                        <input type="radio" name="amount" class="amount-input" value="10000" checked required>
+                                        <div class="amount-content"><span>RP 10.000</span></div>
+                                    </label>
+                                    <label class="amount-btn">
+                                        <input type="radio" name="amount" class="amount-input" value="20000" required>
+                                        <div class="amount-content"><span>RP 20.000</span></div>
+                                    </label>
+                                    <label class="amount-btn">
+                                        <input type="radio" name="amount" class="amount-input" value="50000" required>
+                                        <div class="amount-content"><span>RP 50.000</span></div>
+                                    </label>
+                                    <label class="amount-btn">
+                                        <input type="radio" name="amount" class="amount-input" value="100000" required>
+                                        <div class="amount-content"><span>RP 100.000</span></div>
+                                    </label>
+                                    <label class="amount-btn">
+                                        <input type="radio" name="amount" class="amount-input" value="250000" required>
+                                        <div class="amount-content"><span>RP 250.000</span></div>
+                                    </label>
+                                    <label class="amount-btn">
+                                        <input type="radio" name="amount" class="amount-input" value="500000" required>
+                                        <div class="amount-content"><span>RP 500.000</span></div>
+                                    </label>
+                                </div>
+                                <div class="user-donation-container">
+                                    <label for="rupiah">RP</label>
+                                    <input type="text" id="rupiah" placeholder="Nominal Lainnya" name="amount">
+                                </div>
                             </div>
-                        </div>
 
-                        <!-- PAYMENT METHOD -->
-                        <div class="payment-method-container">
-                            <h3>METODE PEMBAYARAN</h3>
-                        
-                            <label class="payment-method">
-                                <input type="radio" name="payment-method" value="bank" checked>
-                                <div class="method-content">
-                                    <span>Bank Transfer (BCA/Mandiri)</span>
-                                </div>
-                            </label>
-                        
-                            <label class="payment-method">
-                                <input type="radio" name="payment-method" value="ewallet">
-                                <div class="method-content">
-                                    <span>GoPay / OVO / DANA</span>
-                                    <span class="icon">⚡</span>
-                                </div>
-                            </label>
-                        </div>
-                        
-                        <!-- DONATUR -->
-                        <div class="donor-container">
-                            <h3>NAMA DONATUR</h3>
-                        
-                            <div class="input-box">
-                                <input type="text" placeholder="Nama Lengkap">
+                            <!-- METODE PEMBAYARAN -->
+                            <div class="payment-method-container">
+                                <h3>METODE PEMBAYARAN</h3>
+                                <label class="payment-method">
+                                    <input type="radio" name="payment-method" value="bank" checked required>
+                                    <div class="method-content">
+                                        <span>Bank Transfer (BCA/Mandiri)</span>
+                                    </div>
+                                </label>
+                                <label class="payment-method">
+                                    <input type="radio" name="payment-method" value="ewallet" required>
+                                    <div class="method-content">
+                                        <span>GoPay / OVO / DANA</span>
+                                        <span class="icon">⚡</span>
+                                    </div>
+                                </label>
                             </div>
-                        
-                            <label class="anonymous">
-                                <input type="checkbox">
-                                <span>Sembunyikan nama saya (Donasi Anonim)</span>
-                            </label>
-                        </div>
-                        
-                        <!-- UPLOAD -->
-                        <div class="upload-container">
-                            <h3>BUKTI TRANSFER (OPSIONAL)</h3>
-                        
-                            <label class="upload-box">
-                                <input type="file" hidden>
-                                <div class="upload-content">
-                                    <div>☁️</div>
-                                    <p><strong>Klik atau seret file ke sini</strong></p>
-                                    <small>Mendukung Format: JPG, PNG, PDF (Maks. 2MB)</small>
+
+                            <!-- DATA DONATUR -->
+                            <div class="donor-container">
+                                <h3>NAMA DONATUR</h3>
+                                <div class="input-box">
+                                    <input type="text" placeholder="Nama Lengkap" name="user" required>
                                 </div>
-                            </label>
-                        </div>
-                        
-                        <!-- BUTTON -->
-                        <div class="submit-container">
-                            <button class="donate-btn">Donasi Sekarang ❤️</button>
-                            <p class="terms">
-                                Dengan menekan tombol di atas, saya menyetujui 
-                                <a href="#">Syarat & Ketentuan</a>
-                            </p>
-                        </div>
-                </div>
-            </div>
-        </div>
+                                <div class="input-box">
+                                    <input type="email" placeholder="Alamat Email" name="email" required>
+                                </div>
+                                <h3 class="pesan-label">PESAN</h3>
+                                <div class="input-box">
+                                    <textarea name="pesan" rows="3"></textarea>
+                                </div>
+                                <label class="anonymous">
+                                    <input type="checkbox" name="sembunyi">
+                                    <span>Sembunyikan nama saya (Donasi Anonim)</span>
+                                </label>
+                            </div>
+
+                            <!-- BUKTI TRANSFER -->
+                            <div class="upload-container">
+                                <h3>BUKTI TRANSFER (OPSIONAL)</h3>
+                                <label class="upload-box">
+                                    <input type="file" accept=".jpg,.jpeg,.png,.pdf" hidden>
+                                    <div class="upload-content">
+                                        <div>☁️</div>
+                                        <p><strong>Klik atau seret file ke sini</strong></p>
+                                        <small>Mendukung Format: JPG, PNG, PDF (Maks. 2MB)</small>
+                                    </div>
+                                </label>
+                            </div>
+
+                            <!-- SUBMIT -->
+                            <div class="submit-container">
+                                <button type="submit" class="donate-btn">Donasi Sekarang ❤️</button>
+                                <p class="terms">
+                                    Dengan menekan tombol di atas, saya menyetujui
+                                    <a href="#">Syarat &amp; Ketentuan</a>
+                                </p>
+                            </div>
+
+                        </form>
+
+                    </div> <!-- /donation-card -->
+
+                </div> <!-- /sticky-sidebar -->
+
+            </div> <!-- /sidebar -->
+
+        </div> <!-- /main-content-card -->
     </main>
 
+    <!-- ===== FOOTER ===== -->
     <footer id="contact_us">
         <div class="footer-container">
             <div class="footer-content">
@@ -157,12 +185,11 @@
                             <a href="mailto:support@paxpatron.com">support@paxpatron.com</a>
                         </li>
                         <li>
-                            <span class="material-symbols-outlined">Location on</span>
+                            <span class="material-symbols-outlined">location_on</span>
                             <span>Yogyakarta, Indonesia</span>
                         </li>
                     </ul>
                 </div>
-
                 <div class="footer-social">
                     <h3>Media Sosial</h3>
                     <div class="social-icons">
@@ -178,5 +205,6 @@
             <p>&copy; 2026 Copyright PaxPatron Non-Profit Company. Kiya-Kevi</p>
         </div>
     </footer>
+
 </body>
 </html>
