@@ -36,3 +36,18 @@ function formatRupiah(angka, prefix) {
   rupiah = split[1] != undefined ? rupiah + "," + split[1] : rupiah;
   return prefix == undefined ? rupiah : rupiah ? "Rp. " + rupiah : "";
 }
+
+const amountInputs = document.querySelectorAll('.amount-input');
+const customInput = document.getElementById('rupiah');
+
+
+customInput.addEventListener('input', () => {
+    amountInputs.forEach(radio => radio.checked = false);
+});
+
+
+amountInputs.forEach(radio => {
+    radio.addEventListener('change', () => {
+        customInput.value = '';
+    });
+});
