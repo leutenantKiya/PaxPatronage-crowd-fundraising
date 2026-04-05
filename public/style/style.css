@@ -80,28 +80,11 @@ header{
 }
 
 .fa-bar{
-    position: relative;
-    width: 8px;
+    width: 22px;
     height: 2px;
     background-color: var(--text);
     display: none;
-}
-
-.fa-bar::before,
-.fa-bar::after{
-    content: '';
-    position: absolute;
-    left: 0;
-    width: 100%;
-    height: 2px;
-    background-color: var(--text);
-}
-
-.fa-bar::before{
-    top: -8px
-}
-.fa-bar::after{
-    top: 8px;
+    margin: 3px 0;
 }
 
  /* logo text */
@@ -119,12 +102,6 @@ header{
     position: relative;
     display: none;
  }
-
- @media(min-width: 640px){
-    .search-wrapper{
-        display: block;
-    }
- } 
 
 .search-wrapper .material-symbols-outlined{
     position: absolute;
@@ -167,18 +144,23 @@ nav{
 }
 
 nav a {
+    /* display: flex; */
     text-decoration: none;
     font-size: 0.875rem;
     font-weight: 500;
     color: var(--text-muted);
     transition: color 0.2s;
-    margin: 5px;
+    /* margin: 5px; */
     letter-spacing: -0.3px;
     padding: 10px;
   }
 
-nav a:hover, nav a.active { color: var(--primary-dark); border-bottom: 1px solid var(--primary-dark); padding-bottom: 2px;}
-nav a.active { font-weight: 700; }
+nav a:hover, nav a.active { 
+    color: var(--primary-dark); 
+    border-bottom: 1px solid var(--primary-dark);
+    /* padding: 2px; */
+}
+nav a.active { font-weight: 700;}
 
 .header-actions { 
     display: flex; 
@@ -187,22 +169,13 @@ nav a.active { font-weight: 700; }
 }
 
 .hamburger {
-    display: flex;
+    display: none;
+    margin: 0px;
     background: none;
     border: none;
     cursor: pointer;
     color: var(--text-muted);
     padding: 0.25rem;
-}
-
-@media (max-width: 900px) { 
-    nav{
-        display: none;
-    }
-
-    .fa-bar{
-        display: inline-block;
-    }
 }
 
 .avatar {
@@ -214,7 +187,11 @@ nav a.active { font-weight: 700; }
     flex-shrink: 0;
 }
 
-.avatar img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.avatar img { 
+    width: 100%; 
+    height: 100%; 
+    object-fit: cover; 
+    display: block; }
 
 
 /* main section */
@@ -267,6 +244,56 @@ main{
     ;
 }
 
+/* Responsive grid */
+@media (max-width: 900px){
+    .funding-content{
+        grid-template-areas: 
+        "box-1 box-2"
+        "box-3 box-4"
+        ;
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 640px){
+    .funding-content{
+        grid-template-columns: repeat(1, 1fr);
+        grid-template-areas: 
+        "box-1"
+        "box-2"
+        "box-3"
+        "box-4"
+        ;
+    }
+}
+@media (min-width: 320px) {
+    .search-wrapper{
+        display: block;
+    }
+}
+
+@media (max-width: 320px){
+    .search-wrapper input{
+        width: 20px;
+    }
+}
+
+@media (max-width: 900px) {
+    nav{
+        display: none;
+    }
+
+    .hamburger {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .fa-bar{
+        display: block;
+    }
+}
 .funding-card {
     position: relative;
     display: block;
@@ -343,6 +370,34 @@ main{
     color: var(--text-light);
 }
 
+/* Card deadline (index page) */
+.card-deadline {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin-top: 0.75rem;
+    padding: 0.5rem 0.6rem;
+    background: #fffbeb;
+    border: 1px solid #fde68a;
+    border-radius: 8px;
+    font-size: 0.75rem;
+}
+
+.deadline-icon {
+    font-size: 0.85rem;
+}
+
+.deadline-days {
+    font-weight: 700;
+    color: #d97706;
+}
+
+.deadline-date {
+    color: var(--text-muted);
+    margin-left: auto;
+    font-size: 0.7rem;
+}
+
 .campaign-img {
     position: relative;
     aspect-ratio: 16/10;
@@ -360,18 +415,7 @@ main{
     object-fit: cover;
 }
 
-/* Responsive grid */
-@media (max-width: 900px) {
-    .funding-content {
-        grid-template-columns: repeat(2, 1fr);
-    }
-}
-
-@media (max-width: 600px) {
-    .funding-content {
-        grid-template-columns: 1fr;
-    }
-}
+/* 600px breakpoint merged into the 640px breakpoint above */
 
 .category-badge {
     position: absolute;

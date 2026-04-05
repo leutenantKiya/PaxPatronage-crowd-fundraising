@@ -8,15 +8,13 @@ document.querySelectorAll('.progress-fill').forEach(bar => {
     });
 });
 
-<<<<<<< HEAD
 function responsive_navbar(){
   if (navbar_responsive.className === "top"){
     navbar_responsive.className += " responsive";
   }else{
-    navbar_responsive.className += "top";
+    navbar_responsive.className = "top";
   }
-=======
-
+}
 
   
 var rupiah = document.getElementById("rupiah");
@@ -37,5 +35,4 @@ function formatRupiah(angka, prefix) {
   }
   rupiah = split[1] != undefined ? rupiah + "," + split[1] : rupiah;
   return prefix == undefined ? rupiah : rupiah ? "Rp. " + rupiah : "";
->>>>>>> 035f2b4a84e6622a33f5727f0f066016fe76162e
 }
