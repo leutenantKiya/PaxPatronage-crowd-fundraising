@@ -50,6 +50,7 @@ function updateCities() {
     kotaSelect.innerHTML = '<option value="">-- Pilih Kota --</option>';
 
     if (selectedProvince && provinceData[selectedProvince]) {
+        // activate
         kotaSelect.disabled = false;
         const cities = provinceData[selectedProvince];
         cities.forEach(city => {
@@ -71,69 +72,33 @@ function updateCities() {
     }
 }
 
-
-// ============================================
-// APPLY FILTER (placeholder logic)
-// ============================================
-function applyFilter() {
-    const searchVal = document.getElementById('filter-search').value;
-
-    // Get checked categories
-    const checkedCategories = [];
-    document.querySelectorAll('#filter-kategori-group input[type="checkbox"]:checked').forEach(cb => {
-        checkedCategories.push(cb.value);
-    });
-
-    const provinsi = document.getElementById('filter-provinsi').value;
-    const kota = document.getElementById('filter-kota').value;
-    const targetDana = document.getElementById('filter-target-dana').value;
-
-    // Build filter summary for demo
-    const filters = {
-        judul: searchVal || '(semua)',
-        kategori: checkedCategories.length > 0 ? checkedCategories.join(', ') : '(semua)',
-        provinsi: provinsi || '(semua)',
-        kota: kota || '(semua)',
-        rentangDana: targetDana || '(semua)'
-    };
-
-    console.log('Filter diterapkan:', filters);
-
-    // Visual feedback on apply button
-    const btn = document.getElementById('btn-apply-filter');
-    const originalText = btn.innerHTML;
-    btn.innerHTML = '<span>✓ Filter Diterapkan</span>';
-    btn.style.background = 'linear-gradient(135deg, #059669, #34d399)';
-    setTimeout(() => {
-        btn.innerHTML = originalText;
-        btn.style.background = '';
-    }, 1500);
-}
-
-
-// ============================================
-// RESET FILTER
-// ============================================
 function resetFilter() {
-    // Reset search
     document.getElementById('filter-search').value = '';
 
-    // Reset checkboxes
     document.querySelectorAll('#filter-kategori-group input[type="checkbox"]').forEach(cb => {
         cb.checked = false;
     });
 
-    // Reset province & city
     document.getElementById('filter-provinsi').value = '';
     const kotaSelect = document.getElementById('filter-kota');
     kotaSelect.value = '';
     kotaSelect.innerHTML = '<option value="">-- Pilih Kota --</option>';
     kotaSelect.disabled = true;
 
-    // Reset target dana
     document.getElementById('filter-target-dana').value = '';
 
-    // Visual feedback on reset
+    const fundingContent = document.getElementById('funding-content');
+    if (fundingContent) {
+        const cards = fundingContent.querySelectorAll('.funding-card');
+        cards.forEach(card => {
+            card.style.display = '';
+        });
+        const noResults = document.getElementById('no-results');
+        if (noResults) {
+            noResults.style.display = 'none';
+        }
+    }
+
     const btn = document.getElementById('btn-reset-filter');
     const originalText = btn.innerHTML;
     btn.innerHTML = '<span>✓ Direset</span>';
@@ -146,33 +111,4 @@ function resetFilter() {
         btn.style.color = '';
         btn.style.background = '';
     }, 1000);
-}
-
-
-// ============================================
-// PROGRESS BAR ANIMATION (from original script.js)
-// ============================================
-document.addEventListener('DOMContentLoaded', () => {
-    document.querySelectorAll('.progress-fill').forEach(bar => {
-        const target = bar.style.width;
-        bar.style.width = '0';
-        requestAnimationFrame(() => {
-            requestAnimationFrame(() => {
-                bar.style.width = target;
-            });
-        });
-    });
-});
-
-
-// ============================================
-// RESPONSIVE NAVBAR (from original script.js)
-// ============================================
-function responsive_navbar() {
-    const navbar = document.getElementById("top");
-    if (navbar.className === "navbar") {
-        navbar.className += " responsive";
-    } else {
-        navbar.className = "navbar";
-    }
 }

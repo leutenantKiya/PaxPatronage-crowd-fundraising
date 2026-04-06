@@ -52,7 +52,13 @@
     </header>
 
     <!-- main -->
-    <main id="main-content">
+    <main id="main-content" style="position: relative; z-index: 1;">
+        <!-- background blob -->
+        <div class="bg-blob-left" id="bg-blob-left">
+            <!-- inherit blob dari login -->
+            <img src="assets/blob.svg" alt="blob background" class="blob-bg-img blob-bg--1">
+            <img src="assets/blob.svg" alt="blob background" class="blob-bg-img blob-bg--2">
+        </div>
         <!-- breadcrumb -->
         <div class="bread-crumb" id="breadcrumb">
             <a href="index.html" class="breadcrumb-home" id="breadcrumb-home">Home</a>
@@ -61,7 +67,7 @@
             <h1 id="hero-title">Temukan Kampanye Donasi</h1>
             <p id="hero-subtitle">Wujudkan kebaikan melalui bantuan kecil</p>
         </div>
-        <!-- Featured section: Filter + Hot card -->
+        <!-- filter panel -->
         <div class="featured-section">
             <div class="featured-grid">
                 <!-- filter card -->
@@ -206,35 +212,12 @@
                     </div>
                 </div>
             </div>
-            <!-- Special card: Target nearly reached or time almost up -->
-            <a href="detail.html" class="funding-card urgent-card" id="funding-card-urgent">
-                <div class="hero-img-container">
-                    <img src="assets/example-detail.png" alt="Poster Kampanye" class="hero-img">
-                </div>
-                <span class="category-badge">Kemanusiaan</span>
-                <div class="card-content">
-                    <h3 class="card-title">Bantu Mereka Sebelum Waktu Habis!</h3>
-                    <p class="card-organizer">oleh Komunitas Dermawan</p>
-                    <div class="card-progress">
-                        <div class="progress-bar"><div class="progress-fill" style="width: 92%"></div></div>
-                        <div class="progress-info">
-                            <span class="amount-raised">Rp 92.500.000</span>
-                            <span class="amount-target">terkumpul dari Rp 100.000.000</span>
-                        </div>
-                    </div>
-                    <div class="card-deadline">
-                        <span class="deadline-icon">🔥</span>
-                        <span class="deadline-days">3 hari lagi</span>
-                        <span class="deadline-date">Berakhir: 9 Apr 2026</span>
-                    </div>
-                </div>
-            </a>
-        </div>
+            </div>
         </div>
 
-        <!-- Regular funding cards -->
+        <!-- funding card -->
         <div class="funding-content" id="funding-content">
-            <a href="detail.html" class="funding-card" id="funding-card-1">
+            <a href="detail.html" class="funding-card" data-category="pendidikan" data-province="jawa-barat" data-city="bandung" id="funding-card-1">
                 <div class="hero-img-container">
                     <img src="assets/example-detail.png" alt="Poster Kampanye" class="hero-img">
                 </div>
@@ -256,7 +239,7 @@
                     </div>
                 </div>
             </a>  
-            <a href="detail.html" class="funding-card" id="funding-card-2">
+            <a href="detail.html" class="funding-card" data-category="pendidikan" data-province="sulawesi-selatan" data-city="makassar" id="funding-card-2">
                 <div class="hero-img-container">
                     <img src="assets/example-detail.png" alt="Poster Kampanye" class="hero-img">
                 </div>
@@ -278,7 +261,7 @@
                     </div>
                 </div>
             </a> 
-            <a href="detail.html" class="funding-card" id="funding-card-3">
+            <a href="detail.html" class="funding-card" data-category="pendidikan" data-province="jawa-timur" data-city="surabaya" id="funding-card-3">
                 <div class="hero-img-container">
                     <img src="assets/example-detail.png" alt="Poster Kampanye" class="hero-img">
                 </div>
@@ -300,11 +283,11 @@
                     </div>
                 </div>
             </a> 
-            <a href="detail.html" class="funding-card" id="funding-card-4">
+            <a href="detail.html" class="funding-card" data-category="pendidikan" data-province="jawa-tengah" data-city="semarang" id="funding-card-4">
                 <div class="hero-img-container">
                     <img src="assets/example-detail.png" alt="Poster Kampanye" class="hero-img">
                 </div>
-                <span class="category-badge">Pendidikan</span>
+                <span class="category-badge">Infrastruktur</span>
                 <div class="card-content">
                     <h3 class="card-title">Sekola Digital untuk Desa</h3>
                     <p class="card-organizer">oleh Techno for Education</p>
@@ -322,11 +305,11 @@
                     </div>
                 </div>
             </a> 
-            <a href="detail.html" class="funding-card" id="funding-card-5">
+            <a href="detail.html" class="funding-card" data-category="sosial" data-province="dki-jakarta" data-city="jakarta-barat" id="funding-card-5">
                 <div class="hero-img-container">
                     <img src="assets/example-detail.png" alt="Poster Kampanye" class="hero-img">
                 </div>
-                <span class="category-badge">Pendidikan</span>
+                <span class="category-badge">Sosial</span>
                 <div class="card-content">
                     <h3 class="card-title">Paket Belajar untuk Anak Jalanan</h3>
                     <p class="card-organizer">oleh Komunitas Sosial</p>
@@ -399,5 +382,6 @@
             </div>
         </div>
     </footer>
+    <script src="js/filter.js"></script>
 </body>
 </html>

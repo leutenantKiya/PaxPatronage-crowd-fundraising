@@ -32,3 +32,39 @@ amountInputs.forEach(radio => {
         customInput.value = '';
     });
 });
+
+// Submit handler with modal popup
+function handleDonationSubmit(e) {
+    e.preventDefault();
+    
+    const submitBtn = document.querySelector('.donate-btn');
+    submitBtn.innerHTML = 'Memproses...';
+    submitBtn.disabled = true;
+    
+    const modal = document.createElement('div');
+    modal.className = 'modal-overlay';
+    modal.innerHTML = `
+        <div class="modal-content">
+            <div class="modal-spinner"></div>
+            <p>Memproses donasi...</p>
+        </div>
+    `;
+    document.body.appendChild(modal);
+    
+    setTimeout(() => {
+        modal.innerHTML = `
+            <div class="modal-content success">
+                <div class="success-icon">✓</div>
+                <h2>Donasi Berhasil!</h2>
+                <p>Terima kasih atas donasi Anda.</p>
+                <p class="success-detail">Donasi Anda akan diproses dalam 1x24 jam.</p>
+                <a href="index.html" class="back-home-btn">Kembali ke Beranda</a>
+            </div>
+        `;
+    }, 1500);
+}
+
+const form = document.querySelector('.donation-form');
+if (form) {
+    form.addEventListener('submit', handleDonationSubmit);
+}

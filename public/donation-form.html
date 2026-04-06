@@ -7,8 +7,6 @@
     <link rel="stylesheet" href="style/style.css">
     <link rel="stylesheet" href="style/lamaran.css">
     <link rel="stylesheet" href="style/detail.css">
-    
-    <script src="js/donation-form.js" defer></script>
 </head>
 <body>
     <!-- header -->
@@ -30,7 +28,6 @@
 
     <!-- main -->
     <main>
-
         <div class="bread-crumb">
             <a href="index.html" class="breadcrumb-home">Home</a>
             <span class="material-symbols-outlined" style="font-size: 16px;">></span>
@@ -76,7 +73,7 @@
                         </div>
                         <span class="horizontal-line"></span>
 
-                        <form class="donation-form">
+                        <form class="donation-form" action="/services/form_service.php" method="GET">
 
                             <!-- PILIH AMOUNT -->
                             <div class="amount-container">
@@ -115,7 +112,7 @@
 
                             <!-- METODE PEMBAYARAN -->
                             <div class="payment-method-container">
-                                <h3>METODE PEMBAYARAN</h3>
+                                <h3>Metode Pembayaran</h3>
                                 <label class="payment-method">
                                     <input type="radio" name="payment-method" value="bank" checked required>
                                     <div class="method-content">
@@ -133,14 +130,14 @@
 
                             <!-- DATA DONATUR -->
                             <div class="donor-container">
-                                <h3>NAMA DONATUR</h3>
+                                <h3>Nama Donatur</h3>
                                 <div class="input-box">
                                     <input type="text" placeholder="Nama Lengkap" name="user" required>
                                 </div>
                                 <div class="input-box">
                                     <input type="email" placeholder="Alamat Email" name="email" required>
                                 </div>
-                                <h3 class="pesan-label">PESAN</h3>
+                                <h3 class="pesan-label">Pesan (Opsional)</h3>
                                 <div class="input-box">
                                     <textarea name="pesan" rows="3"></textarea>
                                 </div>
@@ -152,9 +149,9 @@
 
                             <!-- BUKTI TRANSFER -->
                             <div class="upload-container">
-                                <h3>BUKTI TRANSFER (OPSIONAL)</h3>
+                                <h3>Bukti Transfer</h3>
                                 <label class="upload-box">
-                                    <input type="file" accept=".jpg,.jpeg,.png,.pdf" hidden>
+                                    <input type="file" accept=".jpg,.jpeg,.png,.pdf" hidden required>
                                     <div class="upload-content">
                                         <div>☁️</div>
                                         <p><strong>Klik atau seret file ke sini</strong></p>
@@ -165,7 +162,7 @@
 
                             <!-- SUBMIT -->
                             <div class="submit-container">
-                                <button type="submit" class="donate-btn">Donasi Sekarang ❤️</button>
+                                <button type="submit" class="donate-btn" onclick="return handleDonationSubmit(event);">Donasi Sekarang ❤️</button>
                                 <p class="terms">
                                     Dengan menekan tombol di atas, saya menyetujui
                                     <a href="#">Syarat &amp; Ketentuan</a>
@@ -223,5 +220,6 @@
         </div>
     </footer>
 
+    <script src="js/donation-form.js"></script>
 </body>
 </html>

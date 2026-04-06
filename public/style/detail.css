@@ -70,6 +70,14 @@ main{
     display: grid;
     grid-template-columns: 1fr 400px;
     gap: 3rem;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+@media (max-width: 900px) {
+    .main-content-card {
+        grid-template-columns: 1fr;
+    }
 }
 
 .main-content {
@@ -232,6 +240,12 @@ h1 {
     gap: 0.5rem;
     border-radius: 32px;
     box-shadow: 0 4px 12px rgba(139, 92, 246, 0.25);
+    width: 100%;
+    box-sizing: border-box;
+    min-width: 0;
+    width: 100%;
+    box-sizing: border-box;
+    overflow: hidden;
 }
 
 .collected-amount{
