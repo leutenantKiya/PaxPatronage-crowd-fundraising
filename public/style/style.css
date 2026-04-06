@@ -5,7 +5,6 @@
     padding: 0;
 }
 
-
 /* color pallete */
 :root{
     --primary: #0ea5e9;
@@ -235,37 +234,33 @@ main{
 
 .funding-content {
     display: grid;
-    /* grid-template-columns: repeat(3, 1fr); */
+    grid-template-columns: repeat(3, 1fr);
     gap: 1.5rem;
     padding: 1.5rem;
-    grid-template-areas: 
-    "box-1 box-1 box-1"
-    "box-2 box-3 box-4"
-    ;
+}
+
+#filter-card.funding-card{
+    
+}
+
+.funding-card:first-child {
+    /* https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Properties/grid-column */
+    grid-column: 1 / -2;
 }
 
 /* Responsive grid */
 @media (max-width: 900px){
     .funding-content{
-        grid-template-areas: 
-        "box-1 box-2"
-        "box-3 box-4"
-        ;
         grid-template-columns: repeat(2, 1fr);
     }
 }
 
 @media (max-width: 640px){
     .funding-content{
-        grid-template-columns: repeat(1, 1fr);
-        grid-template-areas: 
-        "box-1"
-        "box-2"
-        "box-3"
-        "box-4"
-        ;
+        grid-template-columns: 1fr;
     }
 }
+
 @media (min-width: 320px) {
     .search-wrapper{
         display: block;
@@ -279,7 +274,8 @@ main{
 }
 
 @media (max-width: 900px) {
-    nav{
+    /* if not humber buttnen class then display none */
+    nav a:not(.hamburger-btn){
         display: none;
     }
 

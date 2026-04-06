@@ -27,34 +27,33 @@
             </div>
 
             <!-- navbar -->
-             <!-- responsive : https://www.w3schools.com/howto/tryit.asp?filename=tryhow_js_topnav -->
+             <!-- responsive ref: https://www.w3schools.com/howto/tryit.asp?filename=tryhow_js_topnav -->
             <nav class="navbar" id="top">
                 <a href="#home" class="active">Home</a>
                 <!-- in case this one is permitted :) -->
                 <a href="#">Donasi Saya</a>
                 <a href="#">Profile</a>
+                <a href="javascript:void(0)" class="hamburger-btn" onclick="responsive_navbar()">
+                    <!-- hamburger -->
+                    <div class="header-action">
+                        <button class="hamburger">
+                            <div class="fa-bar"></div>
+                            <div class="fa-bar"></div>
+                            <div class="fa-bar"></div>   
+                        </button>
+                    </div>
+                </a>
             </nav>
-            <a href="javascript:void(0)" class="hamburger-btn" onclick="responsive_navbar()">
-                <!-- hamburger -->
-                <div class="header-action">
-                    <button class="hamburger">
-                        <div class="fa-bar"></div>
-                        <div class="fa-bar"></div>
-                        <div class="fa-bar"></div>   
-                    </button>
-                </div>
-            </a>
-             <div class="profile-picture">
-
-            </div>
             <div class="profile-picture">
                 <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuAWjipIcx9P_d5QCPMxAjv2rssXV8CO11Cz6sxyTQL1yY_ycQ0-ehgBxmElZs13-fpF0DxSdz-9c7ceVoHOAomqriYrNz4PYA3YNq5eS6cSkLg5Mm1R665UPTvFsxN5HO26SI-o0kPT_FXrMO7lQTIoUSR-cVVu0gdk6RDKerIyP_TctBAgo2l7Dfd5tYBCLVWxUt2Y6hfFR3BpY27ewaTW_ywC1db4TgNom-zTp88TxUU7vkLfZVyYWvrKc7PDNgerRaHxLZLHRxc" width="40px" alt="User avatar"/>
+            </div>
             </div>
         </div>
     </header>
 
     <!-- main -->
     <main>
+        <!-- breadcrumb -->
         <div class="bread-crumb">
             <a href="index.html" class="breadcrumb-home">Home</a>
         </div>
@@ -63,9 +62,13 @@
             <p>Wujudkan kebaikan melalui bantuan kecil</p>
         </div>
         <!-- card for crowd funding -->
-        <!-- plan : lazy load for efficient v pick axe ragsagesakfasjdadjkfadhjshgfhjdgfhahjd -->
+        <!-- plan for later => lazy load for efficient v pick axe ragsagesakfasjdadjkfadhjshgfhjdgfhahjd -->
         <div class="funding-content">
-            <a href="detail.html" class="funding-card" style="grid-area: box-1">
+            <!-- filter card -->
+            <div id="filter-card" class="funding-card">
+            <!-- contoh dummy => first child will be a hot search maybe from percentage or deadline -->
+            </div>
+            <a href="detail.html" class="funding-card">
                 <div class="hero-img-container">
                     <img src="assets/example-detail.png" alt="Poster Kampanye" class="hero-img">
                 </div>
@@ -88,7 +91,7 @@
                     </div>
                 </div>
             </a>  
-            <a href="detail.html" class="funding-card" style="grid-area: box-2">
+            <a href="detail.html" class="funding-card">
                 <div class="hero-img-container">
                     <img src="assets/example-detail.png" alt="Poster Kampanye" class="hero-img">
                 </div>
@@ -110,7 +113,7 @@
                     </div>
                 </div>
             </a> 
-            <a href="detail.html" class="funding-card" style="grid-area: box-2">
+            <a href="detail.html" class="funding-card">
                 <div class="hero-img-container">
                     <img src="assets/example-detail.png" alt="Poster Kampanye" class="hero-img">
                 </div>
@@ -132,7 +135,7 @@
                     </div>
                 </div>
             </a> 
-            <a href="detail.html" class="funding-card" style="grid-area: box-3">
+            <a href="detail.html" class="funding-card">
                 <div class="hero-img-container">
                     <img src="assets/example-detail.png" alt="Poster Kampanye" class="hero-img">
                 </div>
@@ -154,7 +157,7 @@
                     </div>
                 </div>
             </a> 
-            <a href="detail.html" class="funding-card" style="grid-area: box-4">
+            <a href="detail.html" class="funding-card">
                 <div class="hero-img-container">
                     <img src="assets/example-detail.png" alt="Poster Kampanye" class="hero-img">
                 </div>
@@ -178,6 +181,7 @@
             </a> 
         </div>
     </main>
+    <!-- footer -->
     <footer id="contact_us">
         <div class="footer-container">
             <div class="footer-content">
