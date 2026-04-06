@@ -6,15 +6,15 @@
     <title>Pengajuan Lamaran | nama crowd funding</title>
     <link rel="stylesheet" href="style/style.css">
     <link rel="stylesheet" href="style/lamaran.css">
+    <link rel="stylesheet" href="style/detail.css">
     
-    <script src="script.js" defer></script>
+    <script src="js/donation-form.js" defer></script>
 </head>
 <body>
-
-    <!-- ===== HEADER ===== -->
+    <!-- header -->
     <header class="detail-header">
         <div class="detail-inner-header">
-            <a href="index.html" class="back" id="bac">
+            <a href="detail.html" class="back" id="back">
                 <div class="back-logo">
                     <img width="40px" src="assets/back.png" alt="back" class="material-symbols-outlined">
                 </div>
@@ -28,7 +28,7 @@
         </div>
     </header>
 
-    <!-- ===== MAIN ===== -->
+    <!-- main -->
     <main>
 
         <div class="bread-crumb">
@@ -51,9 +51,18 @@
                 </div>
                 <div class="content-padding">
                     <h1>Wujudkan Mimpi Mas Amba bertemu Mas Nasir</h1>
-                    <p class="organizer-info">
-                        Oleh: <strong>Yayasan Anggrek Mekar</strong> | Lokasi: <strong>Yogyakarta</strong>
-                    </p>
+                    <div class="story-content" id="story-content">
+                        <p>Di balik keindahan pantai kita, ribuan anak nelayan terpaksa putus sekolah demi membantu ekonomi keluarga. Pendidikan adalah satu-satunya jalan keluar untuk memutus rantai kemiskinan yang telah berlangsung turun-temurun di desa-desa pesisir.</p>
+                        <p>Kampanye ini bertujuan untuk menyediakan 50 paket beasiswa penuh selama satu tahun ajaran bagi anak-anak di Desa Teluk Hijau. Paket ini mencakup biaya SPP, seragam, buku, dan alat tulis.</p>
+                        <div class="funding-plan" id="funding-plan">
+                            <h3 id="funding-plan-title">Rencana penggunaan dana:</h3>
+                            <ul>
+                                <li>Biaya Pendidikan 50 Siswa (Rp 75.000.000)</li>
+                                <li>Perlengkapan Sekolah (Rp 15.000.000)</li>
+                                <li>Program Pendampingan Belajar (Rp 10.000.000)</li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -100,7 +109,7 @@
                                 </div>
                                 <div class="user-donation-container">
                                     <label for="rupiah">RP</label>
-                                    <input type="text" id="rupiah" placeholder="Nominal Lainnya" name="amount">
+                                    <input type="text" id="rupiah" placeholder=" Nominal Lainnya" name="amount">
                                 </div>
                             </div>
 

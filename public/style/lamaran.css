@@ -371,7 +371,7 @@ h1 {
 }
 
 .donate-btn:hover {
-    transform: translateY(-3px);
+    transform: scale(0.9);
 }
 
 .terms {

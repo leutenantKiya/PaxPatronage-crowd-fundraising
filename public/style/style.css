@@ -14,6 +14,7 @@
     --surface: #ffffff;
     --border: #e2e8f0;
     --text: #0f172a;
+    --orange: #ef4444;
     --text-muted: #64748b;
     --text-light: #94a3b8;
     --shadow-sm: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
@@ -102,15 +103,22 @@ header{
     display: none;
  }
 
+
+ .search-wrapper input::placeholder{
+    content-visibility: hidden;
+ }
+
 .search-wrapper .material-symbols-outlined{
     position: absolute;
     left: 0.75rem;
     top: 50%;
-    transform: rotateY(-50%);
-    font-size: 18px;
+    transform: translateY(-50%);
+    font-size: 16px;
     color: var(--text-light);
     pointer-events: none;
+    transition: all ease 0.3s;
  }
+ 
 
 .search-wrapper input {
     width: 100%;
@@ -123,6 +131,7 @@ header{
     color: var(--text);
     outline: none;
     transition: border-color 0.2s, box-shadow 0.2s;
+    /* display: none; */
 }
 
 .search-wrapper input:hover{
@@ -131,11 +140,22 @@ header{
 }
 
 .search-wrapper input:focus{
+    /* content-visibility: visible; */
     border-color: var(--primary);
     box-shadow: 0 0 0 3px rgba(14,165,233,0.12);
 }
 
-.search-wrapper input::placeholder { color: var(--text-light); }
+/* target search so it appears on top */
+.search-wrapper:has(input:focus) .material-symbols-outlined,
+.search-wrapper:has(input:not(:placeholder-shown)) .material-symbols-outlined {
+    top: 0;
+    left: 10px;
+    transform: translateY(-50%);
+    background-color: var(--surface);
+    padding: 0 3px;
+    font-size: 14px;
+}
+
 
 nav{
     display: flex;
@@ -178,10 +198,11 @@ nav a.active { font-weight: 700;}
 }
 
 .avatar {
-    width: 38px; height: 38px;
+    width: 40px; 
+    height: 40px;
     border-radius: 50%;
     border: 2.5px solid var(--primary);
-    overflow: hidden;
+    /* overflow: hidden; */
     cursor: pointer;
     flex-shrink: 0;
 }
@@ -220,11 +241,13 @@ main{
 .bread-crumb{
     max-width: 1200px;
     margin: 0 auto;
-    padding-bottom: 2rem;
+    margin-bottom: 2rem;
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
+    /* background-color: var(--primary); */
 }
+
 
 .funding-content-card {
     display: grid;
@@ -237,21 +260,376 @@ main{
     grid-template-columns: repeat(3, 1fr);
     gap: 1.5rem;
     padding: 1.5rem;
+    align-items: flex-start;
 }
 
-#filter-card.funding-card{
-    
+.featured-section {
+    padding: 1.5rem 3rem;
+}
+
+.featured-grid {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 1.5rem;
+    align-items: start;
+}
+
+.filter-panel {
+    cursor: default;
+    padding: 0;
+    overflow: visible;
+    background: var(--surface);
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-md);
+    transition: box-shadow 0.3s ease;
+}
+
+.filter-panel:hover {
+    transform: none;
+    box-shadow: var(--shadow-lg);
+}
+
+/* Filter Header */
+.filter-header {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 1.25rem 1.5rem;
+    border-bottom: 1px solid var(--border);
+    background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
+    border-radius: var(--radius) var(--radius) 0 0;
+}
+
+.filter-header .filter-icon {
+    font-size: 1.3rem;
+}
+
+.filter-header h3 {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--text);
+    letter-spacing: -0.02em;
+}
+
+/* Filter Body */
+.filter-body {
+    padding: 1.25rem 1.5rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+/* Filter Section */
+.filter-section {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+}
+
+/* Filter Labels */
+.filter-label {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.875rem;
+    font-weight: 700;
+    color: var(--text);
+    letter-spacing: -0.01em;
+}
+
+.filter-label-icon {
+    font-size: 1rem;
+}
+
+.filter-sublabel {
+    display: block;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    margin-bottom: 0.3rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+/* Search Input inside filter */
+.filter-search-wrapper {
+    position: relative;
+}
+
+.filter-input {
+    width: 100%;
+    padding: 0.65rem 1rem 0.65rem 2.4rem;
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    background: var(--bg);
+    font-family: inherit;
+    font-size: 0.85rem;
+    color: var(--text);
+    outline: none;
+    transition: border-color 0.25s, box-shadow 0.25s, background 0.25s;
+}
+
+.filter-input:hover {
+    border-color: #bae6fd;
+    background: #fafffe;
+}
+
+.filter-input:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(14,165,233,0.12);
+    background: #fff;
+}
+
+.filter-input::placeholder {
+    color: var(--text-light);
+}
+
+.filter-search-icon {
+    position: absolute;
+    left: 0.75rem;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 0.95rem;
+    pointer-events: none;
+}
+
+/* Checkbox Group */
+.filter-checkbox-group {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.35rem 1rem;
+}
+
+.filter-checkbox {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    padding: 0.4rem 0.5rem;
+    border-radius: 8px;
+    transition: background 0.2s;
+    user-select: none;
+}
+
+.filter-checkbox:hover {
+    background: var(--primary-soft);
+}
+
+/* Hide default checkbox */
+.filter-checkbox input[type="checkbox"] {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+/* Custom checkbox */
+.checkbox-custom {
+    width: 18px;
+    height: 18px;
+    border: 2px solid #cbd5e1;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: all 0.2s ease;
+    position: relative;
+    background: white;
+}
+
+.checkbox-custom::after {
+    content: '';
+    width: 5px;
+    height: 9px;
+    border: solid white;
+    border-width: 0 2.5px 2.5px 0;
+    transform: rotate(45deg) scale(0);
+    transition: transform 0.2s ease;
+    position: absolute;
+    top: 1px;
+    left: 4px;
+}
+
+/* Checked state */
+.filter-checkbox input[type="checkbox"]:checked + .checkbox-custom {
+    background: var(--primary);
+    border-color: var(--primary);
+    box-shadow: 0 2px 6px rgba(14, 165, 233, 0.35);
+}
+
+.filter-checkbox input[type="checkbox"]:checked + .checkbox-custom::after {
+    transform: rotate(45deg) scale(1);
+}
+
+/* Focus state */
+.filter-checkbox input[type="checkbox"]:focus-visible + .checkbox-custom {
+    box-shadow: 0 0 0 3px rgba(14,165,233,0.2);
+}
+
+.checkbox-text {
+    font-size: 0.82rem;
+    color: var(--text);
+    font-weight: 500;
+    transition: color 0.2s;
+}
+
+.filter-checkbox input[type="checkbox"]:checked ~ .checkbox-text {
+    color: var(--primary-dark);
+    font-weight: 600;
+}
+
+/* Location Group */
+.filter-location-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+/* Select Dropdown */
+.filter-select-wrapper {
+    display: flex;
+    flex-direction: column;
+}
+
+.filter-select {
+    width: 100%;
+    padding: 0.65rem 2.2rem 0.65rem 0.9rem;
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    background: var(--bg);
+    font-family: inherit;
+    font-size: 0.85rem;
+    color: var(--text);
+    outline: none;
+    cursor: pointer;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.75rem center;
+    transition: border-color 0.25s, box-shadow 0.25s, background 0.25s;
+}
+
+.filter-select:hover {
+    border-color: #bae6fd;
+    background-color: #fafffe;
+}
+
+.filter-select:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(14,165,233,0.12);
+    background-color: #fff;
+}
+
+.filter-select:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+    background-color: #f1f5f9;
+}
+
+.filter-select option {
+    font-family: inherit;
+    padding: 0.5rem;
+}
+
+/* Action Buttons */
+.filter-actions {
+    display: flex;
+    gap: 0.75rem;
+    padding-top: 0.5rem;
+    border-top: 1px solid var(--border);
+}
+
+.btn-filter-apply {
+    flex: 1;
+    padding: 0.7rem 1.2rem;
+    background: linear-gradient(135deg, var(--primary), #38bdf8);
+    color: white;
+    font-family: inherit;
+    font-size: 0.85rem;
+    font-weight: 700;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+    box-shadow: 0 2px 8px rgba(14, 165, 233, 0.3);
+    letter-spacing: 0.01em;
+}
+
+.btn-filter-apply:hover {
+    box-shadow: 0 4px 16px rgba(14, 165, 233, 0.4);
+    transform: scale(0.9);
+}
+
+/* .btn-filter-apply:active {
+    transform: translateY(0);
+    box-shadow: 0 1px 4px rgba(14, 165, 233, 0.3);
+} */
+
+.btn-filter-reset {
+    padding: 0.7rem 1.2rem;
+    background: transparent;
+    color: var(--text-muted);
+    font-family: inherit;
+    font-size: 0.85rem;
+    font-weight: 600;
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.btn-filter-reset:hover {
+    border-color: var(--orange);
+    color: var(--orange);
+    transform: scale(0.9);
+}
+
+/* responsive */
+@media (max-width: 900px) {
+    .filter-checkbox-group {
+        grid-template-columns: 1fr;
+    }
+
+    .filter-panel {
+        grid-column: 1 / -1 !important;
+    }
+}
+
+@media (max-width: 640px) {
+    .filter-body {
+        padding: 1rem;
+    }
+
+    .filter-header {
+        padding: 1rem;
+    }
+
+    .filter-actions {
+        flex-direction: column;
+    }
+
+    .btn-filter-apply,
+    .btn-filter-reset {
+        width: 100%;
+        text-align: center;
+    }
 }
 
 .funding-card:first-child {
-    /* https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Properties/grid-column */
-    grid-column: 1 / -2;
+    grid-column: 1;
 }
 
 /* Responsive grid */
 @media (max-width: 900px){
     .funding-content{
         grid-template-columns: repeat(2, 1fr);
+    }
+    .featured-grid{
+        grid-template-columns: 1fr;
     }
 }
 
@@ -310,6 +688,16 @@ main{
 .funding-card:hover {
     transform: translateY(-4px);
     box-shadow: var(--shadow-md);
+}
+
+.urgent-card {
+    border: 2px solid #ef4444;
+    animation: pulse-border 2s infinite;
+}
+
+@keyframes pulse-border {
+    0%, 100% { border-color: #ef4444; }
+    50% { border-color: #f87171; }
 }
 
 /* Card content */
@@ -425,6 +813,33 @@ main{
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.05em;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  list-style: none; /* remove list bullets */
+  padding: 0px;
+}
+
+.pagination li a {
+  display: block; /* let links fill the list item */
+  padding: 8px 12px;
+  text-decoration: none;
+  border: 1px solid gray;
+  color: black;  
+  margin: 0 4px;
+  border-radius: 5px; /* add rounded borders */
+}
+
+.pagination li a.active{
+    background-color: var(--primary-dark);
+    color: white;
+}
+
+.pagination li a:hover{
+    background-color: var(--primary-dark);
+    color: white;
 }
 
 /* footer */

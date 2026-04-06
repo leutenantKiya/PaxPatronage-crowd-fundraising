@@ -8,57 +8,57 @@
     <title>Detail - PaxPatron</title>
 </head>
 <body>
-    <header class="detail-header">
-        <div class="detail-inner-header">
+    <header class="detail-header" id="detail-header">
+        <div class="detail-inner-header" id="detail-inner-header">
             <a href="index.html" class="back" id="bac">
-                <div class="back-logo">
+                <div class="back-logo" id="back-logo">
                     <img width="40px" src="assets/back.png" alt="back" class="material-symbols-outlined">
                 </div>
             </a>
-            <a href="#" class="detail-logo">
-                <div class="logo-icon">
+            <a href="#" class="detail-logo" id="detail-logo-link">
+                <div class="logo-icon" id="detail-logo-icon">
                     <span class="material-symbols-outlined">PP</span>
                 </div>
-                <span class="logo-text">PaxPatron</span>
+                <span class="logo-text" id="detail-logo-text">PaxPatron</span>
             </a>
         </div>
     </header>
 
-    <main>
-        <div class="bread-crumb">
-            <a href="index.html" class="breadcrumb-home">Home</a>
+    <main id="main-content">
+        <div class="bread-crumb" id="breadcrumb">
+            <a href="index.html" class="breadcrumb-home" id="breadcrumb-home">Home</a>
             <span class="material-symbols-outlined" style="font-size: 16px;">></span>
             <span class="material-symbols-outlined" style="font-size: 16px;">Detail ></span>
-            <span style="color: var(--text); font-weight: 700;"><strong>Wujudkan Mimpi Mas Amba</strong></span>
+            <span style="color: var(--text); font-weight: 700;" id="breadcrumb-current"><strong>Wujudkan Mimpi Mas Amba</strong></span>
         </div>
 
-        <div class="main-content-card">
-            <div class="main-content">
-                <div class="campaign-img">
-                    <div class="hero-img-container">
+        <div class="main-content-card" id="main-content-card">
+            <div class="main-content" id="campaign-content">
+                <div class="campaign-img" id="campaign-img">
+                    <div class="hero-img-container" id="hero-img-container">
                         <img src="assets/example-detail.png" alt="Poster Kampanye" class="hero-img">
                     </div>
-                    <span class="category-badge">Pendidikan</span>
+                    <span class="category-badge" id="category-badge">Pendidikan</span>
                 </div>
-                <div class="content-padding">
-                    <h1>Wujudkan Mimpi Mas Amba bertemu Mas Nasir</h1>
+                <div class="content-padding" id="content-padding">
+                    <h1 id="campaign-title">Wujudkan Mimpi Mas Amba bertemu Mas Nasir</h1>
                     <p class="organizer-info" style="font-size: 14px; margin-bottom: 1rem;">Oleh: <strong>Yayasan Anggrek Mekar</strong> | Lokasi: <strong>Yogyakarta</strong></p>
                     
-                    <div class="tabs">
-                        <div class="tab active">Cerita</div>
-                        <div class="tab">Donatur (124)</div>
+                    <div class="tabs" id="tabs">
+                        <div class="tab active" id="tab-cerita">Cerita</div>
+                        <div class="tab" id="tab-donatur">Donatur (124)</div>
                     </div>
 
-                    <div class="story-content">
+                    <div class="story-content" id="story-content">
                         <p>Di balik keindahan pantai kita, ribuan anak nelayan terpaksa putus sekolah demi membantu ekonomi keluarga. Pendidikan adalah satu-satunya jalan keluar untuk memutus rantai kemiskinan yang telah berlangsung turun-temurun di desa-desa pesisir.</p>
                         <p>Kampanye ini bertujuan untuk menyediakan 50 paket beasiswa penuh selama satu tahun ajaran bagi anak-anak di Desa Teluk Hijau. Paket ini mencakup biaya SPP, seragam, buku, dan alat tulis.</p>
                         
-                        <div class="quote-box">
+                        <div class="quote-box" id="quote-box">
                             "Setiap kontribusi Anda, sekecil apapun, adalah investasi besar bagi masa depan bangsa Indonesia dari garis terdepan pantai kita."
                         </div>
 
-                        <div class="funding-plan">
-                            <h3>Rencana penggunaan dana:</h3>
+                        <div class="funding-plan" id="funding-plan">
+                            <h3 id="funding-plan-title">Rencana penggunaan dana:</h3>
                             <ul>
                                 <li>Biaya Pendidikan 50 Siswa (Rp 75.000.000)</li>
                                 <li>Perlengkapan Sekolah (Rp 15.000.000)</li>
@@ -69,18 +69,18 @@
                 </div>
             </div>
 
-            <div class="sidebar">
-                <div class="sticky-sidebar">
-                    <div class="donation-card">
+            <div class="sidebar" id="sidebar">
+                <div class="sticky-sidebar" id="sticky-sidebar">
+                    <div class="donation-card" id="donation-card">
                         <p class="collected-amount" id="collected-amount">Terkumpul</p>
                         <p class="current-amount" id="current-amount">Rp 64.250.000</p>
                         <span class="target-amount">dari target <span class="target-amount" id="target-amount">Rp 100.000.000</span></span>
                         
-                        <div class="progress-bar-container">
-                            <div class="progress-bar" style="width: 64%;"></div>
+                        <div class="progress-bar-container" id="progress-bar-container">
+                            <div class="progress-bar" id="progress-bar" style="width: 64%;"></div>
                         </div>
 
-                        <div class="stat-donation">
+                        <div class="stat-donation" id="stat-donation">
                             <div class="stat">
                                 <span class="stat-value">124</span>
                                 <span class="stat-label">Donatur</span>
@@ -92,33 +92,33 @@
                         </div>
 
 
-                        <a href="donation-form.html" class="donation-container">
-                            <button class="primary-btn">Donasi Sekarang</button>
+                        <a href="donation-form.html" class="donation-container" id="donation-link">
+                            <button class="primary-btn" id="donate-btn">Donasi Sekarang</button>
                         </a>
                     </div>
 
-                    <div class="donation-card" style="margin-top: 1.5rem;">
-                        <div class="bank-transfer-header">
+                    <div class="donation-card" id="bank-transfer-card" style="margin-top: 1.5rem;">
+                        <div class="bank-transfer-header" id="bank-transfer-header">
                             <span class="material-symbols-outlined" style="color: var(--primary); font-weight: bold;">Transfer Bank Manual</span>
                         </div>
                         
-                        <div class="bank-account">
-                            <p class="bank-name">Bank Central Asia (BCA)</p>
+                        <div class="bank-account" id="bank-account-bca">
+                            <p class="bank-name" id="bank-name-bca">Bank Central Asia (BCA)</p>
                             <div class="acc-row">
-                                <span class="acc-number">8830 1922 44</span>
+                                <span class="acc-number" id="acc-number-bca">8830 1922 44</span>
                             </div>
                             <div class="acc-holder">A.N. YAYASAN ANGGREK MEKAR</div>
                         </div>
 
-                        <div class="bank-account" style="margin-top: 1rem;">
-                            <p class="bank-name">Bank Madura</p>
+                        <div class="bank-account" id="bank-account-madura" style="margin-top: 1rem;">
+                            <p class="bank-name" id="bank-name-madura">Bank Madura</p>
                             <div class="acc-row">
-                                <span class="acc-number">911</span>
+                                <span class="acc-number" id="acc-number-madura">911</span>
                             </div>
                             <div class="acc-holder">A.N. YAYASAN PINILIH</div>
                         </div>
 
-                        <p class="disclaimer" style="color: red; padding-top: 20px;">
+                        <p class="disclaimer" id="disclaimer" style="color: red; padding-top: 20px;">
                             <!-- optional -->
                             <!-- the mesasge is created when the funding created to ensure the purpose of the fund -->
                             *Tambahkan Pesan "Untuk bla bla bla" guna mempermudah identifikasi
@@ -130,14 +130,14 @@
     </main>
     
     <footer id="contact_us">
-        <div class="footer-container">
-            <div class="footer-content">
-                <div class="footer-info">
-                    <h3>Hubungi Kami</h3>
-                    <ul class="contact-list">
+        <div class="footer-container" id="footer-container">
+            <div class="footer-content" id="footer-content">
+                <div class="footer-info" id="footer-info">
+                    <h3 id="footer-contact-title">Hubungi Kami</h3>
+                    <ul class="contact-list" id="contact-list">
                         <li>
                             <span class="material-symbols-outlined">mail</span>
-                            <a href="mailto:#">
+                            <a href="mailto:#" id="email-link">
                                 <ul>
                                     <li>71241119@students.ukdw.ac.id</li>
                                     <li>71241078@students.ukdw.ac.id</li>
@@ -151,9 +151,9 @@
                     </ul>
                 </div>
 
-                <div class="footer-social">
-                    <h3>Media Sosial</h3>
-                    <div class="social-icons">
+                <div class="footer-social" id="footer-social">
+                    <h3 id="footer-social-title">Media Sosial</h3>
+                    <div class="social-icons" id="social-icons">
                         <a href="https://www.instagram.com/gwkiyaco/?hl=en" title="Instagram"><img src="assets/instagram.png" alt="Instagram" width="24"></a>
                         <a href="#" title="Twitter"><img src="assets/twitter.png" alt="Twitter" width="24"></a>
                         <a href="#" title="LinkedIn"><img src="assets/linkedin.png" alt="LinkedIn" width="24"></a>
@@ -161,10 +161,10 @@
                 </div>
             </div>
 
-            <span class="horizontal-line"></span>
+            <span class="horizontal-line" id="footer-divider"></span>
 
-            <div class="copyright">
-                <p>&copy; 2026 Copyright PaxPatron Non-Profit Company. Kiya-Kevin</p>
+            <div class="copyright" id="copyright">
+                <p id="copyright-text">&copy; 2026 Copyright PaxPatron Non-Profit Company. Kiya-Kevin</p>
             </div>
         </div>
     </footer>

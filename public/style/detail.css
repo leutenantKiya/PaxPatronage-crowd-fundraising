@@ -279,6 +279,8 @@ h1 {
     margin-top: 10px;
     background-color: var(--primary);
     padding: 14px;
+    transition: transform 0.3s ease;
+    /* mean -> give the transform atribute a transition when something triggered */
 }
 
 .primary-btn{
@@ -289,6 +291,11 @@ h1 {
     cursor: pointer;
     color: white;
     font-size: 14px;
+    transition: 0.3s;
+}
+
+.donation-container:hover{
+    transform: scale(0.9);
 }
 
 .donation-card{
