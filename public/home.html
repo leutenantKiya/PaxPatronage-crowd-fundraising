@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style/style.css">
+    <link rel="stylesheet" href="style/style.css?v=1.1">
     <link rel="stylesheet" href="style/filter.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <title>PaxPatron - Jalinan tali kasih</title>
@@ -45,7 +45,13 @@
                 </a>
             </nav>
             <div class="profile-picture" id="profile-picture">
-                <img class="avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAWjipIcx9P_d5QCPMxAjv2rssXV8CO11Cz6sxyTQL1yY_ycQ0-ehgBxmElZs13-fpF0DxSdz-9c7ceVoHOAomqriYrNz4PYA3YNq5eS6cSkLg5Mm1R665UPTvFsxN5HO26SI-o0kPT_FXrMO7lQTIoUSR-cVVu0gdk6RDKerIyP_TctBAgo2l7Dfd5tYBCLVWxUt2Y6hfFR3BpY27ewaTW_ywC1db4TgNom-zTp88TxUU7vkLfZVyYWvrKc7PDNgerRaHxLZLHRxc" width="40px" alt="User avatar" id="user-avatar"/>
+                <button class="profile-toggle" id="profile-toggle" type="button" aria-haspopup="true" aria-expanded="false">
+                    <img class="avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAWjipIcx9P_d5QCPMxAjv2rssXV8CO11Cz6sxyTQL1yY_ycQ0-ehgBxmElZs13-fpF0DxSdz-9c7ceVoHOAomqriYrNz4PYA3YNq5eS6cSkLg5Mm1R665UPTvFsxN5HO26SI-o0kPT_FXrMO7lQTIoUSR-cVVu0gdk6RDKerIyP_TctBAgo2l7Dfd5tYBCLVWxUt2Y6hfFR3BpY27ewaTW_ywC1db4TgNom-zTp88TxUU7vkLfZVyYWvrKc7PDNgerRaHxLZLHRxc" width="40px" alt="User avatar" id="user-avatar"/>
+                </button>
+                <div class="profile-menu" id="profile-menu">
+                    <a href="#" id="profile-menu-link">Profil Saya</a>
+                    <a href="../services/logout_service.php" id="logout-link">Logout</a>
+                </div>
             </div>
             </div>
         </div>
@@ -61,7 +67,7 @@
         </div>
         <!-- breadcrumb -->
         <div class="bread-crumb" id="breadcrumb">
-            <a href="index.html" class="breadcrumb-home" id="breadcrumb-home">Home</a>
+            <a href="home.html" class="breadcrumb-home" id="breadcrumb-home">Home</a>
         </div>
         <div class="hero" id="hero-section">
             <h1 id="hero-title">Temukan Kampanye Donasi</h1>
@@ -383,5 +389,6 @@
         </div>
     </footer>
     <script src="js/filter.js"></script>
+    <script src="js/script.js"></script>
 </body>
 </html>

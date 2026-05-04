@@ -16,4 +16,20 @@ function responsive_navbar(){
   }
 }
 
-  
+const profilePicture = document.getElementById("profile-picture");
+const profileToggle = document.getElementById("profile-toggle");
+
+if (profilePicture && profileToggle) {
+  profileToggle.addEventListener("click", event => {
+    event.stopPropagation();
+    const isOpen = profilePicture.classList.toggle("open");
+    profileToggle.setAttribute("aria-expanded", isOpen);
+  });
+
+  document.addEventListener("click", event => {
+    if (!profilePicture.contains(event.target)) {
+      profilePicture.classList.remove("open");
+      profileToggle.setAttribute("aria-expanded", "false");
+    }
+  });
+}

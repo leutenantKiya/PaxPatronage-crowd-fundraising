@@ -1,0 +1,95 @@
+:root{
+    --primary: #0ea5e9;
+    --primary-dark: #0284c7;
+    --primary-soft: #e0f2fe;
+    --bg: #f0f4f8;
+    --surface: #ffffff;
+    --border: #e2e8f0;
+    --text: #0f172a;
+    --text-muted: #64748b;
+    --text-light: #94a3b8;
+    --shadow-sm: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+    --shadow-md: 0 4px 16px rgba(0,0,0,0.08), 0 2px 6px rgba(0,0,0,0.04);
+    --shadow-lg: 0 12px 40px rgba(0,0,0,0.10);
+    --radius: 0.75rem;
+    --radius-full: 9999px;
+}
+
+body{
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Uni';
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+}
+
+body::selection{
+    background-color: var(--text);
+    color: white;
+} 
+
+/* header */
+header{
+    padding: 0px 20px;
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: rgba(255,255,255,0.85);
+    border-bottom: 1px solid var(--border);
+}
+
+/* header inner container*/
+.inner-header {
+    /* background-color: #0284c7; */
+    max-width: 1200px;
+    margin: 0 auto;
+    /* padding: 0 1.5rem; */
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+
+/* logo */
+.logo{
+    display: flex;
+    text-decoration: none;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.logo-icon{
+    width: 36px; height: 36px;
+    background: linear-gradient(135deg, var(--primary), #38bdf8);
+    border-radius: 10px;
+    display: flex; 
+    align-items: center; 
+    justify-content: center;
+    color: white;
+}
+
+.fa-bar{
+    width: 22px;
+    height: 2px;
+    background-color: var(--text);
+    display: none;
+    margin: 3px 0;
+}
+
+ /* logo text */
+.logo-text{
+    font-size: 1.2rem;
+    font-weight: 800;
+    color: var(--text);
+    letter-spacing: -0.03em;
+ }
+
+ /* search wrapper */
+.search-wrapper{
+    flex:1;
+    max-width: 400px;
+    position: relative;
+    display: none;
+ }
+
+

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style/style.css">
+    <link rel="stylesheet" href="style/style.css?v=1.1">
     <link rel="stylesheet" href="style/login_registration.css">
     <title>Pax Patron | Login</title>
 </head>
@@ -12,7 +12,7 @@
         <!-- header container -->
         <div class="inner-header" id="inner-header">
             <!-- logo -->
-            <a href="#" class="logo" id="logo-link">
+            <a href="home.html" class="logo" id="logo-link">
                 <div class="logo-icon" id="logo-icon">
                     <span class="material-symbols-outlined">PP</span>
                 </div>
@@ -91,11 +91,11 @@
                 <!-- form starts here  sends post to auth_service.php later-->
                 <form class="form-group" id="login-form" action="../services/auth_service.php" method="POST">
                     <div class="wrapper" id="email-wrapper">
-                            <input class="form-input" id="uname" type="email" placeholder=" " required>
+                            <input class="form-input" name="uname" id="uname" type="email" placeholder=" " required>
                             <label class="form-label" for="uname">Alamat Email</label>
                     </div>
                     <div class="wrapper" id="password-wrapper">
-                        <input class="form-input" id="pword" type="password" placeholder=" " required>
+                        <input class="form-input" name="pword" id="pword" type="password" placeholder=" " required>
                         <label class="form-label" for="pword">Password</label>
                     </div>
                     <!-- forgot pass -->
@@ -106,10 +106,10 @@
                         <p class="signin-label" id="signin-label">Masuk Sebagai</p>
                         <!-- btn harus dalam 1 row -->
                         <div class="btn-row" id="btn-row">
-                            <button type="submit" id="donatur" class="form-btn donatur"> 
+                            <button name = "user_type" value="1" type="submit" id="donatur" class="form-btn donatur"> 
                                 Donatur
                             </button>
-                            <button type="submit" id="penyelenggara" class="form-btn penyelenggara"> 
+                            <button name = "user_type" value="0" type="submit" id="penyelenggara" class="form-btn penyelenggara"> 
                                 Penyelenggara
                             </button>
                         </div>

@@ -38,6 +38,11 @@ social-icons a{
     background-size: cover;
 }
 
+body::selection{
+    background-color: var(--text);
+    color: white;
+} 
+
 main{
     /* margin-top: 100px; */
     background-color: var(--bg);
