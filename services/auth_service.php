@@ -14,7 +14,7 @@
     }
 
     require_once 'db_connection.php';
-    $db = new Connection();
+    $db = new Connection;
     $conn = $db->getConnection();
 
     // print_r($_POST);

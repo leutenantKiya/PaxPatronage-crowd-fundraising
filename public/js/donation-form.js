@@ -58,7 +58,7 @@ function handleDonationSubmit(e) {
                 <h2>Donasi Berhasil!</h2>
                 <p>Terima kasih atas donasi Anda.</p>
                 <p class="success-detail">Donasi Anda akan diproses dalam 1x24 jam.</p>
-                <a href="index.html" class="back-home-btn">Kembali ke Beranda</a>
+                <a href="home.html" class="back-home-btn">Kembali ke Beranda</a>
             </div>
         `;
     }, 1500);

@@ -5,6 +5,7 @@ if(!isset($_SESSION['user_id'])){
     header("Location: login.html?error=invalid_session");
     exit;
 }
+$user_id = $_SESSION['user_id'];
 require_once __DIR__ . "/../services/db_connection.php";
 ?>
 <!DOCTYPE html>
@@ -36,7 +37,7 @@ require_once __DIR__ . "/../services/db_connection.php";
         </div>
     </header>
     <main>
-        <button class="btn-tambah">Tambah Donasi</button>
+        <button class="btn-tambah"><a href="tambahKampanye.php">Tambah Kampanye</a></button>
         <form action="" method="post">
             <table class="kampanye-table" border="1">
                 <thead>
@@ -45,12 +46,42 @@ require_once __DIR__ . "/../services/db_connection.php";
                         <td>Nama Kampanya</td>
                         <td>Jenis Kampanye</td>
                         <td>Dana Terkumpul</td>
+                        <td>Target Terkumpul</td>
                         <td>Tanggal Dimulai</td>
                         <td>Tanggal Berakhir</td>
-                        <td>Edit</td>
-                        <td>Hapus</td>
+                        <td>Banner Kampanye</td>
+                        <td>Edit | Hapus</td>
+                        <td>Detail</td>
                     </tr>
                 </thead>
+                <tbody>
+                    <?php
+                        $db = new Connection;
+                        $result = $db->getKampanye($user_id);
+                        if(mysqli_num_rows($result) > 0){
+                            $no = 1;
+                            $root_path = "upload/";
+                            while($row = mysqli_fetch_assoc($result)){
+                                echo "<tr>";
+                                echo "<td>".$no."</td>";
+                                echo "<td>".$row["nama_kampanye"]."</td>";
+                                echo "<td>".$row["jenis_kampanye"]."</td>";
+                                echo "<td>".$row["dana_terkumpul"]."</td>";
+                                echo "<td>".$row["target_kampanye"]."</td>";
+                                echo "<td>".$row["tanggal_dimulai"]."</td>";
+                                echo "<td>".$row["tanggal_berakhir"]."</td>";
+                                echo "<td><img src='".$root_path.$row["path_gambar"]."' alt='Banner Kampanye' width='100'></td>";
+                                echo "<td><button class='edit-btn'>Edit</button>
+                                <button class='delete-btn'>Hapus</button></td>";
+                                echo "<td><button class='detail-btn'>Detail</button></td>";
+                                echo "</tr>";
+                                $no++;
+                            }
+                        }else{
+                            echo "<tr><td colspan='8'>Belum ada kampanye yang dibuat.</td></tr>";
+                        }
+                    ?>
+                </tbody>
             </table>
         </form>
     </main>
