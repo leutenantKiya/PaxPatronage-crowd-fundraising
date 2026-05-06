@@ -213,6 +213,35 @@ nav a.active { font-weight: 700;}
 
 .profile-picture {
     position: relative;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.profile-name {
+    color: var(--text);
+    font-size: 0.875rem;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.login-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.55rem 1rem;
+    border-radius: var(--radius-full);
+    background: var(--primary);
+    color: white;
+    text-decoration: none;
+    font-size: 0.875rem;
+    font-weight: 700;
+    transition: background 0.2s, transform 0.2s;
+}
+
+.login-btn:hover {
+    background: var(--primary-dark);
+    transform: translateY(-1px);
 }
 
 .profile-toggle {

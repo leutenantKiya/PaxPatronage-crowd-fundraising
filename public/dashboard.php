@@ -2,10 +2,10 @@
 // echo "Halo donatur";
 session_start();
 if(!isset($_SESSION['user_id'])){
-    header("Location: ../login.html?error=invalid_session");
+    header("Location: login.html?error=invalid_session");
     exit;
 }
-print_r($_SESSION);
+require_once __DIR__ . "/../services/db_connection.php";
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -35,5 +35,24 @@ print_r($_SESSION);
             </nav>
         </div>
     </header>
+    <main>
+        <button class="btn-tambah">Tambah Donasi</button>
+        <form action="" method="post">
+            <table class="kampanye-table" border="1">
+                <thead>
+                    <tr>
+                        <td>No</td>
+                        <td>Nama Kampanya</td>
+                        <td>Jenis Kampanye</td>
+                        <td>Dana Terkumpul</td>
+                        <td>Tanggal Dimulai</td>
+                        <td>Tanggal Berakhir</td>
+                        <td>Edit</td>
+                        <td>Hapus</td>
+                    </tr>
+                </thead>
+            </table>
+        </form>
+    </main>
 </body>
 </html>

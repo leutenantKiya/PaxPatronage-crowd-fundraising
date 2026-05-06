@@ -1,0 +1,4 @@
+# Source - https://stackoverflow.com/a/11312349
+# Posted by John Conde
+# Retrieved 2026-05-05, License - CC BY-SA 3.0
+AddType application/x-httpd-php .htm .html

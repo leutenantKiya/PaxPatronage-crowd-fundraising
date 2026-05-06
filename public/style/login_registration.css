@@ -320,6 +320,26 @@ section.about {
     margin-top: 50px;
 }
 
+.login-alert {
+    padding: 0.75rem 0.9rem;
+    border-radius: var(--radius);
+    font-size: 0.875rem;
+    font-weight: 600;
+    line-height: 1.4;
+}
+
+.login-alert.error {
+    background: #fee2e2;
+    color: #b91c1c;
+    border: 1px solid #fecaca;
+}
+
+.login-alert.success {
+    background: #dcfce7;
+    color: #15803d;
+    border: 1px solid #bbf7d0;
+}
+
 .wrapper{
     position: relative;
     display: flex;
@@ -487,7 +507,6 @@ section.about {
         padding: 60px 30px;
     }
 }
-
 
 
 

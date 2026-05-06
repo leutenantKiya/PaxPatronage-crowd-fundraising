@@ -1,3 +1,8 @@
+<?php
+session_start();
+$isLoggedIn = isset($_SESSION['user_id']);
+$userName = $isLoggedIn && isset($_SESSION['name']) ? $_SESSION['name'] : '';
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,7 +11,7 @@
     <link rel="stylesheet" href="style/style.css?v=1.1">
     <link rel="stylesheet" href="style/filter.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <title>PaxPatron - Jalinan tali kasih</title>
+    <title>PaxPatron - <?php echo $isLoggedIn ? htmlspecialchars($userName) : 'Jalinan tali kasih'; ?></title>
 </head>
 <body>
     <!-- header -->
@@ -31,8 +36,8 @@
             <nav class="navbar" id="top">
                 <a href="#home" class="active" id="nav-home">Beranda</a>
                 <!-- in case this one is permitted :) -->
-                <a href="#" id="nav-donasi">Donasi Saya</a>
-                <a href="#" id="nav-profile">Profil</a>
+                <a href="<?php echo $isLoggedIn ? '#' : 'login.html?error=login_required'; ?>" id="nav-donasi">Donasi Saya</a>
+                <a href="<?php echo $isLoggedIn ? '#' : 'login.html?error=login_required'; ?>" id="nav-profile">Profil</a>
                 <a href="javascript:void(0)" class="hamburger-btn" id="hamburger-link" onclick="responsive_navbar()">
                     <!-- hamburger -->
                     <div class="header-action">
@@ -44,16 +49,20 @@
                     </div>
                 </a>
             </nav>
+            <?php if ($isLoggedIn): ?>
+            <span class="profile-name">Halo, <?php echo htmlspecialchars($userName); ?></span>
             <div class="profile-picture" id="profile-picture">
                 <button class="profile-toggle" id="profile-toggle" type="button" aria-haspopup="true" aria-expanded="false">
                     <img class="avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAWjipIcx9P_d5QCPMxAjv2rssXV8CO11Cz6sxyTQL1yY_ycQ0-ehgBxmElZs13-fpF0DxSdz-9c7ceVoHOAomqriYrNz4PYA3YNq5eS6cSkLg5Mm1R665UPTvFsxN5HO26SI-o0kPT_FXrMO7lQTIoUSR-cVVu0gdk6RDKerIyP_TctBAgo2l7Dfd5tYBCLVWxUt2Y6hfFR3BpY27ewaTW_ywC1db4TgNom-zTp88TxUU7vkLfZVyYWvrKc7PDNgerRaHxLZLHRxc" width="40px" alt="User avatar" id="user-avatar"/>
                 </button>
                 <div class="profile-menu" id="profile-menu">
                     <a href="#" id="profile-menu-link">Profil Saya</a>
-                    <a href="../services/logout_service.php" id="logout-link">Logout</a>
+                    <a href="../services/logout_service.php?logout=true" id="logout-link">Logout</a>
                 </div>
             </div>
-            </div>
+            <?php else: ?>
+            <a href="login.html" class="login-btn" id="login-link">Login</a>
+            <?php endif; ?>
         </div>
     </header>
 
@@ -225,7 +234,7 @@
         <div class="funding-content" id="funding-content">
             <a href="detail.html" class="funding-card" data-category="pendidikan" data-province="jawa-barat" data-city="bandung" id="funding-card-1">
                 <div class="hero-img-container">
-                    <img src="assets/example-detail.png" alt="Poster Kampanye" class="hero-img">
+                    <img src="upload/example-detail.png" alt="Poster Kampanye" class="hero-img">
                 </div>
                 <span class="category-badge">Pendidikan</span>
                 <div class="card-content">
@@ -247,7 +256,7 @@
             </a>  
             <a href="detail.html" class="funding-card" data-category="pendidikan" data-province="sulawesi-selatan" data-city="makassar" id="funding-card-2">
                 <div class="hero-img-container">
-                    <img src="assets/example-detail.png" alt="Poster Kampanye" class="hero-img">
+                    <img src="upload/example-detail.png" alt="Poster Kampanye" class="hero-img">
                 </div>
                 <span class="category-badge">Pendidikan</span>
                 <div class="card-content">
@@ -269,7 +278,7 @@
             </a> 
             <a href="detail.html" class="funding-card" data-category="pendidikan" data-province="jawa-timur" data-city="surabaya" id="funding-card-3">
                 <div class="hero-img-container">
-                    <img src="assets/example-detail.png" alt="Poster Kampanye" class="hero-img">
+                    <img src="upload/example-detail.png" alt="Poster Kampanye" class="hero-img">
                 </div>
                 <span class="category-badge">Pendidikan</span>
                 <div class="card-content">
@@ -291,7 +300,7 @@
             </a> 
             <a href="detail.html" class="funding-card" data-category="pendidikan" data-province="jawa-tengah" data-city="semarang" id="funding-card-4">
                 <div class="hero-img-container">
-                    <img src="assets/example-detail.png" alt="Poster Kampanye" class="hero-img">
+                    <img src="upload/example-detail.png" alt="Poster Kampanye" class="hero-img">
                 </div>
                 <span class="category-badge">Infrastruktur</span>
                 <div class="card-content">
@@ -313,7 +322,7 @@
             </a> 
             <a href="detail.html" class="funding-card" data-category="sosial" data-province="dki-jakarta" data-city="jakarta-barat" id="funding-card-5">
                 <div class="hero-img-container">
-                    <img src="assets/example-detail.png" alt="Poster Kampanye" class="hero-img">
+                    <img src="upload/example-detail.png" alt="Poster Kampanye" class="hero-img">
                 </div>
                 <span class="category-badge">Sosial</span>
                 <div class="card-content">

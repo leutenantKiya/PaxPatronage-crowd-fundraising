@@ -1,3 +1,22 @@
+<?php
+$loginError = $_GET['error'] ?? '';
+$logoutStatus = $_GET['logout'] ?? '';
+$loginMessages = [
+    'empty' => 'Email, password, dan tipe user wajib diisi.',
+    'password' => 'Password salah.',
+    'user_ga_ada_wok' => 'User tidak ditemukan.',
+    'invalid_session' => 'Silakan login terlebih dahulu.',
+    'login_required' => 'Silakan login terlebih dahulu.',
+];
+$loginNotice = $loginMessages[$loginError] ?? '';
+if ($loginNotice === '' && strpos($loginError, 'lu_bukan') === 0) {
+    $loginNotice = 'Akun ini bukan tipe user yang dipilih.';
+}
+if ($loginNotice === '' && $logoutStatus === 'success') {
+    $loginNotice = 'Berhasil logout.';
+}
+$loginNoticeType = $logoutStatus === 'success' ? 'success' : 'error';
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -90,6 +109,9 @@
                 </div>
                 <!-- form starts here  sends post to auth_service.php later-->
                 <form class="form-group" id="login-form" action="../services/auth_service.php" method="POST">
+                    <?php if ($loginNotice !== ''): ?>
+                    <div class="login-alert <?php echo $loginNoticeType; ?>"><?php echo htmlspecialchars($loginNotice); ?></div>
+                    <?php endif; ?>
                     <div class="wrapper" id="email-wrapper">
                             <input class="form-input" name="uname" id="uname" type="email" placeholder=" " required>
                             <label class="form-label" for="uname">Alamat Email</label>
