@@ -1,3 +1,11 @@
+@import url("style.css");
+
+*{
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
 :root{
     --primary: #0ea5e9;
     --primary-dark: #0284c7;
@@ -6,6 +14,7 @@
     --surface: #ffffff;
     --border: #e2e8f0;
     --text: #0f172a;
+    --orange: #ef4444;
     --text-muted: #64748b;
     --text-light: #94a3b8;
     --shadow-sm: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
@@ -25,7 +34,7 @@ body{
 body::selection{
     background-color: var(--text);
     color: white;
-} 
+}
 
 /* header */
 header{
@@ -92,4 +101,323 @@ header{
     display: none;
  }
 
+/* navbar */
+#main-nav{
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
 
+main{
+    max-width: 1200px;
+    margin: 2.5rem auto;
+}
+
+.alert{
+    padding: 0.9rem 1.2rem;
+    margin-bottom: 1rem;
+    border-radius: var(--radius);
+    font-weight: 700;
+    box-shadow: var(--shadow-md);
+    letter-spacing: -0.01em;
+}
+
+.success-alert{
+    background: #dcfce7;
+    color: #166534;
+    border: 1px solid #bbf7d0;
+}
+
+.error-alert{
+    background: #fee2e2;
+    color: #991b1b;
+    border: 1px solid #fecaca;
+}
+
+.btn-tambah{
+    border: none;
+    border-radius: 10px;
+    background: linear-gradient(135deg, var(--primary), #38bdf8);
+    margin-bottom: 1.25rem;
+    box-shadow: 0 2px 8px rgba(14, 165, 233, 0.3);
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.btn-tambah a{
+    display: inline-block;
+    padding: 0.7rem 1.2rem;
+    color: white;
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-decoration: none;
+    letter-spacing: 0.01em;
+}
+
+.btn-tambah:hover{
+    box-shadow: 0 4px 16px rgba(14, 165, 233, 0.4);
+    transform: scale(0.96);
+}
+
+.kampanye-table{
+    width: 100%;
+    border-collapse: collapse;
+    background: var(--surface);
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow: var(--shadow-md);
+    transition: box-shadow 0.3s ease;
+}
+
+.kampanye-table:hover{
+    box-shadow: var(--shadow-lg);
+}
+
+.kampanye-table thead td{
+    background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
+    color: var(--text);
+    font-size: 0.875rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+}
+
+.kampanye-table td{
+    padding: 0.85rem 0.9rem;
+    border: 1px solid var(--border);
+    color: var(--text);
+    font-size: 0.85rem;
+    vertical-align: middle;
+}
+
+.kampanye-table tbody tr:hover{
+    background: var(--primary-soft);
+}
+
+.kampanye-table img{
+    border-radius: 10px;
+    object-fit: cover;
+    box-shadow: var(--shadow-sm);
+}
+
+.action-cell{
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.delete-form{
+    margin: 0;
+}
+
+.edit-btn,
+.delete-btn,
+.detail-btn{
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    padding: 0.55rem 0.8rem;
+    font-family: inherit;
+    font-size: 0.8rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: transform 0.3s ease, border-color 0.3s ease, color 0.3s ease, background 0.3s ease;
+}
+
+.edit-btn{
+    background: transparent;
+    color: var(--text-muted);
+}
+
+.delete-btn{
+    background: transparent;
+    color: var(--orange);
+    border-color: #fecaca;
+}
+
+.detail-btn{
+    background: var(--primary-soft);
+    color: var(--primary-dark);
+    border-color: #bae6fd;
+}
+
+.delete-btn:hover:not(:disabled){
+    background: #fee2e2;
+    border-color: var(--orange);
+    transform: scale(0.92);
+}
+
+.edit-btn:hover{
+    background: #fffbeb;
+    border-color: #f59e0b;
+    color: #d97706;
+    transform: scale(0.92);
+}
+
+.detail-btn:hover{
+    background: #bfdbfe;
+    transform: scale(0.92);
+}
+
+.delete-btn-disabled{
+    opacity: 0.6;
+    cursor: not-allowed;
+    background: #f1f5f9;
+    color: var(--text-light);
+    border-color: var(--border);
+}
+
+@media (max-width:1200px) {
+   main{
+    padding: 0 20px;
+   }
+}
+
+@media (max-width: 900px) {
+    .kampanye-table{
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+    }
+}
+
+/* form page */
+.form-header{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.form-header h1{
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: var(--text);
+    letter-spacing: -0.02em;
+}
+
+.btn-back{
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.55rem 1rem;
+    border-radius: 10px;
+    border: 1.5px solid var(--border);
+    background: var(--surface);
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-weight: 700;
+    transition: transform 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+}
+
+.btn-back:hover{
+    border-color: var(--primary);
+    color: var(--primary-dark);
+    transform: scale(0.96);
+}
+
+.kampanye-form{
+    background: var(--surface);
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-md);
+    padding: 1.5rem;
+    max-width: 700px;
+    display: grid;
+    gap: 1rem;
+    transition: box-shadow 0.3s ease;
+}
+
+.kampanye-form:hover{
+    box-shadow: var(--shadow-lg);
+}
+
+.kampanye-form label{
+    font-size: 0.875rem;
+    font-weight: 700;
+    color: var(--text);
+    letter-spacing: -0.01em;
+}
+
+.kampanye-form input,
+.kampanye-form textarea{
+    width: 100%;
+    padding: 0.65rem 0.9rem;
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    background: var(--bg);
+    font-family: inherit;
+    font-size: 0.9rem;
+    color: var(--text);
+    outline: none;
+    transition: border-color 0.25s, box-shadow 0.25s, background 0.25s;
+}
+
+.kampanye-form input:hover,
+.kampanye-form textarea:hover{
+    border-color: #bae6fd;
+    background: #fafffe;
+}
+
+.kampanye-form input:focus,
+.kampanye-form textarea:focus{
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(14,165,233,0.12);
+    background: #fff;
+}
+
+.kampanye-form input[type="file"]{
+    padding: 0.5rem;
+    background: var(--surface);
+}
+
+.form-actions{
+    margin-top: 0.5rem;
+}
+
+.form-actions .btn-tambah{
+    width: 100%;
+}
+
+.form-actions .btn-tambah .btn-text{
+    display: inline-block;
+    padding: 0.7rem 1.2rem;
+    color: white;
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 0.01em;
+}
+
+@media (max-width: 640px) {
+    .btn-tambah{
+        width: 100%;
+    }
+
+    .btn-tambah a{
+        width: 100%;
+        text-align: center;
+    }
+
+    .action-cell{
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .edit-btn,
+    .delete-btn,
+    .detail-btn{
+        width: 100%;
+    }
+
+    .form-header{
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .kampanye-form{
+        padding: 1rem;
+    }
+}

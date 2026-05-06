@@ -46,6 +46,15 @@ class Connection
         mysqli_stmt_execute($stmt);
         return mysqli_stmt_affected_rows($stmt) > 0;
     }
+
+    public function hapusKampanye($kampanye_id, $user_id){
+        $sql = "DELETE FROM kampanye WHERE id = ? AND user_id = ? AND COALESCE(dana_terkumpul, 0) < 10000";
+        $conn = $this->getConnection();
+        $stmt = mysqli_prepare($conn, $sql);
+        mysqli_stmt_bind_param($stmt, "ii", $kampanye_id, $user_id);
+        mysqli_stmt_execute($stmt);
+        return mysqli_stmt_affected_rows($stmt) > 0;
+    }
 }
 
 // $result = mysqli_query($conn, "Select * from users;");

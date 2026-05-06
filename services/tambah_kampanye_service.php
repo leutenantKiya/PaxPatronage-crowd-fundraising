@@ -8,13 +8,59 @@
         header("Location: ../public/tambahKampanye.php");
         exit;
     }
-    print_r($_FILES);
-    if (!isset($_FILES['foto']['name'])) {
+    if (!isset($_FILES['foto']) || $_FILES['foto']['error'] !== UPLOAD_ERR_OK) {
         header("Location: ../public/tambahKampanye.php?error=upload_gagal");
         exit;
     }
+    $beginDate = new DateTime($_POST['tanggal_dimulai']);
+    $endDate = new DateTime($_POST['tanggal_berakhir']);
+    $curDate = date("Y-m-d_H-i-s");
+    
+    // echo $curDate;
+    if ($beginDate > $endDate) {
+        header("Location: ../public/tambahKampanye.php?error=time_traveler_jir");
+        exit;
+    }
+
+    // prepare conn
     require_once 'db_connection.php';
-    print_r($_POST);
+    // print_r($_POST);
     $db = new Connection;
-    print_r (mysqli_num_rows($db->getKampanye(1)));
+    
+    // get foto
+    $filename = $_FILES['foto']['name'];
+    $extension = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
+    $full_file_name = "kampanye_".$_SESSION['user_id']."_".$curDate.".".$extension;
+    $targetDir = __DIR__ . "/../public/upload/img-kampanye/";
+    $targetFilePath = $targetDir . $full_file_name;
+    $path_gambar = "img-kampanye/" . $full_file_name;
+
+    // https://zolin.digital/how-to/how-to-check-if-a-folder-exists-in-php-wordpress/ -> check if folder/path exist
+    if(!is_dir($targetDir) && !mkdir($targetDir, 0755, true)){
+        mkdir($targetDir, 0755, true); //recursive -> folder bisa dibuat meskipun folder induknya belum ada
+    }
+
+    if (!move_uploaded_file($_FILES['foto']['tmp_name'], $targetFilePath)) {
+        header("Location: ../public/tambahKampanye.php?error=upload_gagal");
+        exit;
+    }
+
+    if($db->tambahKampanye(
+        $_POST['nama_kampanye'], 
+        $_POST['jenis_kampanye'], 
+        $_POST['target_dana'], 
+        $_POST['tanggal_dimulai'], 
+        $_POST['tanggal_berakhir'], 
+        $_POST['deskripsi'], 
+        $path_gambar, 
+        $_SESSION['user_id']
+    )){
+        header("Location: ../public/dashboard.php.php?success=tambah_kampanye_berhasil");
+        exit;
+    } else {
+        header("Location: ../public/tambahKampanye.php?error=tambah_kampanye_gagal");
+        exit;
+    }
+    
+    // format foto ->kampanye_user id_curDate
 ?>

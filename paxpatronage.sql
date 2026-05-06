@@ -32,6 +32,7 @@ CREATE TABLE `kampanye` (
   `nama_kampanye` varchar(255) NOT NULL,
   `jenis_kampanye` varchar(100) NOT NULL,
   `target_kampanye` decimal(15,2) NOT NULL,
+  `dana_terkumpul` decimal(15,2) NOT NULL DEFAULT 0.00,
   `tanggal_dimulai` datetime NOT NULL,
   `tanggal_berakhir` datetime NOT NULL,
   `deskripsi` text NOT NULL,
