@@ -45,6 +45,14 @@
         exit;
     }
 
+    // Validasi 3 field address baru wajib diisi
+    foreach (['alamat_jalan', 'kota', 'provinsi'] as $field) {
+        if (!isset($_POST[$field]) || trim($_POST[$field]) === '') {
+            header("Location: ../public/tambahKampanye.php?error=tambah_kampanye_gagal");
+            exit;
+        }
+    }
+
     if($db->tambahKampanye(
         $_POST['nama_kampanye'], 
         $_POST['jenis_kampanye'], 
@@ -53,9 +61,12 @@
         $_POST['tanggal_berakhir'], 
         $_POST['deskripsi'], 
         $path_gambar, 
-        $_SESSION['user_id']
+        $_SESSION['user_id'],
+        trim($_POST['alamat_jalan']),
+        trim($_POST['kota']),
+        trim($_POST['provinsi'])
     )){
-        header("Location: ../public/dashboard.php.php?success=tambah_kampanye_berhasil");
+        header("Location: ../public/dashboard.php?success=tambah_kampanye_berhasil");
         exit;
     } else {
         header("Location: ../public/tambahKampanye.php?error=tambah_kampanye_gagal");

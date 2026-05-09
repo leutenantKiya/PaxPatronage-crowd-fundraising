@@ -22,8 +22,8 @@ $loginNoticeType = $logoutStatus === 'success' ? 'success' : 'error';
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style/style.css?v=1.1">
-    <link rel="stylesheet" href="style/login_registration.css">
+    <link rel="stylesheet" href="style/style.css?v=2.5">
+    <link rel="stylesheet" href="style/login_registration.css?v=2.5">
     <title>Pax Patron | Login</title>
 </head>
 <body>
@@ -37,8 +37,14 @@ $loginNoticeType = $logoutStatus === 'success' ? 'success' : 'error';
                 </div>
         
             </a>
+            <!-- hamburger button (mobile only) -->
+            <button class="hamburger-btn" id="hamburger-btn" type="button" onclick="responsive_navbar()" aria-label="Toggle menu">
+                <span class="fa-bar"></span>
+                <span class="fa-bar"></span>
+                <span class="fa-bar"></span>
+            </button>
             <!-- navbar -->
-            <nav id="main-nav">
+            <nav class="navbar" id="main-nav">
                 <a href="#about" id="nav-about">Tentang</a>
                 <a href="#login" class="active" id="nav-login">Masuk</a>
                 <a href="#contact_us" id="nav-contact">Hubungi Kami</a>
@@ -190,5 +196,6 @@ $loginNoticeType = $logoutStatus === 'success' ? 'success' : 'error';
             </div>
         </div>
     </footer>
+    <script src="js/script.js?v=2.5"></script>
 </body>
 </html>

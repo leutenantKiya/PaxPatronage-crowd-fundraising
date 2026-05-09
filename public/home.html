@@ -1,5 +1,6 @@
 <?php
 session_start();
+require_once __DIR__ . "/../services/db_connection.php";
 $isLoggedIn = isset($_SESSION['user_id']);
 $userName = $isLoggedIn && isset($_SESSION['name']) ? $_SESSION['name'] : '';
 ?>
@@ -8,8 +9,8 @@ $userName = $isLoggedIn && isset($_SESSION['name']) ? $_SESSION['name'] : '';
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style/style.css?v=1.1">
-    <link rel="stylesheet" href="style/filter.css">
+    <link rel="stylesheet" href="style/style.css?v=2.5">
+    <link rel="stylesheet" href="style/filter.css?v=2.5">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <title>PaxPatron - <?php echo $isLoggedIn ? htmlspecialchars($userName) : 'Jalinan tali kasih'; ?></title>
 </head>
@@ -31,23 +32,17 @@ $userName = $isLoggedIn && isset($_SESSION['name']) ? $_SESSION['name'] : '';
                 <input type="text" placeholder="Cari kampanye donasi..." id="search-input">
             </div>
 
+            <!-- hamburger button (mobile only). Sibling dari <nav>, bukan child. -->
+            <button class="hamburger-btn" id="hamburger-btn" type="button" onclick="responsive_navbar()" aria-label="Toggle menu">
+                <span class="fa-bar"></span>
+                <span class="fa-bar"></span>
+                <span class="fa-bar"></span>
+            </button>
             <!-- navbar -->
-             <!-- responsive ref: https://www.w3schools.com/howto/tryit.asp?filename=tryhow_js_topnav -->
             <nav class="navbar" id="top">
                 <a href="#home" class="active" id="nav-home">Beranda</a>
-                <!-- in case this one is permitted :) -->
                 <a href="<?php echo $isLoggedIn ? '#' : 'login.html?error=login_required'; ?>" id="nav-donasi">Donasi Saya</a>
                 <a href="<?php echo $isLoggedIn ? '#' : 'login.html?error=login_required'; ?>" id="nav-profile">Profil</a>
-                <a href="javascript:void(0)" class="hamburger-btn" id="hamburger-link" onclick="responsive_navbar()">
-                    <!-- hamburger -->
-                    <div class="header-action">
-                        <button class="hamburger" id="hamburger-btn">
-                            <div class="fa-bar"></div>
-                            <div class="fa-bar"></div>
-                            <div class="fa-bar"></div>   
-                        </button>
-                    </div>
-                </a>
             </nav>
             <?php if ($isLoggedIn): ?>
             <span class="profile-name">Halo, <?php echo htmlspecialchars($userName); ?></span>
@@ -232,116 +227,77 @@ $userName = $isLoggedIn && isset($_SESSION['name']) ? $_SESSION['name'] : '';
 
         <!-- funding card -->
         <div class="funding-content" id="funding-content">
-            <a href="detail.html" class="funding-card" data-category="pendidikan" data-province="jawa-barat" data-city="bandung" id="funding-card-1">
+            <?php
+                $db  = new Connection;
+                $res = $db->getAllKampanye();
+
+                // Helper untuk format tanggal Indonesia (cuma butuh sekali, di-define di sini saja)
+                $bulan_id = ['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sep','Okt','Nov','Des'];
+
+                if (mysqli_num_rows($res) > 0) {
+                    $idx = 1;
+                    while ($row = mysqli_fetch_assoc($res)) {
+                        $kampanye_id        = (int) $row['id'];
+                        $nama_kampanye      = htmlspecialchars($row['nama_kampanye']);
+                        $jenis_kampanye     = htmlspecialchars($row['jenis_kampanye']);
+                        $target_kampanye    = (float) $row['target_kampanye'];
+                        $dana_terkumpul     = (float) ($row['dana_terkumpul'] ?? 0);
+                        $path_gambar        = htmlspecialchars('upload/' . $row['path_gambar']);
+                        $nama_penyelenggara = htmlspecialchars($row['nama_penyelenggara'] ?? '-');
+                        
+                        $persen = $target_kampanye > 0 ? min(100, round(($dana_terkumpul / $target_kampanye) * 100)) : 0;
+
+                        // Sisa hari (kalau hari ini = deadline, anggap "hari ini" min 0)
+                        $ts_berakhir   = strtotime($row['tanggal_berakhir']);
+                        $detik_tersisa = $ts_berakhir - time();
+                        $hari_tersisa  = max(0, (int) ceil($detik_tersisa / 86400));
+
+                        // Format tanggal berakhir: "30 Mei 2026"
+                        $tgl_berakhir_fmt = date('j', $ts_berakhir) . ' '
+                                          . $bulan_id[(int) date('n', $ts_berakhir) - 1] . ' '
+                                          . date('Y', $ts_berakhir);
+
+                        $slugify = function ($s) {
+                            $s = strtolower(trim($s));
+                            $s = preg_replace('/[\s.]+/', '-', $s);
+                            $s = preg_replace('/-+/', '-', $s);
+                            return trim($s, '-');
+                        };
+                        $data_category = htmlspecialchars($slugify($row['jenis_kampanye']));
+                        $data_province = htmlspecialchars($slugify($row['provinsi'] ?? ''));
+                        $data_city     = htmlspecialchars($slugify($row['kota'] ?? ''));
+            ?>
+            <a href="detail.html?id=<?php echo $kampanye_id; ?>" class="funding-card" data-category="<?php echo $data_category; ?>" data-province="<?php echo $data_province; ?>" data-city="<?php echo $data_city; ?>" id="funding-card-<?php echo $idx; ?>">
                 <div class="hero-img-container">
-                    <img src="upload/example-detail.png" alt="Poster Kampanye" class="hero-img">
+                    <img src="<?php echo $path_gambar; ?>" alt="Poster <?php echo $nama_kampanye; ?>" class="hero-img" onerror="this.src='upload/example-detail.png'">
                 </div>
-                <span class="category-badge">Pendidikan</span>
+                <span class="category-badge"><?php echo $jenis_kampanye; ?></span>
                 <div class="card-content">
-                    <h3 class="card-title">Wujudkan Mimpi Anak Indonesia</h3>
-                    <p class="card-organizer">oleh Yayasan Belajar Maju</p>
+                    <h3 class="card-title"><?php echo $nama_kampanye; ?></h3>
+                    <p class="card-organizer">oleh <?php echo $nama_penyelenggara; ?></p>
                     <div class="card-progress">
-                        <div class="progress-bar"><div class="progress-fill" style="width: 64%"></div></div>
+                        <div class="progress-bar"><div class="progress-fill" style="width: <?php echo $persen; ?>%"></div></div>
                         <div class="progress-info">
-                            <span class="amount-raised">Rp 64.250.000</span>
-                            <span class="amount-target">terkumpul dari Rp 100.000.000</span>
+                            <span class="amount-raised">Rp <?php echo number_format($dana_terkumpul, 0, ',', '.'); ?></span>
+                            <span class="amount-target">terkumpul dari Rp <?php echo number_format($target_kampanye, 0, ',', '.'); ?></span>
                         </div>
                     </div>
                     <div class="card-deadline">
-                        <span class="deadline-icon">⏳</span>
-                        <span class="deadline-days">12 hari lagi</span>
-                        <span class="deadline-date">Berakhir: 17 Apr 2026</span>
+                        <span class="deadline-icon">&#x23F3;</span>
+                        <span class="deadline-days"><?php echo $hari_tersisa; ?> hari lagi</span>
+                        <span class="deadline-date">Berakhir: <?php echo $tgl_berakhir_fmt; ?></span>
                     </div>
                 </div>
-            </a>  
-            <a href="detail.html" class="funding-card" data-category="pendidikan" data-province="sulawesi-selatan" data-city="makassar" id="funding-card-2">
-                <div class="hero-img-container">
-                    <img src="upload/example-detail.png" alt="Poster Kampanye" class="hero-img">
-                </div>
-                <span class="category-badge">Pendidikan</span>
-                <div class="card-content">
-                    <h3 class="card-title">Bantu Anak Nelayan Sekolah</h3>
-                    <p class="card-organizer">oleh Komunitas Nelayan Muda</p>
-                    <div class="card-progress">
-                        <div class="progress-bar"><div class="progress-fill" style="width: 45%"></div></div>
-                        <div class="progress-info">
-                            <span class="amount-raised">Rp 45.000.000</span>
-                            <span class="amount-target">terkumpul dari Rp 100.000.000</span>
-                        </div>
-                    </div>
-                    <div class="card-deadline">
-                        <span class="deadline-icon">⏳</span>
-                        <span class="deadline-days">25 hari lagi</span>
-                        <span class="deadline-date">Berakhir: 30 Apr 2026</span>
-                    </div>
-                </div>
-            </a> 
-            <a href="detail.html" class="funding-card" data-category="pendidikan" data-province="jawa-timur" data-city="surabaya" id="funding-card-3">
-                <div class="hero-img-container">
-                    <img src="upload/example-detail.png" alt="Poster Kampanye" class="hero-img">
-                </div>
-                <span class="category-badge">Pendidikan</span>
-                <div class="card-content">
-                    <h3 class="card-title">Beasiswa untuk Siswa Miskin</h3>
-                    <p class="card-organizer">oleh Yayasan Pendidikan Nesia</p>
-                    <div class="card-progress">
-                        <div class="progress-bar"><div class="progress-fill" style="width: 80%"></div></div>
-                        <div class="progress-info">
-                            <span class="amount-raised">Rp 80.000.000</span>
-                            <span class="amount-target">terkumpul dari Rp 100.000.000</span>
-                        </div>
-                    </div>
-                    <div class="card-deadline">
-                        <span class="deadline-icon">⏳</span>
-                        <span class="deadline-days">5 hari lagi</span>
-                        <span class="deadline-date">Berakhir: 10 Apr 2026</span>
-                    </div>
-                </div>
-            </a> 
-            <a href="detail.html" class="funding-card" data-category="pendidikan" data-province="jawa-tengah" data-city="semarang" id="funding-card-4">
-                <div class="hero-img-container">
-                    <img src="upload/example-detail.png" alt="Poster Kampanye" class="hero-img">
-                </div>
-                <span class="category-badge">Infrastruktur</span>
-                <div class="card-content">
-                    <h3 class="card-title">Sekola Digital untuk Desa</h3>
-                    <p class="card-organizer">oleh Techno for Education</p>
-                    <div class="card-progress">
-                        <div class="progress-bar"><div class="progress-fill" style="width: 30%"></div></div>
-                        <div class="progress-info">
-                            <span class="amount-raised">Rp 30.000.000</span>
-                            <span class="amount-target">terkumpul dari Rp 100.000.000</span>
-                        </div>
-                    </div>
-                    <div class="card-deadline">
-                        <span class="deadline-icon">⏳</span>
-                        <span class="deadline-days">18 hari lagi</span>
-                        <span class="deadline-date">Berakhir: 23 Apr 2026</span>
-                    </div>
-                </div>
-            </a> 
-            <a href="detail.html" class="funding-card" data-category="sosial" data-province="dki-jakarta" data-city="jakarta-barat" id="funding-card-5">
-                <div class="hero-img-container">
-                    <img src="upload/example-detail.png" alt="Poster Kampanye" class="hero-img">
-                </div>
-                <span class="category-badge">Sosial</span>
-                <div class="card-content">
-                    <h3 class="card-title">Paket Belajar untuk Anak Jalanan</h3>
-                    <p class="card-organizer">oleh Komunitas Sosial</p>
-                    <div class="card-progress">
-                        <div class="progress-bar"><div class="progress-fill" style="width: 55%"></div></div>
-                        <div class="progress-info">
-                            <span class="amount-raised">Rp 55.000.000</span>
-                            <span class="amount-target">terkumpul dari Rp 100.000.000</span>
-                        </div>
-                    </div>
-                    <div class="card-deadline">
-                        <span class="deadline-icon">⏳</span>
-                        <span class="deadline-days">30 hari lagi</span>
-                        <span class="deadline-date">Berakhir: 5 Mei 2026</span>
-                    </div>
-                </div>
-            </a> 
+            </a>
+            <?php
+                        $idx++;
+                    }
+                } else {
+            ?>
+            <p class="empty-state">Belum ada kampanye yang aktif. Cek lagi nanti, ya!</p>
+            <?php
+                }
+            ?>
         </div>
         <div class="pagination">
             <!-- ref : https://www.w3schools.com/css/tryit.asp?filename=trycss_ex_pagination -->
@@ -397,7 +353,7 @@ $userName = $isLoggedIn && isset($_SESSION['name']) ? $_SESSION['name'] : '';
             </div>
         </div>
     </footer>
-    <script src="js/filter.js"></script>
-    <script src="js/script.js"></script>
+    <script src="js/filter.js?v=2.5"></script>
+    <script src="js/script.js?v=2.5"></script>
 </body>
 </html>

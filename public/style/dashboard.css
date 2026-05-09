@@ -36,6 +36,10 @@ body::selection{
     color: white;
 }
 
+textarea{
+    resize: none;
+}
+
 /* header */
 header{
     padding: 0px 20px;
@@ -115,7 +119,7 @@ main{
 
 .alert{
     padding: 0.9rem 1.2rem;
-    margin-bottom: 1rem;
+    margin-bottom: 1.5rem;
     border-radius: var(--radius);
     font-weight: 700;
     box-shadow: var(--shadow-md);
@@ -126,6 +130,12 @@ main{
     background: #dcfce7;
     color: #166534;
     border: 1px solid #bbf7d0;
+}
+
+.info-alert{
+    background: #e0f2fe;
+    color: #075985;
+    border: 1px solid #bae6fd;
 }
 
 .error-alert{
@@ -167,6 +177,7 @@ main{
     border-radius: var(--radius);
     overflow: hidden;
     box-shadow: var(--shadow-md);
+    margin-bottom: 2rem;
     transition: box-shadow 0.3s ease;
 }
 
@@ -221,6 +232,8 @@ main{
     font-size: 0.8rem;
     font-weight: 700;
     cursor: pointer;
+    white-space: nowrap;
+    flex-shrink: 0;
     transition: transform 0.3s ease, border-color 0.3s ease, color 0.3s ease, background 0.3s ease;
 }
 
@@ -288,7 +301,7 @@ main{
     justify-content: space-between;
     flex-wrap: wrap;
     gap: 1rem;
-    margin-bottom: 1.5rem;
+    margin-bottom: 2rem;
 }
 
 .form-header h1{
@@ -316,6 +329,121 @@ main{
 .btn-back:hover{
     border-color: var(--primary);
     color: var(--primary-dark);
+    transform: scale(0.96);
+}
+
+/* detail kampanye - ringkasan kampanye (card di atas tabel) */
+.kampanye-summary{
+    background: var(--surface);
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-md);
+    padding: 2rem;
+    margin-bottom: 2.5rem;
+    display: grid;
+    gap: 1.4rem;
+    transition: box-shadow 0.3s ease;
+}
+
+.kampanye-summary:hover{
+    box-shadow: var(--shadow-lg);
+}
+
+.kampanye-summary h2{
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: var(--text);
+    letter-spacing: -0.02em;
+    margin-bottom: 0.6rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--border);
+}
+
+.kampanye-summary p{
+    font-size: 0.875rem;
+    color: var(--text-muted);
+    line-height: 1.5;
+}
+
+.kampanye-summary p strong{
+    display: inline-block;
+    min-width: 130px;
+    color: var(--text);
+    font-weight: 700;
+}
+
+/* detail kampanye - heading section "Donasi Menunggu Verifikasi" / "Donatur Terverifikasi" */
+.section-heading{
+    font-size: 1rem;
+    font-weight: 800;
+    color: var(--text);
+    letter-spacing: -0.02em;
+    margin: 2.5rem 0 1.75rem 0;
+    padding-left: 0.6rem;
+    border-left: 4px solid var(--primary);
+}
+
+.section-heading:first-of-type{
+    margin-top: 0;
+}
+
+.section-heading .count-pill{
+    display: inline-block;
+    margin-left: 0.5rem;
+    padding: 0.15rem 0.6rem;
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: var(--primary-dark);
+    background: var(--primary-soft);
+    border-radius: var(--radius-full);
+    vertical-align: middle;
+}
+
+/* status badge */
+.status-badge{
+    display: inline-block;
+    padding: 0.25rem 0.7rem;
+    font-size: 0.72rem;
+    font-weight: 700;
+    border-radius: var(--radius-full);
+    letter-spacing: 0.02em;
+    text-transform: capitalize;
+}
+
+.status-pending{
+    background: #fef3c7;
+    color: #92400e;
+    border: 1px solid #fde68a;
+}
+
+.status-verified{
+    background: #dcfce7;
+    color: #166534;
+    border: 1px solid #bbf7d0;
+}
+
+.status-rejected{
+    background: #fee2e2;
+    color: #991b1b;
+    border: 1px solid #fecaca;
+}
+
+/* link "Lihat Bukti" di kolom bukti donasi */
+.bukti-link{
+    display: inline-block;
+    padding: 0.35rem 0.7rem;
+    color: var(--primary-dark);
+    background: var(--primary-soft);
+    border: 1px solid #bae6fd;
+    border-radius: 8px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-decoration: none;
+    transition: background 0.3s ease, transform 0.3s ease;
+}
+
+.bukti-link:hover{
+    background: #bfdbfe;
     transform: scale(0.96);
 }
 

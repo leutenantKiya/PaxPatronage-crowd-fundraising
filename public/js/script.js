@@ -1,5 +1,3 @@
-var navbar_responsive = document.getElementById("top");
-
 document.querySelectorAll('.progress-fill').forEach(bar => {
     const target = bar.style.width;
     bar.style.width = '0';
@@ -8,13 +6,35 @@ document.querySelectorAll('.progress-fill').forEach(bar => {
     });
 });
 
-function responsive_navbar(){
-  if (navbar_responsive.className === "top"){
-    navbar_responsive.className += " responsive";
-  }else{
-    navbar_responsive.className = "top";
-  }
+// Hamburger menu toggle untuk mobile.
+// Cari elemen <nav> dengan id "top" (home.php) atau "main-nav" (login.html).
+function getNav() {
+  return document.getElementById("top") || document.getElementById("main-nav");
 }
+
+// Toggle dipanggil HANYA dari inline onclick="responsive_navbar()" di HTML.
+// Jangan ditambah addEventListener juga -> bakal double-toggle (open lalu close
+// di klik yang sama).
+function responsive_navbar() {
+  // Capture event dari window.event biar bisa stopPropagation walau dipanggil
+  // tanpa arg dari inline onclick.
+  var e = window.event;
+  if (e) e.stopPropagation();
+  var nav = getNav();
+  if (nav) nav.classList.toggle("is-open");
+}
+
+var hamburgerBtn = document.querySelector(".hamburger-btn");
+
+// Tutup menu otomatis kalau user klik di luar nav (UX standar mobile menu).
+document.addEventListener("click", function (e) {
+  var nav = getNav();
+  if (!nav || !nav.classList.contains("is-open")) return;
+  // Klik di dalam nav atau hamburger button -> jangan tutup
+  if (nav.contains(e.target)) return;
+  if (hamburgerBtn && hamburgerBtn.contains(e.target)) return;
+  nav.classList.remove("is-open");
+});
 
 const profilePicture = document.getElementById("profile-picture");
 const profileToggle = document.getElementById("profile-toggle");
@@ -33,3 +53,5 @@ if (profilePicture && profileToggle) {
     }
   });
 }
+
+

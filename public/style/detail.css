@@ -109,7 +109,6 @@ main{
     position: absolute;
     top: 2rem;
     left: 2rem;
-    background: var(--primary-gradient);
     color: white;
     padding: 0.6rem 1.25rem;
     border-radius: 12px;

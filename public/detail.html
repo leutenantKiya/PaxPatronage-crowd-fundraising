@@ -1,3 +1,66 @@
+<?php
+    session_start();
+    require_once __DIR__."/../services/db_connection.php";
+
+    // validate if GET request exist 
+     if(!isset($_GET['id']) || !ctype_digit($_GET['id'])){
+        header("Location: home.php?error=invalid");
+        exit;
+     }
+    $kampanye_id = (int) $_GET["id"];
+    $db = new Connection;
+    $res = $db->getKampanyeById($kampanye_id);
+    $row = mysqli_fetch_assoc($res);
+    print_r(mysqli_fetch_assoc($res));
+
+    // Array ( [id] => 2 [nama_kampanye] => Sedekah makan mewah kiya 
+    // [jenis_kampanye] => Sedekah 
+    //[target_kampanye] => 1000000000.00 
+    // [tanggal_dimulai] => 2026-05-07 00:00:00 
+    //[tanggal_berakhir] => 2026-05-30 00:00:00 
+    //[deskripsi] => Sedekah memberi Kiya secuil Ikan King Salmon untuk sarapan 
+    // [alamat_jalan] => Jl. Dr. Wahidin Sudirohusodo No. 5-25 
+    // [kota] => Yogyakarta 
+    // [provinsi] => DI Yogyakarta \
+    // [path_gambar] => img-kampanye/kampanye_1_2026-05-09_06-20-07.png 
+    // [user_id] => 1 
+    // [dana_terkumpul] => 0.00 )
+    
+    $bulan_id = ['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sep','Okt','Nov','Des'];
+    $kampanye_id = (int) $row['id'];
+    $deskripsi = htmlspecialchars($row["deskripsi"]);
+    $nama_kampanye = htmlspecialchars($row['nama_kampanye']);
+    $jenis_kampanye = htmlspecialchars($row['jenis_kampanye']);
+    $target_kampanye = (float) $row['target_kampanye'];
+    $dana_terkumpul = (float) ($row['dana_terkumpul'] ?? 0);
+    $path_gambar = htmlspecialchars('upload/' . $row['path_gambar']);
+    $nama_penyelenggara = htmlspecialchars($row['nama_penyelenggara'] ?? '-');
+    $user_id = (int) $row['user_id'];
+    $persen = $target_kampanye > 0 ? min(100, round(($dana_terkumpul / $target_kampanye) * 100)) : 0;
+
+    // Sisa hari (kalau hari ini = deadline, anggap "hari ini" min 0)
+    $ts_berakhir = strtotime($row['tanggal_berakhir']);
+    $detik_tersisa = $ts_berakhir - time();
+    $hari_tersisa = max(0, (int) ceil($detik_tersisa / 86400));
+
+    // Format tanggal berakhir: "30 Mei 2026"
+    $tgl_berakhir_fmt = date('j', $ts_berakhir) . ' '
+                        . $bulan_id[(int) date('n', $ts_berakhir) - 1] . ' '
+                        . date('Y', $ts_berakhir);
+
+    $slugify = function ($s) {
+        // $s = strtolower(trim($s));
+        $s = preg_replace('/[\s.]+/', '-', $s);
+        $s = preg_replace('/-+/', '-', $s);
+        return trim($s, '-');
+    };
+    $data_category = htmlspecialchars($slugify($row['jenis_kampanye']));
+    $data_province = htmlspecialchars($slugify($row['provinsi'] ?? ''));
+    $data_city = htmlspecialchars($slugify($row['kota'] ?? ''));
+    $jumlah_donatur = $db->getDonasiVerifiedByKampanye($kampanye_id, $user_id);
+    // echo mysqli_num_rows($jumlah_donatur);
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,7 +68,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style/style.css?v=1.1">
     <link rel="stylesheet" href="style/detail.css">
-    <title>Detail - PaxPatron</title>
+    <title>Detail - <?php echo $nama_kampanye; ?></title>
 </head>
 <body>
     <header class="detail-header" id="detail-header">
@@ -29,32 +92,30 @@
             <a href="index.php" class="breadcrumb-home" id="breadcrumb-home">Home</a>
             <span class="material-symbols-outlined" style="font-size: 16px;">></span>
             <span class="material-symbols-outlined" style="font-size: 16px;">Detail ></span>
-            <span style="color: var(--text); font-weight: 700;" id="breadcrumb-current"><strong>Wujudkan Mimpi Anak Indonesia</strong></span>
+            <span style="color: var(--text); font-weight: 700;" id="breadcrumb-current"><strong><?php echo $nama_kampanye ?></strong></span>
         </div>
-
         <div class="main-content-card" id="main-content-card">
             <div class="main-content" id="campaign-content">
                 <div class="campaign-img" id="campaign-img">
                     <div class="hero-img-container" id="hero-img-container">
-                        <img src="upload/example-detail.png" alt="Poster Kampanye" class="hero-img">
+                        <img src=<?php echo $path_gambar; ?> alt="Poster Kampanye" class="hero-img">
                     </div>
-                    <span class="category-badge" id="category-badge">Pendidikan</span>
+                    <span class="category-badge" id="category-badge"><?php echo $jenis_kampanye ?></span>
                 </div>
                 <div class="content-padding" id="content-padding">
-                    <h1 id="campaign-title">Wujudkan Mimpi Mas Amba bertemu Mas Nasir</h1>
-                    <p class="organizer-info" style="font-size: 14px; margin-bottom: 1rem;">Oleh: <strong>Yayasan Anggrek Mekar</strong> | Lokasi: <strong>Yogyakarta</strong></p>
+                    <h1 id="campaign-title"><?php echo $nama_kampanye; ?></h1>
+                    <p class="organizer-info" style="font-size: 14px; margin-bottom: 1rem;">Oleh: <strong><?php echo $nama_penyelenggara ?></strong> | Lokasi: <strong><?php echo $data_city.", ".$data_province ?></strong></p>
                     
                     <div class="tabs" id="tabs">
                         <div class="tab active" id="tab-cerita">Cerita</div>
-                        <div class="tab" id="tab-donatur">Donatur (124)</div>
+                        <div class="tab" id="tab-donatur">Donatur (<?php echo mysqli_num_rows($jumlah_donatur); ?>)</div>
                     </div>
 
                     <div class="story-content" id="story-content">
-                        <p>Di balik keindahan pantai kita, ribuan anak nelayan terpaksa putus sekolah demi membantu ekonomi keluarga. Pendidikan adalah satu-satunya jalan keluar untuk memutus rantai kemiskinan yang telah berlangsung turun-temurun di desa-desa pesisir.</p>
-                        <p>Kampanye ini bertujuan untuk menyediakan 50 paket beasiswa penuh selama satu tahun ajaran bagi anak-anak di Desa Teluk Hijau. Paket ini mencakup biaya SPP, seragam, buku, dan alat tulis.</p>
+                        <p><?php echo $deskripsi; ?> </p>
                         
                         <div class="quote-box" id="quote-box">
-                            "Setiap kontribusi Anda, sekecil apapun, adalah investasi besar bagi masa depan bangsa Indonesia dari garis terdepan pantai kita."
+                            "Kita menyambung hidup dengan apa yang kita dapatkan, namun kita membangun kehidupan dengan apa yang kita berikan. - Winston Churchil"
                         </div>
 
                         <div class="funding-plan" id="funding-plan">
@@ -73,8 +134,8 @@
                 <div class="sticky-sidebar" id="sticky-sidebar">
                     <div class="donation-card" id="donation-card">
                         <p class="collected-amount" id="collected-amount">Terkumpul</p>
-                        <p class="current-amount" id="current-amount">Rp 64.250.000</p>
-                        <span class="target-amount">dari target <span class="target-amount" id="target-amount">Rp 100.000.000</span></span>
+                        <p class="current-amount" id="current-amount">Rp <?php echo number_format($dana_terkumpul, 0, ',', '.'); ?></p>
+                        <span class="target-amount">dari target <span class="target-amount" id="target-amount">Rp <?php echo number_format($target_kampanye, 0, ',', '.') ?></span></span>
                         
                         <div class="progress-bar-container" id="progress-bar-container">
                             <div class="progress-bar" id="progress-bar" style="width: 64%;"></div>
@@ -82,11 +143,11 @@
 
                         <div class="stat-donation" id="stat-donation">
                             <div class="stat">
-                                <span class="stat-value">124</span>
+                                <span class="stat-value"><?php echo mysqli_num_rows($jumlah_donatur); ?></span>
                                 <span class="stat-label">Donatur</span>
                             </div>
                             <div class="stat">
-                                <span class="stat-value">12</span>
+                                <span class="stat-value"><?php echo $hari_tersisa ?></span>
                                 <span class="stat-label">Hari Lagi</span>
                             </div>
                         </div>
@@ -107,7 +168,7 @@
                             <div class="acc-row">
                                 <span class="acc-number" id="acc-number-bca">8830 1922 44</span>
                             </div>
-                            <div class="acc-holder">A.N. YAYASAN ANGGREK MEKAR</div>
+                            <div class="acc-holder">A.N. <?php echo strtoupper($nama_penyelenggara); ?></div>
                         </div>
 
                         <div class="bank-account" id="bank-account-madura" style="margin-top: 1rem;">

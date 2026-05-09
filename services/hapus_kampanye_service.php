@@ -17,7 +17,7 @@
     $db = new Connection;
     $kampanye_id = (int) $_POST['kampanye_id'];
     $kampanye = $db->getKampanye($kampanye_id);
-    
+    $res = mysqli_fetch_assoc($kampanye);
     if($res['dana_terkumpul'] != null && $res['dana_terkumpul'] >= 100000){
         header("Location: ../public/dashboard.php?error=hapus_kampanye_ditolak");
         exit;

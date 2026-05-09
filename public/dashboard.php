@@ -19,11 +19,18 @@ require_once __DIR__ . "/../services/db_connection.php";
 <body>
     <?php
         $successMessage = [
-            "hapus_kampanye_berhasil" => "Kampanye berhasil dihapus."
+            "hapus_kampanye_berhasil" => "Kampanye berhasil dihapus.",
+            "update_kampanye_berhasil" => "Kampanye berhasil diperbarui."
         ][$_GET["success"] ?? ""] ?? "";
+        $infoMessage = [
+            "update_kampanye_tidak_berubah" => "Tidak ada perubahan pada data kampanye."
+        ][$_GET["info"] ?? ""] ?? "";
         $errorMessage = [
             "hapus_kampanye_gagal" => "Kampanye gagal dihapus.",
-            "hapus_kampanye_ditolak" => "Kampanye tidak dapat dihapus karena dana terkumpul sudah minimal Rp 10.000."
+            "hapus_kampanye_ditolak" => "Kampanye tidak dapat dihapus karena dana terkumpul sudah minimal Rp 10.000.",
+            "update_kampanye_gagal" => "Kampanye gagal diperbarui.",
+            "upload_gagal" => "Upload gambar gagal.",
+            "tanggal_tidak_valid" => "Tanggal dimulai tidak boleh lebih besar dari tanggal berakhir."
         ][$_GET["error"] ?? ""] ?? "";
     ?>
     <header class="site-header" id="site-header">
@@ -38,7 +45,7 @@ require_once __DIR__ . "/../services/db_connection.php";
             </a>
             <!-- navbar -->
             <nav id="main-nav">
-                <a href="#profile" id="nav-about">Profile</a>
+                <!-- <a href="#profile" id="nav-about">Profile</a> -->
                 <a href="../services/logout_service.php?logout=true" class="login-btn" id="nav-logout">Logout</a>
             </nav>
         </div>
@@ -46,6 +53,9 @@ require_once __DIR__ . "/../services/db_connection.php";
     <main>
         <?php if ($successMessage): ?>
             <div class="alert success-alert"><?php echo htmlspecialchars($successMessage); ?></div>
+        <?php endif; ?>
+        <?php if ($infoMessage): ?>
+            <div class="alert info-alert"><?php echo htmlspecialchars($infoMessage); ?></div>
         <?php endif; ?>
         <?php if ($errorMessage): ?>
             <div class="alert error-alert"><?php echo htmlspecialchars($errorMessage); ?></div>
@@ -92,17 +102,29 @@ require_once __DIR__ . "/../services/db_connection.php";
                             echo "<td>".$tanggal_dimulai."</td>";
                             echo "<td>".$tanggal_berakhir."</td>";
                             echo "<td><img src='".$path_gambar."' alt='Banner Kampanye' width='100'></td>";
-                            echo "<td class='action-cell'><button class='edit-btn' type='button'>Edit</button>";
-                            if ($dana_terkumpul >= 10000) {
-                                echo "<button class='delete-btn delete-btn-disabled' type='button' disabled>Tidak bisa hapus</button>";
-                            } else {
-                                echo "<form class='delete-form' action='../services/hapus_kampanye_service.php' method='post' onsubmit=\"return confirm('Yakin ingin menghapus kampanye ini?');\">";
-                                echo "<input type='hidden' name='kampanye_id' value='".$kampanye_id."'>";
-                                echo "<button class='delete-btn' type='submit'>Hapus</button>";
+                            // Kolom Edit | Hapus: SEMUA form harus berada di dalam <td> (HTML valid).
+                            echo "<td class='action-cell'>";
+                                echo "<form class='delete-form' action='editKampanye.php' method='post'>";
+                                    echo "<input type='hidden' name='nama_kampanye' value='".$nama_kampanye."'>";
+                                    echo "<input type='hidden' name='kampanye_id' value='".$kampanye_id."'>";
+                                    echo "<button type='submit' class='edit-btn'>Edit</button>";
                                 echo "</form>";
-                            }
+                                if ($dana_terkumpul >= 10000) {
+                                    echo "<button class='delete-btn delete-btn-disabled' type='button' disabled title='Tidak bisa dihapus karena dana terkumpul sudah minimal Rp 10.000'>Hapus</button>";
+                                } else {
+                                    echo "<form class='delete-form' action='../services/hapus_kampanye_service.php' method='post' onsubmit=\"return confirm('Yakin ingin menghapus kampanye ini?');\">";
+                                        echo "<input type='hidden' name='kampanye_id' value='".$kampanye_id."'>";
+                                        echo "<button class='delete-btn' type='submit'>Hapus</button>";
+                                    echo "</form>";
+                                }
                             echo "</td>";
-                            echo "<td><button class='detail-btn' type='button'>Detail</button></td>";
+                            // Kolom Detail
+                            echo "<td>";
+                                echo "<form class='delete-form' action='../public/detailKampanye.php' method='post'>";
+                                    echo "<input type='hidden' name='kampanye_id' value='".$kampanye_id."'>";
+                                    echo "<button class='detail-btn' type='submit'>Detail</button>";
+                                echo "</form>";
+                            echo "</td>";
                             echo "</tr>";
                             $no++;
                         }
