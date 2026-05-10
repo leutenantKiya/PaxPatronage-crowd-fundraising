@@ -76,7 +76,7 @@ class Connection
     }
 
     public function getKampanyeById($kampanye_id){
-        $sql = "SELECT k.*, u.name AS nama_penyelenggara
+        $sql = "SELECT k.*, u.name AS nama_penyelenggara, u.phone AS no_telp
                 FROM kampanye k
                 INNER JOIN users u ON u.id = k.user_id
                 WHERE k.id = ?";
@@ -143,13 +143,14 @@ class Connection
         return $this->getDonasiByKampanyeWithStatus($kampanye_id, $owner_user_id, "verified", "DESC");
     }
 
+    public function getDonasiRejectedByKampanye($kampanye_id, $owner_user_id){
+        // Donasi yang ditolak: terbaru di atas.
+        return $this->getDonasiByKampanyeWithStatus($kampanye_id, $owner_user_id, "rejected", "DESC");
+    }
+
     public function verifikasiDonasi($id_donasi, $owner_user_id){
-        // Atomic: dalam SATU statement, set status='verified' dan tambah dana_terkumpul.
+        // whewn update stat to verified simultenously add to amount
         // Multi-table UPDATE = atomic, tidak butuh transaction eksplisit.
-        // Guard:
-        //   - d.status='pending' -> idempotent (double-click tidak double-increment)
-        //   - k.user_id = ?      -> ownership check (penyelenggara hanya bisa verifikasi
-        //                           donasi untuk kampanye miliknya sendiri)
         $sql = "UPDATE donasi d
                 INNER JOIN kampanye k ON k.id = d.kampanye_id
                 SET d.status = 'verified',
@@ -173,6 +174,48 @@ class Connection
         $conn = $this->getConnection();
         $stmt = mysqli_prepare($conn, $sql);
         mysqli_stmt_bind_param($stmt, "ii", $id_donasi, $owner_user_id);
+        mysqli_stmt_execute($stmt);
+        return mysqli_stmt_affected_rows($stmt) > 0;
+    }
+
+    public function tambahRekening($id_kampanye, $nama_bank, $nomor_rekening){
+        $sql = "INSERT INTO rekening_kampanye (id_kampanye, nama_bank, nomor_rekening) VALUES (?, ?, ?)";
+        $conn = $this->getConnection();
+        $stmt = mysqli_prepare($conn, $sql);
+        mysqli_stmt_bind_param($stmt, "iss", $id_kampanye, $nama_bank, $nomor_rekening);
+        mysqli_stmt_execute($stmt);
+        return mysqli_stmt_affected_rows($stmt) > 0;
+    }
+
+    public function getRekeningByKampanye($id_kampanye){
+        $sql = "SELECT * FROM rekening_kampanye WHERE id_kampanye = ?";
+        $conn = $this->getConnection();
+        $stmt = mysqli_prepare($conn, $sql);
+        mysqli_stmt_bind_param($stmt, "i", $id_kampanye);
+        mysqli_stmt_execute($stmt);
+        return mysqli_stmt_get_result($stmt);
+    }
+
+    public function updateRekening($id_kampanye, $nama_bank, $nomor_rekening){
+        // Cek apakah sudah ada rekening untuk kampanye ini
+        $existing = $this->getRekeningByKampanye($id_kampanye);
+        if (mysqli_num_rows($existing) > 0) {
+            $sql = "UPDATE rekening_kampanye SET nama_bank = ?, nomor_rekening = ? WHERE id_kampanye = ?";
+            $conn = $this->getConnection();
+            $stmt = mysqli_prepare($conn, $sql);
+            mysqli_stmt_bind_param($stmt, "ssi", $nama_bank, $nomor_rekening, $id_kampanye);
+            mysqli_stmt_execute($stmt);
+            return mysqli_stmt_affected_rows($stmt);
+        } else {
+            return $this->tambahRekening($id_kampanye, $nama_bank, $nomor_rekening);
+        }
+    }
+
+    public function hapusRekening($id_rekening){
+        $sql = "DELETE FROM rekening_kampanye WHERE id_rekening = ?";
+        $conn = $this->getConnection();
+        $stmt = mysqli_prepare($conn, $sql);
+        mysqli_stmt_bind_param($stmt, "i", $id_rekening);
         mysqli_stmt_execute($stmt);
         return mysqli_stmt_affected_rows($stmt) > 0;
     }

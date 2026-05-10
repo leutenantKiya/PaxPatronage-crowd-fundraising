@@ -1,20 +1,54 @@
 <?php
-session_start();
-require_once __DIR__ . "/../services/db_connection.php";
-$isLoggedIn = isset($_SESSION['user_id']);
-$userName = $isLoggedIn && isset($_SESSION['name']) ? $_SESSION['name'] : '';
+    session_start();
+    require_once __DIR__ . "/../services/db_connection.php";
+    $isLoggedIn = isset($_SESSION['user_id']);
+    $userName = $isLoggedIn && isset($_SESSION['name']) ? $_SESSION['name'] : '';
+    $db  = new Connection;
+    $res = $db->getAllKampanye();
+    // Convert result ke array untuk JSON autocomplete, lalu reset pointer untuk loop cards
+    $kampanye_arr = [];
+    while ($r = mysqli_fetch_assoc($res)) {
+        $slugify = function ($s) {
+            $s = strtolower(trim($s));
+            $s = preg_replace('/[\s.]+/', '-', $s);
+            $s = preg_replace('/-+/', '-', $s);
+            return trim($s, '-');
+        };
+        $kampanye_arr[] = [
+            'id'             => (int) $r['id'],
+            'nama_kampanye'  => $r['nama_kampanye'],
+            'jenis_kampanye' => $r['jenis_kampanye'],
+            'path_gambar'    => 'upload/' . $r['path_gambar'],
+            'provinsi'       => $r['provinsi'] ?? '',
+            'kota'           => $r['kota'] ?? '',
+            'slug_category'  => $slugify($r['jenis_kampanye']),
+            'slug_province'  => $slugify($r['provinsi'] ?? ''),
+            'slug_city'      => $slugify($r['kota'] ?? ''),
+        ];
+    }
+    // echo $_GET['success'];
+    mysqli_data_seek($res, 0); // reset supaya loop cards di bawah tetap jalan
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style/style.css?v=2.5">
-    <link rel="stylesheet" href="style/filter.css?v=2.5">
+    <link rel="stylesheet" href="style/style.css?v=2.7">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <title>PaxPatron - <?php echo $isLoggedIn ? htmlspecialchars($userName) : 'Jalinan tali kasih'; ?></title>
 </head>
 <body>
+    <?php
+        $successMessage = [
+            "login_berhasil"     => "Login berhasil.",
+        ][$_GET["success"] ?? ""] ?? "";
+        $errorMessage = [
+            "kampanye_tidak_ditemukan" => "Kampanye tidak ada atau suidah berakhir",
+            "login_dulu"    => "Silahkan login terlebih dahulu untuk donasi.",
+            "metode_salah" => "Ga boleh GET ya mas",
+        ][$_GET["error"] ?? ""] ?? "";
+    ?>  
     <!-- header -->
     <header class="site-header" id="site-header">
         <!-- header container -->
@@ -29,7 +63,11 @@ $userName = $isLoggedIn && isset($_SESSION['name']) ? $_SESSION['name'] : '';
             <!-- searching field -->
             <div class="search-wrapper" id="search-wrapper">
                 <span class="material-symbols-outlined" id="search-icon">Cari Donasi</span>
-                <input type="text" placeholder="Cari kampanye donasi..." id="search-input">
+                <input type="text" placeholder="Cari nama, kategori, atau lokasi..." id="search-input" autocomplete="off">
+                <button type="button" class="search-btn" id="search-btn" onclick="executeSearch()" aria-label="Cari">
+                    <span class="material-icons">search</span>
+                </button>
+                <ul id="search-suggestions" class="search-suggestions"></ul>
             </div>
 
             <!-- hamburger button (mobile only). Sibling dari <nav>, bukan child. -->
@@ -63,6 +101,12 @@ $userName = $isLoggedIn && isset($_SESSION['name']) ? $_SESSION['name'] : '';
 
     <!-- main -->
     <main id="main-content" style="position: relative; z-index: 1;">
+        <?php if ($successMessage): ?>
+            <div class="alert success-alert"><?php echo htmlspecialchars($successMessage); ?></div>
+        <?php endif; ?>
+        <?php if ($errorMessage): ?>
+            <div class="alert error-alert"><?php echo htmlspecialchars($errorMessage); ?></div>
+        <?php endif; ?>
         <!-- background blob -->
         <div class="bg-blob-left" id="bg-blob-left">
             <!-- inherit blob dari login -->
@@ -228,9 +272,6 @@ $userName = $isLoggedIn && isset($_SESSION['name']) ? $_SESSION['name'] : '';
         <!-- funding card -->
         <div class="funding-content" id="funding-content">
             <?php
-                $db  = new Connection;
-                $res = $db->getAllKampanye();
-
                 // Helper untuk format tanggal Indonesia (cuma butuh sekali, di-define di sini saja)
                 $bulan_id = ['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sep','Okt','Nov','Des'];
 
@@ -278,8 +319,8 @@ $userName = $isLoggedIn && isset($_SESSION['name']) ? $_SESSION['name'] : '';
                     <div class="card-progress">
                         <div class="progress-bar"><div class="progress-fill" style="width: <?php echo $persen; ?>%"></div></div>
                         <div class="progress-info">
-                            <span class="amount-raised">Rp <?php echo number_format($dana_terkumpul, 0, ',', '.'); ?></span>
-                            <span class="amount-target">terkumpul dari Rp <?php echo number_format($target_kampanye, 0, ',', '.'); ?></span>
+                            <span class="amount-raised" id="amount-raised">Rp <?php echo number_format($dana_terkumpul, 0, ',', '.'); ?></span>
+                            <span class="amount-target" id="amount-target" amount-target="<?php echo $target_kampanye; ?>">terkumpul dari Rp <?php echo number_format($target_kampanye, 0, ',', '.'); ?></span>
                         </div>
                     </div>
                     <div class="card-deadline">
@@ -340,8 +381,8 @@ $userName = $isLoggedIn && isset($_SESSION['name']) ? $_SESSION['name'] : '';
                     <h3 id="footer-social-title">Media Sosial</h3>
                     <div class="social-icons" id="social-icons">
                         <a href="https://www.instagram.com/gwkiyaco/?hl=en" title="Instagram" id="social-instagram"><img src="assets/instagram.png" alt="Instagram" width="24"></a>
-                        <a href="#" title="Twitter" id="social-twitter"><img src="assets/twitter.png" alt="Twitter" width="24"></a>
-                        <a href="#" title="LinkedIn" id="social-linkedin"><img src="assets/linkedin.png" alt="LinkedIn" width="24"></a>
+                        <a href="https://x.com/archlinuxmemes/status/1051963941566308352" title="Twitter" id="social-twitter"><img src="assets/twitter.png" alt="Twitter" width="24"></a>
+                        <a href="www.linkedin.com/in/antonius-kiya-255945290" title="LinkedIn" id="social-linkedin"><img src="assets/linkedin.png" alt="LinkedIn" width="24"></a>
                     </div>
                 </div>
             </div>
@@ -352,8 +393,12 @@ $userName = $isLoggedIn && isset($_SESSION['name']) ? $_SESSION['name'] : '';
                 <p id="copyright-text">&copy; 2026 Copyright PaxPatron Non-Profit Company. Kiya-Kevin</p>
             </div>
         </div>
-    </footer>
-    <script src="js/filter.js?v=2.5"></script>
+    </footer> 
+    <script>
+        // Data kampanye dari server — dipakai untuk autocomplete search
+        const datakampanye = <?= json_encode($kampanye_arr, JSON_HEX_TAG | JSON_HEX_AMP); ?>;
+    </script>
+    <script src="js/filter.js?v=2.8"></script>
     <script src="js/script.js?v=2.5"></script>
 </body>
 </html>

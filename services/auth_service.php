@@ -41,8 +41,8 @@
             $_SESSION['user_type'] = (int) $user['user_type'];
             $_SESSION['phone'] = $user["phone"];
             $_SESSION['name'] = $user["name"];
-            $page = $user_type === 0 ? "dashboard.php" : "home.php";
-            $msg = "Location: ../public/".$page."?message=Selamat_Datang_".urlencode($_SESSION['name']);
+            $page = $user_type === 0 ? "dashboard.php" : "home.html";
+            $msg = "Location: ../public/".$page."?success=login_berhasil&message=Selamat_Datang_".urlencode($_SESSION['name']);
             header($msg);
             exit;
         }else{

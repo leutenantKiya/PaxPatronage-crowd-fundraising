@@ -71,6 +71,25 @@ LOCK TABLES `kampanye` WRITE;
 INSERT INTO `kampanye` VALUES (2,'Sedekah makan mewah kiya','Sedekah',1000000000.00,'2026-05-07 00:00:00','2026-05-30 00:00:00','Sedekah memberi Kiya secuil Ikan King Salmon untuk sarapan','Jl. Dr. Wahidin Sudirohusodo No. 5-25','Yogyakarta','DI Yogyakarta','img-kampanye/kampanye_1_2026-05-09_06-20-07.png',1,0.00),(3,'Biaya Perawatan USS Geral F. Ford','Perawatan',1000000.00,'2026-05-15 00:00:00','2026-05-31 00:00:00','Perawatan kapal perang','Jl. Dr. Wahidin Sudirohusodo No. 5-25','Yogyakarta','DI Yogyakarta','img-kampanye/kampanye_1_2026-05-06_23-26-08.png',1,60000.00);
 /*!40000 ALTER TABLE `kampanye` ENABLE KEYS */;
 UNLOCK TABLES;
+DROP TABLE IF EXISTS `rekening_kampanye`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `rekening_kampanye` (
+  `id_rekening` int(11) NOT NULL AUTO_INCREMENT,
+  `id_kampanye` int(11) NOT NULL,
+  `nama_bank` varchar(50) NOT NULL,
+  `nomor_rekening` varchar(50) NOT NULL,
+  PRIMARY KEY (`id_rekening`),
+  KEY `id_kampanye` (`id_kampanye`),
+  CONSTRAINT `rekening_kampanye_ibfk_1` FOREIGN KEY (`id_kampanye`) REFERENCES `kampanye` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+LOCK TABLES `rekening_kampanye` WRITE;
+/*!40000 ALTER TABLE `rekening_kampanye` DISABLE KEYS */;
+INSERT INTO `rekening_kampanye` VALUES (1,2,'BCA','1234567890'),(2,3,'Bank Mandiri','0987654321');
+/*!40000 ALTER TABLE `rekening_kampanye` ENABLE KEYS */;
+UNLOCK TABLES;
 DROP TABLE IF EXISTS `users`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;

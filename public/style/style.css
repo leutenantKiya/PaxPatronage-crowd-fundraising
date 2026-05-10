@@ -126,7 +126,7 @@ header{
 
 .search-wrapper input {
     width: 100%;
-    padding: 0.5rem 1rem 0.5rem 2.5rem;
+    padding: 0.5rem 2.5rem 0.5rem 2.5rem;
     border: 1.5px solid var(--border);
     border-radius: var(--radius-full);
     background: var(--bg);
@@ -160,6 +160,38 @@ header{
     font-size: 14px;
 }
 
+/* Search button inside the search bar */
+.search-btn {
+    position: absolute;
+    right: 4px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 30px;
+    height: 30px;
+    border: none;
+    border-radius: 50%;
+    background: var(--primary);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.2s;
+    padding: 0;
+    z-index: 2;
+}
+
+.search-btn .material-icons {
+    font-size: 16px;
+}
+
+.search-btn:hover {
+    background: var(--primary-dark);
+}
+
+.search-btn:active {
+    transform: translateY(-50%) scale(0.92);
+}
 
 nav{
     display: flex;
@@ -319,6 +351,33 @@ main{
     max-width: 1200px;
     /* padding: 0 20px; */
     margin: 2.5rem auto;
+}
+
+.alert{
+    padding: 0.9rem 1.2rem;
+    margin-bottom: 1.5rem;
+    border-radius: var(--radius);
+    font-weight: 700;
+    box-shadow: var(--shadow-md);
+    letter-spacing: -0.01em;
+}
+
+.success-alert{
+    background: #dcfce7;
+    color: #166534;
+    border: 1px solid #bbf7d0;
+}
+
+.info-alert{
+    background: #e0f2fe;
+    color: #075985;
+    border: 1px solid #bae6fd;
+}
+
+.error-alert{
+    background: #fee2e2;
+    color: #991b1b;
+    border: 1px solid #fecaca;
 }
 
 @media (max-width:1200px) {
@@ -773,6 +832,105 @@ main{
     }
 }
 
+/* ==================== AUTOCOMPLETE SUGGESTIONS ==================== */
+.search-suggestions {
+    display: none;
+    position: absolute;
+    top: calc(100% + 6px);
+    left: 0;
+    right: 0;
+    background: var(--surface);
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-lg);
+    max-height: 360px;
+    overflow-y: auto;
+    z-index: 200;
+    list-style: none;
+    padding: 0.35rem;
+    opacity: 0;
+    transform: translateY(-6px);
+    transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.search-suggestions.open {
+    display: block;
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.suggestion-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.6rem 0.75rem;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    transition: background 0.15s ease;
+}
+
+.suggestion-item:hover,
+.suggestion-item.active {
+    background: var(--primary-soft);
+}
+
+.suggestion-img {
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    object-fit: cover;
+    flex-shrink: 0;
+    border: 1px solid var(--border);
+}
+
+.suggestion-text {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+    min-width: 0;
+}
+
+.suggestion-name {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.suggestion-name mark {
+    background: #fef08a;
+    color: var(--text);
+    border-radius: 2px;
+    padding: 0 1px;
+}
+
+.suggestion-category {
+    font-size: 0.72rem;
+    color: var(--text-muted);
+    font-weight: 500;
+    text-transform: capitalize;
+}
+
+/* Scrollbar styling for suggestions */
+.search-suggestions::-webkit-scrollbar {
+    width: 5px;
+}
+
+.search-suggestions::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.search-suggestions::-webkit-scrollbar-thumb {
+    background: var(--border);
+    border-radius: 10px;
+}
+
+.search-suggestions::-webkit-scrollbar-thumb:hover {
+    background: var(--text-light);
+}
+
 @media (max-width: 320px){
     .search-wrapper input{
         width: 20px;
@@ -904,8 +1062,10 @@ main{
 
 .card-progress .progress-fill {
     height: 100%;
-    background: var(--primary);
+    background: linear-gradient(90deg, var(--primary), #38bdf8);
     border-radius: 4px;
+    transition: width 0.8s ease;
+    min-width: 0;
 }
 
 .card-progress .progress-info {

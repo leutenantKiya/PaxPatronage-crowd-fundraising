@@ -1,18 +1,67 @@
+<?php 
+    require_once __DIR__ . '/../services/db_connection.php';
+    session_start();
+
+    if(!isset($_SESSION['user_id'])){
+        header("Location: ..public/home.html?error=login_dulu");
+    }
+
+    if($_SERVER['REQUEST_METHOD'] === 'GET' ){
+        if(!isset($_GET['kampanye_id'])){
+            header("Location: ..public/home.html?error=kampanye_tidak_ditemukan");
+            exit;
+        }
+    }
+
+    $db = new Connection;
+    $kampanye_id = (int) $_GET['kampanye_id'];
+    $res = $db->getKampanyeById($kampanye_id);
+    $row = mysqli_fetch_assoc($res);
+    $rekening  = $db->getRekeningByKampanye($kampanye_id);
+    $rekening_row = mysqli_fetch_assoc($rekening);
+
+    $no_telp = htmlspecialchars($row['no_telp']);
+    $deskripsi = htmlspecialchars($row['deskripsi']);
+    $nama_kampanye = htmlspecialchars($row['nama_kampanye']);
+    $jenis_kampanye = htmlspecialchars($row['jenis_kampanye']);
+    $path_gambar = htmlspecialchars('../upload/' . $row['path_gambar']);
+    $nama_penyelenggara = htmlspecialchars($row['nama_penyelenggara']);
+    $target_kampanye = (float) $row['target_kampanye'];
+    $dana_terkumpul = (float) ($row['dana_terkumpul'] ?? 0);
+    $persen = $target_kampanye > 0 ? min(100, round(($dana_terkumpul / $target_kampanye) * 100)) : 0;
+    $nama_bank = htmlspecialchars($rekening_row['nama_bank']);
+    $nomor_rekening = htmlspecialchars($rekening_row['nomor_rekening']);
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pengajuan Lamaran | nama crowd funding</title>
+    <title>Pengajuan Lamaran | <?php echo $nama_kampanye; ?></title>
     <link rel="stylesheet" href="style/style.css?v=1.1">
     <link rel="stylesheet" href="style/lamaran.css">
     <link rel="stylesheet" href="style/detail.css">
 </head>
 <body>
+    <?php
+        $infoMessage = [
+            "donasi_terlalu_kecil" => "Mas, minimal donasi Rp. 10.000",
+        ][$_GET['info'] ?? ""] ?? "";
+
+        $errMessage = [
+            "metode_salah" => "Ga boleh GET ya mas",
+            "donasi_gagal" => "Donasi gagal, silakan coba lagi.",
+            "upload_gagal" => "Upload bukti transfer gagal, silakan coba lagi.",
+        ][$_GET['error'] ?? ""] ?? "";
+
+        // PRG success: donasi berhasil
+        $successDonasi = ($_GET['success'] ?? '') === 'donasi_berhasil';
+        $donasiAmount = $successDonasi ? (double)($_GET['amount'] ?? 0) : 0;
+    ?>
     <!-- header -->
     <header class="detail-header">
         <div class="detail-inner-header">
-            <a href="detail.html" class="back" id="back">
+            <a href="detail.html?id=<?php echo $kampanye_id ?>" class="back" id="back">
                 <div class="back-logo">
                     <img width="40px" src="assets/back.png" alt="back" class="material-symbols-outlined">
                 </div>
@@ -32,7 +81,7 @@
             <a href="home.html" class="breadcrumb-home">Home</a>
             <span class="material-symbols-outlined" style="font-size: 16px;">></span>
             <span class="material-symbols-outlined" style="font-size: 16px;">Detail ></span>
-            <span class="material-symbols-outlined" style="font-size: 16px;">Wujudkan Mimpi Mas Amba ></span>
+            <span class="material-symbols-outlined" style="font-size: 16px;"><?php echo $nama_kampanye; ?> ></span>
             <span style="color: var(--text); font-weight: 700;"><strong>Donasi</strong></span>
         </div>
 
@@ -42,15 +91,32 @@
             <div class="main-content">
                 <div class="campaign-img">
                     <div class="hero-img-container">
-                        <img src="upload/example-detail.png" alt="Poster Kampanye" class="hero-img">
+                        <img src="upload/<?php echo $path_gambar; ?>" alt="Poster Kampanye" class="hero-img">
                     </div>
-                    <span class="category-badge">Pendidikan</span>
+                    <span class="category-badge"><?php echo $jenis_kampanye; ?></span>
                 </div>
                 <div class="content-padding">
-                    <h1>Wujudkan Mimpi Mas Amba bertemu Mas Nasir</h1>
+                    <h1><?php echo $nama_kampanye; ?></h1>
+                    <p style="font-size: 14px; margin-bottom: 1rem; color: var(--text-muted);">Oleh: <strong><?php echo $nama_penyelenggara; ?></strong></p>
+                    <!-- Ringkasan Dana -->
+                    <div style="display: flex; gap: 1.5rem; flex-wrap: wrap; margin-bottom: 1.5rem; padding: 1rem 1.25rem; background: #f8fafc; border-radius: 12px; border: 1px solid var(--border);">
+                        <div>
+                            <p style="font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.25rem;">Dana Terkumpul</p>
+                            <p style="font-size: 1.1rem; font-weight: 700; color: var(--primary);">Rp <?php echo number_format($dana_terkumpul, 0, ',', '.'); ?></p>
+                        </div>
+                        <div>
+                            <p style="font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.25rem;">Target Dana</p>
+                            <p style="font-size: 1.1rem; font-weight: 700; color: var(--text);">Rp <?php echo number_format($target_kampanye, 0, ',', '.'); ?></p>
+                        </div>
+                        <div style="flex: 1; min-width: 100px; display: flex; flex-direction: column; justify-content: center;">
+                            <div style="height: 8px; background: var(--border); border-radius: 4px; overflow: hidden;">
+                                <div style="height: 100%; width: <?php echo $persen; ?>%; background: linear-gradient(90deg, var(--primary), #38bdf8); border-radius: 4px;"></div>
+                            </div>
+                            <p style="font-size: 0.7rem; color: var(--primary-dark, #0284c7); font-weight: 600; margin-top: 0.25rem;"><?php echo $persen; ?>% tercapai</p>
+                        </div>
+                    </div>
                     <div class="story-content" id="story-content">
-                        <p>Di balik keindahan pantai kita, ribuan anak nelayan terpaksa putus sekolah demi membantu ekonomi keluarga. Pendidikan adalah satu-satunya jalan keluar untuk memutus rantai kemiskinan yang telah berlangsung turun-temurun di desa-desa pesisir.</p>
-                        <p>Kampanye ini bertujuan untuk menyediakan 50 paket beasiswa penuh selama satu tahun ajaran bagi anak-anak di Desa Teluk Hijau. Paket ini mencakup biaya SPP, seragam, buku, dan alat tulis.</p>
+                        <p><?php echo $deskripsi; ?></p>
                         <div class="funding-plan" id="funding-plan">
                             <h3 id="funding-plan-title">Rencana penggunaan dana:</h3>
                             <ul>
@@ -73,40 +139,41 @@
                         </div>
                         <span class="horizontal-line"></span>
 
-                        <form class="donation-form" action="/services/form_service.php" method="GET">
+                        <form class="donation-form" action="../services/do_bayar.php" method="POST" enctype="multipart/form-data">
+                            <input type="hidden" name="kampanye_id" value="<?php echo $kampanye_id; ?>">
 
-                            <!-- PILIH AMOUNT -->
+                            <!-- choose amount -->
                             <div class="amount-container">
-                                <h3>Pilih Amount Donasi</h3>
+                                <h3>Pilih Jumlah Donasi</h3>
                                 <div class="amount-btn-container">
                                     <label class="amount-btn">
-                                        <input type="radio" name="amount" class="amount-input" value="10000" checked required>
+                                        <input type="radio" name="amount" class="amount-input" value="10000" checked>
                                         <div class="amount-content"><span>RP 10.000</span></div>
                                     </label>
                                     <label class="amount-btn">
-                                        <input type="radio" name="amount" class="amount-input" value="20000" required>
+                                        <input type="radio" name="amount" class="amount-input" value="20000">
                                         <div class="amount-content"><span>RP 20.000</span></div>
                                     </label>
                                     <label class="amount-btn">
-                                        <input type="radio" name="amount" class="amount-input" value="50000" required>
+                                        <input type="radio" name="amount" class="amount-input" value="50000">
                                         <div class="amount-content"><span>RP 50.000</span></div>
                                     </label>
                                     <label class="amount-btn">
-                                        <input type="radio" name="amount" class="amount-input" value="100000" required>
+                                        <input type="radio" name="amount" class="amount-input" value="100000">
                                         <div class="amount-content"><span>RP 100.000</span></div>
                                     </label>
                                     <label class="amount-btn">
-                                        <input type="radio" name="amount" class="amount-input" value="250000" required>
+                                        <input type="radio" name="amount" class="amount-input" value="250000" >
                                         <div class="amount-content"><span>RP 250.000</span></div>
                                     </label>
                                     <label class="amount-btn">
-                                        <input type="radio" name="amount" class="amount-input" value="500000" required>
+                                        <input type="radio" name="amount" class="amount-input" value="500000">
                                         <div class="amount-content"><span>RP 500.000</span></div>
                                     </label>
                                 </div>
                                 <div class="user-donation-container">
                                     <label for="rupiah">RP</label>
-                                    <input type="text" id="rupiah" placeholder=" Nominal Lainnya" name="amount">
+                                    <input type="text" id="rupiah" placeholder=" Nominal Lainnya" name="amount" value="<?php echo number_format(10000, 0, ',','.') ?>" required>
                                 </div>
                             </div>
 
@@ -116,26 +183,28 @@
                                 <label class="payment-method">
                                     <input type="radio" name="payment-method" value="bank" checked required>
                                     <div class="method-content">
-                                        <span>Bank Transfer (BCA/Mandiri)</span>
+                                        <span>Bank Transfer (<?php echo $nama_bank; ?>)</span>
+                                        <small style="display:block; margin-top:4px; color:var(--text-muted); font-weight:normal;"><?php echo implode("-", str_split($nomor_rekening, 3)); ?> a.n. <?php echo strtoupper($nama_penyelenggara); ?></small>
                                     </div>
                                 </label>
                                 <label class="payment-method">
                                     <input type="radio" name="payment-method" value="ewallet" required>
                                     <div class="method-content">
-                                        <span>GoPay / OVO / DANA</span>
+                                        <span>GoPay / OVO / DANA</span> 
                                         <span class="icon">⚡</span>
+                                        <small style="display:block; margin-top:4px; color:var(--text-muted); font-weight:normal;"><?php echo $no_telp; ?></small>
                                     </div>
                                 </label>
                             </div>
 
-                            <!-- DATA DONATUR -->
+                            <!-- data donatur -->
                             <div class="donor-container">
                                 <h3>Nama Donatur</h3>
                                 <div class="input-box">
-                                    <input type="text" placeholder="Nama Lengkap" name="user" required>
+                                    <input type="text" placeholder="Nama Lengkap" name="user" value="<?php echo htmlspecialchars($_SESSION['name'] ?? ''); ?>" required>
                                 </div>
                                 <div class="input-box">
-                                    <input type="email" placeholder="Alamat Email" name="email" required>
+                                    <input type="email" placeholder="Alamat Email" name="email" value="<?php echo htmlspecialchars($_SESSION['email'] ?? ''); ?>" required>
                                 </div>
                                 <h3 class="pesan-label">Pesan (Opsional)</h3>
                                 <div class="input-box">
@@ -151,7 +220,7 @@
                             <div class="upload-container">
                                 <h3>Bukti Transfer</h3>
                                 <label class="upload-box">
-                                    <input type="file" accept=".jpg,.jpeg,.png,.pdf" hidden required>
+                                    <input type="file" name="bukti_transfer" accept=".jpg,.jpeg,.png,.pdf" class="file-input" required>
                                     <div class="upload-content">
                                         <div>☁️</div>
                                         <p><strong>Klik atau seret file ke sini</strong></p>
@@ -162,13 +231,12 @@
 
                             <!-- SUBMIT -->
                             <div class="submit-container">
-                                <button type="submit" class="donate-btn" onclick="return handleDonationSubmit(event);">Donasi Sekarang ❤️</button>
+                                <button type="submit" class="donate-btn">Donasi Sekarang ❤️</button>
                                 <p class="terms">
                                     Dengan menekan tombol di atas, saya menyetujui
-                                    <a href="#">Syarat &amp; Ketentuan</a>
                                 </p>
                             </div>
-
+<!-- onclick="return handleDonationSubmit(event);" -->
                         </form>
 
                     </div> <!-- /donation-card -->
@@ -179,8 +247,7 @@
 
         </div> <!-- /main-content-card -->
     </main>
-
-    <!-- ===== FOOTER ===== -->
+    <!-- footer -->
     <footer id="contact_us">
         <div class="footer-container">
             <div class="footer-content">
@@ -221,5 +288,19 @@
     </footer>
 
     <script src="js/donation-form.js"></script>
+    <script>
+        // PRG handlers — fired after redirect
+        <?php if ($successDonasi): ?>
+            handleDonationSubmit(<?php echo $donasiAmount; ?>);
+        <?php endif; ?>
+
+        <?php if ($errMessage): ?>
+            alert("<?php echo addslashes($errMessage); ?>");
+        <?php endif; ?>
+
+        <?php if ($infoMessage): ?>
+            alert("<?php echo addslashes($infoMessage); ?>");
+        <?php endif; ?>
+    </script>
 </body>
 </html>

@@ -29,18 +29,15 @@ customInput.addEventListener('input', () => {
 
 amountInputs.forEach(radio => {
     radio.addEventListener('change', () => {
-        customInput.value = '';
+        customInput.value = formatRupiah(radio.value);
     });
 });
 
-// Submit handler with modal popup
-function handleDonationSubmit(e) {
-    e.preventDefault();
-    
-    const submitBtn = document.querySelector('.donate-btn');
-    submitBtn.innerHTML = 'Memproses...';
-    submitBtn.disabled = true;
-    
+// Submit handler with modal popup — called after PRG redirect with amount
+function handleDonationSubmit(amount) {
+    // Format amount ke rupiah
+    var formatted = formatRupiah(String(Math.floor(amount)));
+
     const modal = document.createElement('div');
     modal.className = 'modal-overlay';
     modal.innerHTML = `
@@ -56,15 +53,10 @@ function handleDonationSubmit(e) {
             <div class="modal-content success">
                 <div class="success-icon">✓</div>
                 <h2>Donasi Berhasil!</h2>
-                <p>Terima kasih atas donasi Anda.</p>
+                <p>Terima kasih atas donasi sebesar <strong>Rp ${formatted}</strong></p>
                 <p class="success-detail">Donasi Anda akan diproses dalam 1x24 jam.</p>
                 <a href="home.html" class="back-home-btn">Kembali ke Beranda</a>
             </div>
         `;
     }, 1500);
-}
-
-const form = document.querySelector('.donation-form');
-if (form) {
-    form.addEventListener('submit', handleDonationSubmit);
 }

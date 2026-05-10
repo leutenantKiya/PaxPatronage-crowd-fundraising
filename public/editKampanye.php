@@ -123,6 +123,30 @@
             }
             echo '</select>';
 
+            // Ambil rekening kampanye yang sudah ada
+            $rek_res = $db->getRekeningByKampanye($kampanye_id);
+            $rek_data = mysqli_fetch_assoc($rek_res);
+            $nama_bank_db = $rek_data['nama_bank'] ?? '';
+            $nomor_rekening_db = htmlspecialchars($rek_data['nomor_rekening'] ?? '');
+
+            $bank_list = ['BCA','BNI','BRI','Bank Mandiri','CIMB Niaga','Bank Danamon','Bank Permata','BSI','Bank Mega','BTPN','Bank Jago','Sea Bank'];
+            $bank_labels = ['BCA'=>'BCA','BNI'=>'BNI','BRI'=>'BRI','Bank Mandiri'=>'Bank Mandiri','CIMB Niaga'=>'CIMB Niaga',
+                'Bank Danamon'=>'Bank Danamon','Bank Permata'=>'Bank Permata','BSI'=>'BSI (Bank Syariah Indonesia)',
+                'Bank Mega'=>'Bank Mega','BTPN'=>'BTPN','Bank Jago'=>'Bank Jago','Sea Bank'=>'Sea Bank'];
+
+            echo '<label for="nama_bank">Nama Bank:</label>';
+            echo '<select id="nama_bank" name="nama_bank" required>';
+            echo '<option value="">-- Pilih Bank --</option>';
+            foreach ($bank_list as $bank) {
+                $selected = ($bank === $nama_bank_db) ? ' selected' : '';
+                $label = $bank_labels[$bank] ?? $bank;
+                echo '<option value="'.htmlspecialchars($bank).'"'.$selected.'>'.htmlspecialchars($label).'</option>';
+            }
+            echo '</select>';
+
+            echo '<label for="nomor_rekening">Nomor Rekening:</label>';
+            echo '<input type="text" id="nomor_rekening" name="nomor_rekening" value="'.$nomor_rekening_db.'" placeholder="Contoh: 1234567890" required>';
+
             echo '<img src="'.$path_gambar.'?v='.time().'" alt="'.$row["path_gambar"].'" width="300">';
             echo '<label for="foto">Foto Banner:</label>';
             echo '<input type="file" id="foto" name="foto" accept=".jpg, .png, .pdf">';

@@ -1,4 +1,4 @@
-document.querySelectorAll('.progress-fill').forEach(bar => {
+document.querySelectorAll('.progress-fill, .detail-progress-fill').forEach(bar => {
     const target = bar.style.width;
     bar.style.width = '0';
     requestAnimationFrame(() => {
@@ -6,15 +6,12 @@ document.querySelectorAll('.progress-fill').forEach(bar => {
     });
 });
 
-// Hamburger menu toggle untuk mobile.
-// Cari elemen <nav> dengan id "top" (home.php) atau "main-nav" (login.html).
+// mobile view nav
 function getNav() {
   return document.getElementById("top") || document.getElementById("main-nav");
 }
 
-// Toggle dipanggil HANYA dari inline onclick="responsive_navbar()" di HTML.
-// Jangan ditambah addEventListener juga -> bakal double-toggle (open lalu close
-// di klik yang sama).
+// responsive nav
 function responsive_navbar() {
   // Capture event dari window.event biar bisa stopPropagation walau dipanggil
   // tanpa arg dari inline onclick.
@@ -53,5 +50,14 @@ if (profilePicture && profileToggle) {
     }
   });
 }
+    
+
+// document.querySelector(".amount-input").addEventListener("click", function(e){
+//     console.log()
+// })
+
+
+
+
 
 

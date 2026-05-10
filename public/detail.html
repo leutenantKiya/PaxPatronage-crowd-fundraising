@@ -4,13 +4,15 @@
 
     // validate if GET request exist 
      if(!isset($_GET['id']) || !ctype_digit($_GET['id'])){
-        header("Location: home.php?error=invalid");
+        header("Location: home.html?error=invalid");
         exit;
      }
     $kampanye_id = (int) $_GET["id"];
     $db = new Connection;
     $res = $db->getKampanyeById($kampanye_id);
     $row = mysqli_fetch_assoc($res);
+    $rekening  = $db->getRekeningByKampanye($kampanye_id);
+    $rekening_row = mysqli_fetch_assoc($rekening);
     print_r(mysqli_fetch_assoc($res));
 
     // Array ( [id] => 2 [nama_kampanye] => Sedekah makan mewah kiya 
@@ -133,13 +135,14 @@
             <div class="sidebar" id="sidebar">
                 <div class="sticky-sidebar" id="sticky-sidebar">
                     <div class="donation-card" id="donation-card">
-                        <p class="collected-amount" id="collected-amount">Terkumpul</p>
+                        <p class="material-symbols-outlined" style="color: var(--primary); font-weight: bold;" id="collected-amount">Terkumpul</p>
                         <p class="current-amount" id="current-amount">Rp <?php echo number_format($dana_terkumpul, 0, ',', '.'); ?></p>
                         <span class="target-amount">dari target <span class="target-amount" id="target-amount">Rp <?php echo number_format($target_kampanye, 0, ',', '.') ?></span></span>
                         
-                        <div class="progress-bar-container" id="progress-bar-container">
-                            <div class="progress-bar" id="progress-bar" style="width: 64%;"></div>
+                        <div class="detail-progress-bar" id="progress-bar-container">
+                            <div class="detail-progress-fill" id="progress-bar" style="width: <?php echo $persen; ?>%;"></div>
                         </div>
+                        <span class="detail-progress-persen"><?php echo $persen; ?>% tercapai</span>
 
                         <div class="stat-donation" id="stat-donation">
                             <div class="stat">
@@ -152,10 +155,10 @@
                             </div>
                         </div>
 
-
-                        <a href="donation-form.html" class="donation-container" id="donation-link">
+                        <form action="donation-form.html" method="GET">
+                            <input type="hidden" name="kampanye_id" id="kampanye_id" value="<?php echo $kampanye_id; ?>">
                             <button class="primary-btn" id="donate-btn">Donasi Sekarang</button>
-                        </a>
+                        </form>
                     </div>
 
                     <div class="donation-card" id="bank-transfer-card" style="margin-top: 1.5rem;">
@@ -164,25 +167,17 @@
                         </div>
                         
                         <div class="bank-account" id="bank-account-bca">
-                            <p class="bank-name" id="bank-name-bca">Bank Central Asia (BCA)</p>
+                            <p class="bank-name" id="bank-name-bca"><?php echo htmlspecialchars($rekening_row["nama_bank"]); ?></p>
                             <div class="acc-row">
-                                <span class="acc-number" id="acc-number-bca">8830 1922 44</span>
+                                <span class="acc-number" id="acc-number-bca"><?php echo implode("-", str_split($rekening_row["nomor_rekening"], 3)); ?></span>
                             </div>
                             <div class="acc-holder">A.N. <?php echo strtoupper($nama_penyelenggara); ?></div>
-                        </div>
-
-                        <div class="bank-account" id="bank-account-madura" style="margin-top: 1rem;">
-                            <p class="bank-name" id="bank-name-madura">Bank Madura</p>
-                            <div class="acc-row">
-                                <span class="acc-number" id="acc-number-madura">911</span>
-                            </div>
-                            <div class="acc-holder">A.N. YAYASAN PINILIH</div>
                         </div>
 
                         <p class="disclaimer" id="disclaimer" style="color: red; padding-top: 20px;">
                             <!-- optional -->
                             <!-- the mesasge is created when the funding created to ensure the purpose of the fund -->
-                            *Tambahkan Pesan "Untuk bla bla bla" guna mempermudah identifikasi
+                            *Tambahkan Pesan "Donasi <?php echo strtoupper($nama_kampanye); ?> " guna mempermudah identifikasi
                         </p>
                     </div>
                 </div>
@@ -229,5 +224,6 @@
             </div>
         </div>
     </footer>
+    <script src="js/script.js?v=2.5"></script>
 </body>
 </html>

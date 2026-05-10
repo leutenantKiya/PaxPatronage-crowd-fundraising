@@ -194,6 +194,53 @@
                 ?>
             </tbody>
         </table>
+
+        <!-- ==== Tabel: REJECTED (donasi ditolak) ==== -->
+        <?php $rejected = $db->getDonasiRejectedByKampanye($kampanye_id, $user_id); ?>
+        <h3 class="section-heading">
+            Donasi Ditolak
+            <span class="count-pill"><?php echo mysqli_num_rows($rejected); ?></span>
+        </h3>
+        <table class="kampanye-table" border="1">
+            <thead>
+                <tr>
+                    <td>No</td>
+                    <td>Nama Donatur</td>
+                    <td>Jumlah Donasi</td>
+                    <td>Metode Bayar</td>
+                    <td>Pesan</td>
+                    <td>Tanggal</td>
+                    <td>Status</td>
+                </tr>
+            </thead>
+            <tbody>
+                <?php
+                    if (mysqli_num_rows($rejected) > 0) {
+                        $no = 1;
+                        while ($row = mysqli_fetch_assoc($rejected)) {
+                            $nama_donatur = htmlspecialchars($row['nama_donatur'] ?? 'Anonim');
+                            $amount       = (float) $row['amount'];
+                            $metode_bayar = htmlspecialchars($row['metode_bayar']);
+                            $pesan        = htmlspecialchars($row['pesan'] ?? '-');
+                            $created_at   = htmlspecialchars($row['created_at']);
+
+                            echo "<tr>";
+                            echo "<td>" . $no . "</td>";
+                            echo "<td>" . $nama_donatur . "</td>";
+                            echo "<td>Rp " . number_format($amount, 0, ',', '.') . "</td>";
+                            echo "<td>" . $metode_bayar . "</td>";
+                            echo "<td>" . ($pesan === '' ? '-' : $pesan) . "</td>";
+                            echo "<td>" . $created_at . "</td>";
+                            echo "<td><span class='status-badge status-rejected'>rejected</span></td>";
+                            echo "</tr>";
+                            $no++;
+                        }
+                    } else {
+                        echo "<tr><td colspan='7'>Tidak ada donasi yang ditolak.</td></tr>";
+                    }
+                ?>
+            </tbody>
+        </table>
     </main>
 </body>
 </html>

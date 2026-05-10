@@ -40,7 +40,7 @@
             <input type="text" id="nama_kampanye" name="nama_kampanye" required>
 
             <label for="jenis_kampanye">Jenis Kampanye:</label>
-            <input type="text" id="jenis_kampanye" name="jenis_kampanye" required>
+            <!-- <input type="text" id="jenis_kampanye" name="jenis_kampanye" required> -->
             <select id="jenis_kampanye" name="jenis_kampanye" required>
                 <option value="Pendidikan">Pendidikan</option>
                 <option value="Kesehatan">Kesehatan</option>
@@ -69,6 +69,9 @@
 
             <label for="kota">Kota / Kabupaten:</label>
             <input type="text" id="kota" name="kota" placeholder="Contoh: Yogyakarta" required>
+            <!-- <select id="filter-kota" class="filter-select" disabled>
+                <option value="">-- Pilih Kota --</option>
+            </select> -->
 
             <label for="provinsi">Provinsi:</label>
             <select id="provinsi" name="provinsi" required>
@@ -113,6 +116,26 @@
                 <option value="Papua Barat Daya">Papua Barat Daya</option>
             </select>
 
+            <label for="nama_bank">Nama Bank:</label>
+            <select id="nama_bank" name="nama_bank" required>
+                <option value="">-- Pilih Bank --</option>
+                <option value="BCA">BCA</option>
+                <option value="BNI">BNI</option>
+                <option value="BRI">BRI</option>
+                <option value="Bank Mandiri">Bank Mandiri</option>
+                <option value="CIMB Niaga">CIMB Niaga</option>
+                <option value="Bank Danamon">Bank Danamon</option>
+                <option value="Bank Permata">Bank Permata</option>
+                <option value="BSI">BSI (Bank Syariah Indonesia)</option>
+                <option value="Bank Mega">Bank Mega</option>
+                <option value="BTPN">BTPN</option>
+                <option value="Bank Jago">Bank Jago</option>
+                <option value="Sea Bank">Sea Bank</option>
+            </select>
+
+            <label for="nomor_rekening">Nomor Rekening:</label>
+            <input type="text" id="nomor_rekening" name="nomor_rekening" placeholder="Contoh: 1234567890" required>
+
             <label for="foto">Foto Banner:</label>
             <input type="file" id="foto" name="foto" accept=".jpg, .png, .pdf" required>
 
@@ -121,5 +144,7 @@
             </div>
         </form>
     </main>
+    <script src="js/filter.js?v=2.8"></script>
+    <script src="js/script.js?v=2.5"></script>
 </body>
 </html>

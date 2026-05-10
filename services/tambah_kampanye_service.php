@@ -53,6 +53,14 @@
         }
     }
 
+    // Validasi rekening bank
+    foreach (['nama_bank', 'nomor_rekening'] as $field) {
+        if (!isset($_POST[$field]) || trim($_POST[$field]) === '') {
+            header("Location: ../public/tambahKampanye.php?error=rekening_wajib_diisi");
+            exit;
+        }
+    }
+
     if($db->tambahKampanye(
         $_POST['nama_kampanye'], 
         $_POST['jenis_kampanye'], 
@@ -66,6 +74,15 @@
         trim($_POST['kota']),
         trim($_POST['provinsi'])
     )){
+        // Simpan rekening kampanye
+        $conn = $db->getConnection();
+        $new_kampanye_id = mysqli_insert_id($conn);
+        $db->tambahRekening(
+            $new_kampanye_id,
+            trim($_POST['nama_bank']),
+            trim($_POST['nomor_rekening'])
+        );
+
         header("Location: ../public/dashboard.php?success=tambah_kampanye_berhasil");
         exit;
     } else {
