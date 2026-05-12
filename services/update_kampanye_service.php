@@ -13,7 +13,7 @@
         exit;
     }
 
-    $requiredFields = ['nama_kampanye', 'jenis_kampanye', 'target_dana', 'tanggal_dimulai', 'tanggal_berakhir', 'deskripsi', 'alamat_jalan', 'kota', 'provinsi', 'nama_bank', 'nomor_rekening'];
+    $requiredFields = ['nama_kampanye', 'jenis_kampanye', 'target_dana', 'tanggal_dimulai', 'tanggal_berakhir', 'deskripsi', 'rincian', 'alamat_jalan', 'kota', 'provinsi', 'nama_bank', 'nomor_rekening'];
     foreach ($requiredFields as $field) {
         if (!isset($_POST[$field]) || trim($_POST[$field]) === '') {
             header("Location: ../public/dashboard.php?error=update_kampanye_gagal");
@@ -28,6 +28,7 @@
     $tanggal_dimulai = trim($_POST['tanggal_dimulai']);
     $tanggal_berakhir = trim($_POST['tanggal_berakhir']);
     $deskripsi = trim($_POST['deskripsi']);
+    $rincian = trim($_POST['rincian']);
     $alamat_jalan = trim($_POST['alamat_jalan']);
     $kota = trim($_POST['kota']);
     $provinsi = trim($_POST['provinsi']);
@@ -109,7 +110,8 @@
         $_SESSION['user_id'],
         $alamat_jalan,
         $kota,
-        $provinsi
+        $provinsi,
+        $rincian
     );
 
     // Update rekening kampanye (selalu update, bahkan jika kampanye data sama)
@@ -120,10 +122,7 @@
         unset($_SESSION['curr_id']);
         exit;
     }
-
-    // Meskipun kampanye tidak berubah, rekening mungkin berubah
-    // Cek apakah rekening yang baru saja di-update memang berubah
-    header("Location: ../public/dashboard.php?success=update_kampanye_berhasil");
+    header("Location: ../public/editKampanye.php?info=update_kampanye_tidak_berubah");
     unset($_SESSION['curr_id']);
     exit;
 ?>

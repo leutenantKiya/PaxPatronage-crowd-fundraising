@@ -6,7 +6,7 @@
     // print_r($_SESSION);
 
     if(!isset($_SESSION['user_id'])){
-        header("Location: ../public/login.html?error=login_dulu");
+        header("Location: /login.html?error=login_dulu");
         exit;
     }
 

@@ -111,10 +111,13 @@
                 <?php
                     if (mysqli_num_rows($pending) > 0) {
                         $no = 1;
+                        $pending_amount = 0;
+                    
                         while ($row = mysqli_fetch_assoc($pending)) {
                             $id_donasi      = (int) $row['id_donasi'];
                             $nama_donatur   = htmlspecialchars($row['nama_donatur'] ?? 'Anonim');
                             $amount         = (float) $row['amount'];
+                            $pending_amount += $amount;
                             $metode_bayar   = htmlspecialchars($row['metode_bayar']);
                             $bukti          = htmlspecialchars($row['bukti']);
                             $created_at     = htmlspecialchars($row['created_at']);
@@ -124,7 +127,7 @@
                             echo "<td>" . $nama_donatur . "</td>";
                             echo "<td>Rp " . number_format($amount, 0, ',', '.') . "</td>";
                             echo "<td>" . $metode_bayar . "</td>";
-                            echo "<td><a class='bukti-link' href='" . $bukti . "' target='_blank'>Lihat Bukti</a></td>";
+                            echo "<td><a class='bukti-link' href='../public/upload/" . $bukti . "' target='_blank'>Lihat Bukti</a></td>";
                             echo "<td>" . $created_at . "</td>";
                             echo "<td class='action-cell'>";
                                 echo "<form action='../services/verifikasi_donasi_service.php' method='post' style='display:inline'>";
@@ -141,6 +144,10 @@
                             echo "</tr>";
                             $no++;
                         }
+                            echo "<tr> 
+                                        <td><b>Total Pending</b></td>
+                                        <td colspan='6'><center>Rp. ".number_format($pending_amount, 0, ',', '.')."</center></td> 
+                                </tr>";
                     } else {
                         echo "<tr><td colspan='7'>Tidak ada donasi yang menunggu verifikasi.</td></tr>";
                     }
@@ -170,9 +177,11 @@
                 <?php
                     if (mysqli_num_rows($verified) > 0) {
                         $no = 1;
+                        $verified_amount = 0;
                         while ($row = mysqli_fetch_assoc($verified)) {
                             $nama_donatur = htmlspecialchars($row['nama_donatur'] ?? 'Anonim');
                             $amount       = (float) $row['amount'];
+                            $verified_amount += $amount;
                             $metode_bayar = htmlspecialchars($row['metode_bayar']);
                             $pesan        = htmlspecialchars($row['pesan'] ?? '-');
                             $created_at   = htmlspecialchars($row['created_at']);
@@ -188,6 +197,10 @@
                             echo "</tr>";
                             $no++;
                         }
+                            echo "<tr> 
+                                        <td><b>Total Pending</b></td>
+                                        <td colspan='6'><center>Rp. ".number_format($verified_amount, 0, ',', '.')."</center></td> 
+                                </tr>";
                     } else {
                         echo "<tr><td colspan='7'>Belum ada donasi terverifikasi.</td></tr>";
                     }
@@ -195,7 +208,7 @@
             </tbody>
         </table>
 
-        <!-- ==== Tabel: REJECTED (donasi ditolak) ==== -->
+        <!-- reject -->
         <?php $rejected = $db->getDonasiRejectedByKampanye($kampanye_id, $user_id); ?>
         <h3 class="section-heading">
             Donasi Ditolak
@@ -217,9 +230,11 @@
                 <?php
                     if (mysqli_num_rows($rejected) > 0) {
                         $no = 1;
+                        $rejected_amount = 0;
                         while ($row = mysqli_fetch_assoc($rejected)) {
                             $nama_donatur = htmlspecialchars($row['nama_donatur'] ?? 'Anonim');
                             $amount       = (float) $row['amount'];
+                            $rejected_amount += $amount;
                             $metode_bayar = htmlspecialchars($row['metode_bayar']);
                             $pesan        = htmlspecialchars($row['pesan'] ?? '-');
                             $created_at   = htmlspecialchars($row['created_at']);
@@ -234,7 +249,11 @@
                             echo "<td><span class='status-badge status-rejected'>rejected</span></td>";
                             echo "</tr>";
                             $no++;
-                        }
+                            }
+                            echo "<tr> 
+                                        <td><b>Total Pending</b></td>
+                                        <td colspan='6'><center>Rp. ".number_format($rejected_amount, 0, ',', '.')."</center></td> 
+                                    </tr>";
                     } else {
                         echo "<tr><td colspan='7'>Tidak ada donasi yang ditolak.</td></tr>";
                     }

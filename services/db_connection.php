@@ -34,7 +34,7 @@ class Connection
         // ORDER BY: deadline terdekat dulu, lalu target paling kecil (bonus rubrik).
         $sql = "SELECT k.id, k.nama_kampanye, k.jenis_kampanye, k.target_kampanye,
                        k.dana_terkumpul, k.tanggal_dimulai, k.tanggal_berakhir,
-                       k.deskripsi, k.path_gambar, k.user_id,
+                       k.deskripsi, k.path_gambar, k.user_id, k.rincian,
                        k.alamat_jalan, k.kota, k.provinsi,
                        u.name AS nama_penyelenggara
                 FROM kampanye k
@@ -56,12 +56,12 @@ class Connection
         return mysqli_stmt_get_result($stmt); 
     }
 
-    public function tambahKampanye($nama_kampanye, $jenis_kampanye, $target_dana, $tanggal_dimulai, $tanggal_berakhir, $deskripsi, $path_foto, $user_id, $alamat_jalan, $kota, $provinsi){
+    public function tambahKampanye($nama_kampanye, $jenis_kampanye, $target_dana, $tanggal_dimulai, $tanggal_berakhir, $deskripsi, $path_foto, $user_id, $alamat_jalan, $kota, $provinsi, $rincian){
         // butuh : nama_kampanye, jenis_kampanye, target_dana (target_kampanye), tanggal_dimulai, tanggal_berakhir, deskripsi, path_foto, user_id, alamat_jalan, kota, provinsi
-        $sql = "INSERT INTO kampanye (nama_kampanye, jenis_kampanye, target_kampanye, tanggal_dimulai, tanggal_berakhir, deskripsi, path_gambar, user_id, alamat_jalan, kota, provinsi) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        $sql = "INSERT INTO kampanye (nama_kampanye, jenis_kampanye, target_kampanye, tanggal_dimulai, tanggal_berakhir, deskripsi, path_gambar, user_id, alamat_jalan, kota, provinsi, rincian) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         $conn = $this->getConnection();
         $stmt = mysqli_prepare($conn, $sql);
-        mysqli_stmt_bind_param($stmt, "ssdssssisss", $nama_kampanye, $jenis_kampanye, $target_dana, $tanggal_dimulai, $tanggal_berakhir, $deskripsi, $path_foto, $user_id, $alamat_jalan, $kota, $provinsi);
+        mysqli_stmt_bind_param($stmt, "ssdssssissss", $nama_kampanye, $jenis_kampanye, $target_dana, $tanggal_dimulai, $tanggal_berakhir, $deskripsi, $path_foto, $user_id, $alamat_jalan, $kota, $provinsi, $rincian);
         mysqli_stmt_execute($stmt);
         return mysqli_stmt_affected_rows($stmt) > 0;
     }
@@ -96,11 +96,11 @@ class Connection
         return mysqli_stmt_get_result($stmt); 
     }
 
-    public function updateKampanye($kampanye_id, $nama_kampanye, $jenis_kampanye, $target_dana, $tanggal_dimulai, $tanggal_berakhir, $deskripsi, $path_gambar, $user_id, $alamat_jalan, $kota, $provinsi){
-        $sql = "UPDATE kampanye SET nama_kampanye = ?, jenis_kampanye = ?, target_kampanye = ?, tanggal_dimulai = ?, tanggal_berakhir = ?, deskripsi = ?, path_gambar = ?, alamat_jalan = ?, kota = ?, provinsi = ? WHERE id = ? AND user_id = ?";
+    public function updateKampanye($kampanye_id, $nama_kampanye, $jenis_kampanye, $target_dana, $tanggal_dimulai, $tanggal_berakhir, $deskripsi, $path_gambar, $user_id, $alamat_jalan, $kota, $provinsi, $rincian){
+        $sql = "UPDATE kampanye SET nama_kampanye = ?, jenis_kampanye = ?, target_kampanye = ?, tanggal_dimulai = ?, tanggal_berakhir = ?, deskripsi = ?, path_gambar = ?, alamat_jalan = ?, kota = ?, provinsi = ?, rincian = ? WHERE id = ? AND user_id = ?";
         $conn = $this->getConnection();
         $stmt = mysqli_prepare($conn, $sql);
-        mysqli_stmt_bind_param($stmt, "ssdsssssssii", $nama_kampanye, $jenis_kampanye, $target_dana, $tanggal_dimulai, $tanggal_berakhir, $deskripsi, $path_gambar, $alamat_jalan, $kota, $provinsi, $kampanye_id, $user_id);
+        mysqli_stmt_bind_param($stmt, "ssdssssssssii", $nama_kampanye, $jenis_kampanye, $target_dana, $tanggal_dimulai, $tanggal_berakhir, $deskripsi, $path_gambar, $alamat_jalan, $kota, $provinsi, $rincian, $kampanye_id, $user_id);
         mysqli_stmt_execute($stmt);
         return mysqli_stmt_affected_rows($stmt);
     }
@@ -209,6 +209,23 @@ class Connection
         } else {
             return $this->tambahRekening($id_kampanye, $nama_bank, $nomor_rekening);
         }
+    }
+
+    public function getDonasiByUser($user_id){
+        $sql = "SELECT d.id_donasi, d.kampanye_id, d.user_id, d.name_hidden,
+                       d.amount, d.metode_bayar, d.pesan, d.bukti, d.status, d.created_at,
+                       k.nama_kampanye, k.jenis_kampanye, k.path_gambar,
+                       u_org.name AS nama_penyelenggara
+                FROM donasi d
+                INNER JOIN kampanye k ON k.id = d.kampanye_id
+                INNER JOIN users u_org ON u_org.id = k.user_id
+                WHERE d.user_id = ?
+                ORDER BY d.created_at DESC";
+        $conn = $this->getConnection();
+        $stmt = mysqli_prepare($conn, $sql);
+        mysqli_stmt_bind_param($stmt, "i", $user_id);
+        mysqli_stmt_execute($stmt);
+        return mysqli_stmt_get_result($stmt);
     }
 
     public function hapusRekening($id_rekening){

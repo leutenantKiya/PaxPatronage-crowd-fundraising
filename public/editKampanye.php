@@ -70,6 +70,7 @@
                 // $kampanye_id = $row["id"];
                 $target_kampanye = htmlspecialchars($row['target_kampanye']);
                 $deskripsi = htmlspecialchars($row["deskripsi"]);
+                $rincian = htmlspecialchars($row["rincian"] ?? '');
                 $nama_kampanye = htmlspecialchars($row["nama_kampanye"]);
                 $jenis_kampanye = htmlspecialchars($row["jenis_kampanye"]);
                 $tanggal_dimulai = date('Y-m-d', strtotime($row["tanggal_dimulai"]));
@@ -107,6 +108,9 @@
 
             echo '<label for="deskripsi">Deskripsi:</label>';
             echo '<textarea style="resize: none;" rows="4" id="deskripsi" name="deskripsi" required>'.$deskripsi.'</textarea>';
+
+            echo '<label for="rincian">Rincian:</label>';
+            echo '<textarea style="resize: none;" rows="6" id="rincian" name="rincian" required>'.$rincian.'</textarea>';
 
             echo '<label for="alamat_jalan">Alamat Lengkap (Jalan, RT/RW, dll):</label>';
             echo '<input type="text" id="alamat_jalan" name="alamat_jalan" value="'.$alamat_jalan.'" required>';

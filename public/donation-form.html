@@ -3,7 +3,7 @@
     session_start();
 
     if(!isset($_SESSION['user_id'])){
-        header("Location: ..public/home.html?error=login_dulu");
+        header("Location: home.html?error=login_dulu");
     }
 
     if($_SERVER['REQUEST_METHOD'] === 'GET' ){

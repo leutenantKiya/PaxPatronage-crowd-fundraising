@@ -28,7 +28,7 @@ require_once __DIR__ . "/../services/db_connection.php";
         $errorMessage = [
             "hapus_kampanye_gagal" => "Kampanye gagal dihapus.",
             "hapus_kampanye_ditolak" => "Kampanye tidak dapat dihapus karena dana terkumpul sudah minimal Rp 10.000.",
-            "update_kampanye_gagal" => "Kampanye gagal diperbarui.",
+            "update_kampanye_gagal" => "Minimal Diubah dulu mas",
             "upload_gagal" => "Upload gambar gagal.",
             "tanggal_tidak_valid" => "Tanggal dimulai tidak boleh lebih besar dari tanggal berakhir."
         ][$_GET["error"] ?? ""] ?? "";

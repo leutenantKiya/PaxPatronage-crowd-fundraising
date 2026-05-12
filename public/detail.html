@@ -60,6 +60,7 @@
     $data_province = htmlspecialchars($slugify($row['provinsi'] ?? ''));
     $data_city = htmlspecialchars($slugify($row['kota'] ?? ''));
     $jumlah_donatur = $db->getDonasiVerifiedByKampanye($kampanye_id, $user_id);
+    $rincian = $row['rincian'];
     // echo mysqli_num_rows($jumlah_donatur);
 ?>
 
@@ -123,9 +124,13 @@
                         <div class="funding-plan" id="funding-plan">
                             <h3 id="funding-plan-title">Rencana penggunaan dana:</h3>
                             <ul>
-                                <li>Biaya Pendidikan 50 Siswa (Rp 75.000.000)</li>
-                                <li>Perlengkapan Sekolah (Rp 15.000.000)</li>
-                                <li>Program Pendampingan Belajar (Rp 10.000.000)</li>
+                                <?php
+                                // https://stackoverflow.com/questions/3997336/explode-php-string-by-new-line
+                                    $lines = explode("\n", $rincian);
+                                    foreach ($lines as $line) {
+                                        echo "<li>" . htmlspecialchars($line) . "</li>";
+                                    }
+                                ?>
                             </ul>
                         </div>
                     </div>

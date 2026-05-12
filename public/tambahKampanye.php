@@ -64,6 +64,9 @@
             <label for="deskripsi">Deskripsi:</label>
             <textarea style="resize: none;" rows="4" id="deskripsi" name="deskripsi" required></textarea>
 
+            <label for="rincian">Rincian:</label>
+            <textarea style="resize: none;" placeholder="Pisahin pakai Enter" rows="6" id="rincian" name="rincian" required></textarea>
+
             <label for="alamat_jalan">Alamat Lengkap (Jalan, RT/RW, dll):</label>
             <input type="text" id="alamat_jalan" name="alamat_jalan" placeholder="Contoh: Jl. Dr. Wahidin Sudirohusodo No. 5-25" required>
 

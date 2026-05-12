@@ -53,6 +53,11 @@
         }
     }
 
+    if (!isset($_POST['rincian']) || trim($_POST['rincian']) === '') {
+        header("Location: ../public/tambahKampanye.php?error=tambah_kampanye_gagal");
+        exit;
+    }
+
     // Validasi rekening bank
     foreach (['nama_bank', 'nomor_rekening'] as $field) {
         if (!isset($_POST[$field]) || trim($_POST[$field]) === '') {
@@ -72,7 +77,8 @@
         $_SESSION['user_id'],
         trim($_POST['alamat_jalan']),
         trim($_POST['kota']),
-        trim($_POST['provinsi'])
+        trim($_POST['provinsi']),
+        trim($_POST['rincian'])
     )){
         // Simpan rekening kampanye
         $conn = $db->getConnection();
