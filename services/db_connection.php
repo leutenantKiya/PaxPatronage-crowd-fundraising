@@ -28,7 +28,7 @@ class Connection
         return $this->conn;
     }
 
-    public function getAllKampanye(){
+    public function getAllKampanye($limit = null, $offset = 0){
         // Home page: tampilkan semua kampanye yang belum selesai (sesuai requirements PDF).
         // JOIN users -> ambil nama penyelenggara untuk ditampilkan di card.
         // ORDER BY: deadline terdekat dulu, lalu target paling kecil (bonus rubrik).
@@ -41,10 +41,31 @@ class Connection
                 INNER JOIN users u ON u.id = k.user_id
                 WHERE k.tanggal_berakhir >= NOW()
                 ORDER BY k.tanggal_berakhir ASC, k.target_kampanye ASC";
+        if ($limit !== null) {
+            $sql .= " LIMIT ? OFFSET ?";
+            $limit = max(0, (int) $limit);
+            $offset = max(0, (int) $offset);
+        }
+        $conn = $this->getConnection();
+        $stmt = mysqli_prepare($conn, $sql);
+        if ($limit !== null) {
+            mysqli_stmt_bind_param($stmt, "ii", $limit, $offset);
+        }
+        mysqli_stmt_execute($stmt);
+        return mysqli_stmt_get_result($stmt);
+    }
+
+    public function countAllKampanye(){
+        $sql = "SELECT COUNT(*) AS total
+                FROM kampanye k
+                INNER JOIN users u ON u.id = k.user_id
+                WHERE k.tanggal_berakhir >= NOW()";
         $conn = $this->getConnection();
         $stmt = mysqli_prepare($conn, $sql);
         mysqli_stmt_execute($stmt);
-        return mysqli_stmt_get_result($stmt);
+        $result = mysqli_stmt_get_result($stmt);
+        $row = mysqli_fetch_assoc($result);
+        return (int) ($row['total'] ?? 0);
     }
 
     public function getKampanye($id){

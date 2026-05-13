@@ -198,7 +198,7 @@
                             $no++;
                         }
                             echo "<tr> 
-                                        <td><b>Total Pending</b></td>
+                                        <td><b>Total Verified</b></td>
                                         <td colspan='6'><center>Rp. ".number_format($verified_amount, 0, ',', '.')."</center></td> 
                                 </tr>";
                     } else {
@@ -251,7 +251,7 @@
                             $no++;
                             }
                             echo "<tr> 
-                                        <td><b>Total Pending</b></td>
+                                        <td><b>Total Rejected</b></td>
                                         <td colspan='6'><center>Rp. ".number_format($rejected_amount, 0, ',', '.')."</center></td> 
                                     </tr>";
                     } else {

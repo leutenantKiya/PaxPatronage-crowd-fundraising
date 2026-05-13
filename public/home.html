@@ -4,10 +4,17 @@
     $isLoggedIn = isset($_SESSION['user_id']);
     $userName = $isLoggedIn && isset($_SESSION['name']) ? $_SESSION['name'] : '';
     $db  = new Connection;
-    $res = $db->getAllKampanye();
-    // Convert result ke array untuk JSON autocomplete, lalu reset pointer untuk loop cards
+    $kampanye_per_page = 6;
+    $jumlah_kampanye = $db->countAllKampanye();
+    $jumlah_halaman = max(1, (int) ceil($jumlah_kampanye / $kampanye_per_page));
+    $halaman_aktif = isset($_GET['page']) ? (int) $_GET['page'] : 1;
+    $halaman_aktif = max(1, min($halaman_aktif, $jumlah_halaman));
+    $offset = ($halaman_aktif - 1) * $kampanye_per_page;
+    $res = $db->getAllKampanye($kampanye_per_page, $offset);
+    $res_semua_kampanye = $db->getAllKampanye();
+    // Convert semua kampanye ke array untuk JSON autocomplete
     $kampanye_arr = [];
-    while ($r = mysqli_fetch_assoc($res)) {
+    while ($r = mysqli_fetch_assoc($res_semua_kampanye)) {
         $slugify = function ($s) {
             $s = strtolower(trim($s));
             $s = preg_replace('/[\s.]+/', '-', $s);
@@ -27,7 +34,6 @@
         ];
     }
     // echo $_GET['success'];
-    mysqli_data_seek($res, 0); // reset supaya loop cards di bawah tetap jalan
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -340,19 +346,25 @@
                 }
             ?>
         </div>
+        <?php if ($jumlah_halaman > 1): ?>
         <div class="pagination">
             <!-- ref : https://www.w3schools.com/css/tryit.asp?filename=trycss_ex_pagination -->
             <ul class="pagination">
                 <!-- plan : in php split all the page into max maybe 5-6 cards and then give all and add li element with the id of the page -->
-                <li><a id="previous-page"  href="#">&laquo;</a></li>
-                <li><a class="active" href="#" id="1">1</a></li>
-                <li><a href="#" id="2">2</a></li>
-                <li><a href="#" id="3">3</a></li>
-                <li><a href="#" id="4">4</a></li>
-                <li><a href="#" id="5">5</a></li>
-                <li><a href="#" id="nex-page">&raquo;</a></li>
+                <li>
+                    <a id="previous-page" class="<?php echo $halaman_aktif <= 1 ? 'disabled' : ''; ?>" href="<?php echo $halaman_aktif > 1 ? '?page=' . ($halaman_aktif - 1) : '#'; ?>">&laquo;</a>
+                </li>
+                <?php for ($page = 1; $page <= $jumlah_halaman; $page++): ?>
+                <li>
+                    <a class="<?php echo $page === $halaman_aktif ? 'active' : ''; ?>" href="?page=<?php echo $page; ?>" id="page-<?php echo $page; ?>"><?php echo $page; ?></a>
+                </li>
+                <?php endfor; ?>
+                <li>
+                    <a id="next-page" class="<?php echo $halaman_aktif >= $jumlah_halaman ? 'disabled' : ''; ?>" href="<?php echo $halaman_aktif < $jumlah_halaman ? '?page=' . ($halaman_aktif + 1) : '#'; ?>">&raquo;</a>
+                </li>
             </ul>
         </div>
+        <?php endif; ?>
     </main>
     <!-- footer -->
     <footer id="contact_us">
