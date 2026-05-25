@@ -1,5 +1,5 @@
 <?php
-    session_start();
+    require_once 'session_check.php';
     if (!isset($_SESSION['user_id'])) {
         header("Location: ../public/login.html?error=login ulang");
         exit;

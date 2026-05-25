@@ -1,7 +1,7 @@
 <?php
     // Post -> Redirect to donation form -> GET success                    
 
-    session_start();
+    require_once('session_check.php');
     // print_r($_POST);
     // print_r($_SESSION);
 

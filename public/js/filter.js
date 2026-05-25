@@ -74,6 +74,106 @@ function updateCities() {
     }
 }
 
+// ==================== CLIENT-SIDE PAGINATION ====================
+const CARDS_PER_PAGE = 6;
+let currentPage = 1;
+
+/**
+ * Render pagination dan tampilkan card sesuai halaman.
+ * Hanya card yang TIDAK punya class .filtered-out yang dihitung.
+ */
+function paginateCards(page) {
+    const allCards = Array.from(document.querySelectorAll('.funding-card'));
+    // Card yang lolos filter (tidak di-hide oleh filter)
+    const visibleCards = allCards.filter(c => !c.classList.contains('filtered-out'));
+    const totalVisible = visibleCards.length;
+    const totalPages = Math.max(1, Math.ceil(totalVisible / CARDS_PER_PAGE));
+
+    // Clamp halaman
+    page = Math.max(1, Math.min(page, totalPages));
+    currentPage = page;
+
+    const startIdx = (page - 1) * CARDS_PER_PAGE;
+    const endIdx = startIdx + CARDS_PER_PAGE;
+
+    // Sembunyikan semua card dulu
+    allCards.forEach(c => c.style.display = 'none');
+
+    // Tampilkan hanya card di halaman aktif (yang lolos filter)
+    visibleCards.forEach((card, i) => {
+        card.style.display = (i >= startIdx && i < endIdx) ? '' : 'none';
+    });
+
+    // Handle pesan "tidak ditemukan"
+    let noResults = document.getElementById('no-results');
+    const fundingContent = document.getElementById('funding-content');
+    if (totalVisible === 0) {
+        if (!noResults && fundingContent) {
+            noResults = document.createElement('p');
+            noResults.id = 'no-results';
+            noResults.className = 'empty-state';
+            noResults.textContent = 'Tidak ada kampanye yang cocok dengan pencarian / filter.';
+            fundingContent.appendChild(noResults);
+        }
+        if (noResults) noResults.style.display = '';
+    } else if (noResults) {
+        noResults.style.display = 'none';
+    }
+
+    // Render tombol pagination
+    renderPaginationButtons(totalPages, page);
+}
+
+function renderPaginationButtons(totalPages, activePage) {
+    const container = document.getElementById('js-pagination');
+    if (!container) return;
+
+    // Kalau cuma 1 halaman, sembunyikan pagination
+    if (totalPages <= 1) {
+        container.innerHTML = '';
+        return;
+    }
+
+    let html = '<ul class="pagination">';
+
+    // Prev
+    html += `<li><a id="previous-page" class="${activePage <= 1 ? 'disabled' : ''}" href="#" data-page="${activePage - 1}">&laquo;</a></li>`;
+
+    // Page numbers
+    for (let p = 1; p <= totalPages; p++) {
+        html += `<li><a class="${p === activePage ? 'active' : ''}" href="#" data-page="${p}" id="page-${p}">${p}</a></li>`;
+    }
+
+    // Next
+    html += `<li><a id="next-page" class="${activePage >= totalPages ? 'disabled' : ''}" href="#" data-page="${activePage + 1}">&raquo;</a></li>`;
+
+    html += '</ul>';
+    container.innerHTML = html;
+
+    // Pasang event listener ke tombol pagination
+    container.querySelectorAll('a[data-page]').forEach(link => {
+        link.addEventListener('click', (e) => {
+            e.preventDefault();
+            if (link.classList.contains('disabled')) return;
+            const targetPage = parseInt(link.dataset.page);
+            paginateCards(targetPage);
+            // Scroll ke area cards
+            const fundingContent = document.getElementById('funding-content');
+            if (fundingContent) {
+                fundingContent.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        });
+    });
+}
+
+// Inisialisasi pagination saat halaman selesai load
+document.addEventListener('DOMContentLoaded', () => {
+    const fundingContent = document.getElementById('funding-content');
+    if (fundingContent && fundingContent.querySelectorAll('.funding-card').length > 0) {
+        paginateCards(1);
+    }
+});
+
 function resetFilter() {
     const searchInput = document.getElementById('search-input');
     if (searchInput) {
@@ -101,17 +201,18 @@ function resetFilter() {
         targetDana.value = '';
     }
 
-    const fundingContent = document.getElementById('funding-content');
-    if (fundingContent) {
-        const cards = fundingContent.querySelectorAll('.funding-card');
-        cards.forEach(card => {
-            card.style.display = '';
-        });
-        const noResults = document.getElementById('no-results');
-        if (noResults) {
-            noResults.style.display = 'none';
-        }
+    // Hapus semua filter-out class
+    document.querySelectorAll('.funding-card.filtered-out').forEach(card => {
+        card.classList.remove('filtered-out');
+    });
+
+    const noResults = document.getElementById('no-results');
+    if (noResults) {
+        noResults.style.display = 'none';
     }
+
+    // Re-paginate dari halaman 1
+    paginateCards(1);
 
     const btn = document.getElementById('btn-reset-filter');
     if (btn) {
@@ -138,10 +239,6 @@ function applyFilter() {
     const selectedTarget = document.getElementById('filter-target-dana').value.split('-');
     const minTarget = parseInt(selectedTarget[0]);
     const maxTarget = parseInt(selectedTarget) || Infinity;
-    console.log(selectedCategories);
-    console.log(selectedProvince);
-    console.log(selectedCity);
-    console.log(selectedTarget);
     
     const cards = document.querySelectorAll('.funding-card');
     
@@ -181,8 +278,22 @@ function applyFilter() {
             }
         }
         
-        card.style.display = isVisible ? '' : 'none';
+        // Tandai card yang tidak cocok filter (bukan langsung display:none)
+        if (isVisible) {
+            card.classList.remove('filtered-out');
+        } else {
+            card.classList.add('filtered-out');
+        }
     });
+
+    // Re-paginate dari halaman 1 setelah filter diterapkan
+    paginateCards(1);
+
+    // Scroll ke area cards
+    const fundingContent = document.getElementById('funding-content');
+    if (fundingContent) {
+        fundingContent.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
 }
 
 
@@ -285,14 +396,11 @@ function applyFilter() {
         suggestionsEl.innerHTML = '';
 
         const cards = document.querySelectorAll('.funding-card');
-        const fundingContent = document.getElementById('funding-content');
-        let visibleCount = 0;
 
         cards.forEach(card => {
             if (val === '') {
                 // Kosong = tampilkan semua
-                card.style.display = '';
-                visibleCount++;
+                card.classList.remove('filtered-out');
                 return;
             }
 
@@ -308,26 +416,18 @@ function applyFilter() {
                          || province.includes(val)
                          || city.includes(val);
 
-            card.style.display = isMatch ? '' : 'none';
-            if (isMatch) visibleCount++;
+            if (isMatch) {
+                card.classList.remove('filtered-out');
+            } else {
+                card.classList.add('filtered-out');
+            }
         });
 
-        // Tampilkan / sembunyikan pesan "tidak ditemukan"
-        let noResults = document.getElementById('no-results');
-        if (visibleCount === 0 && val !== '') {
-            if (!noResults && fundingContent) {
-                noResults = document.createElement('p');
-                noResults.id = 'no-results';
-                noResults.className = 'empty-state';
-                noResults.textContent = 'Tidak ada kampanye yang cocok dengan pencarian.';
-                fundingContent.appendChild(noResults);
-            }
-            if (noResults) noResults.style.display = '';
-        } else if (noResults) {
-            noResults.style.display = 'none';
-        }
+        // Re-paginate dari halaman 1
+        paginateCards(1);
 
         // Scroll ke area cards
+        const fundingContent = document.getElementById('funding-content');
         if (fundingContent && val !== '') {
             fundingContent.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }

@@ -1,5 +1,5 @@
 <?php
-session_start();
+require_once __DIR__ . "/../services/session_check.php";
 
 // check in logged in first la
 if(!isset($_SESSION['user_id'])){

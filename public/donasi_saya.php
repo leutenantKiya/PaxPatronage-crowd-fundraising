@@ -1,7 +1,7 @@
 <?php
-    session_start();
+    require_once __DIR__ . "/../services/session_check.php";
 
-    // Guard: kalau belum login, redirect ke home dengan error
+    // kalau belum login, redirect ke home dengan error
     if (!isset($_SESSION['user_id'])) {
         header("Location: home.html?error=login_dulu");
         exit;

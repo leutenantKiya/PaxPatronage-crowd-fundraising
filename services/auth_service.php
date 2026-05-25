@@ -1,5 +1,5 @@
 <?php
-    session_start();
+    require_once 'session_check.php';
     if (($_SERVER['REQUEST_METHOD'] ?? '') !== 'POST') {
         header("Location: ../public/login.html");
         exit;
@@ -41,6 +41,7 @@
             $_SESSION['user_type'] = (int) $user['user_type'];
             $_SESSION['phone'] = $user["phone"];
             $_SESSION['name'] = $user["name"];
+            $_SESSION['last_activity'] = time();
             $page = $user_type === 0 ? "dashboard.php" : "home.html";
             $msg = "Location: ../public/".$page."?success=login_berhasil&message=Selamat_Datang_".urlencode($_SESSION['name']);
             header($msg);

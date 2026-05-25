@@ -1,5 +1,5 @@
 <?php
-    session_start();
+    require_once __DIR__ . "/../services/session_check.php";
     if(!isset($_SESSION['user_id'])){
         header("Location: login.html?error=login ulang");
         exit;
@@ -70,55 +70,57 @@
             <label for="alamat_jalan">Alamat Lengkap (Jalan, RT/RW, dll):</label>
             <input type="text" id="alamat_jalan" name="alamat_jalan" placeholder="Contoh: Jl. Dr. Wahidin Sudirohusodo No. 5-25" required>
 
-            <label for="kota">Kota / Kabupaten:</label>
-            <input type="text" id="kota" name="kota" placeholder="Contoh: Yogyakarta" required>
             <!-- <select id="filter-kota" class="filter-select" disabled>
                 <option value="">-- Pilih Kota --</option>
             </select> -->
-
-            <label for="provinsi">Provinsi:</label>
-            <select id="provinsi" name="provinsi" required>
+            
+            <label for="filter-provinsi">Provinsi:</label>
+            <select id="filter-provinsi" name="filter-provinsi" class="filter-select" required onchange="updateCities()">
                 <option value="">-- Pilih Provinsi --</option>
-                <option value="Aceh">Aceh</option>
-                <option value="Sumatera Utara">Sumatera Utara</option>
-                <option value="Sumatera Barat">Sumatera Barat</option>
-                <option value="Riau">Riau</option>
-                <option value="Jambi">Jambi</option>
-                <option value="Sumatera Selatan">Sumatera Selatan</option>
-                <option value="Bengkulu">Bengkulu</option>
-                <option value="Lampung">Lampung</option>
-                <option value="Kep. Bangka Belitung">Kep. Bangka Belitung</option>
-                <option value="Kep. Riau">Kep. Riau</option>
-                <option value="DKI Jakarta">DKI Jakarta</option>
-                <option value="Jawa Barat">Jawa Barat</option>
-                <option value="Jawa Tengah">Jawa Tengah</option>
-                <option value="DI Yogyakarta">DI Yogyakarta</option>
-                <option value="Jawa Timur">Jawa Timur</option>
-                <option value="Banten">Banten</option>
-                <option value="Bali">Bali</option>
-                <option value="Nusa Tenggara Barat">Nusa Tenggara Barat</option>
-                <option value="Nusa Tenggara Timur">Nusa Tenggara Timur</option>
-                <option value="Kalimantan Barat">Kalimantan Barat</option>
-                <option value="Kalimantan Tengah">Kalimantan Tengah</option>
-                <option value="Kalimantan Selatan">Kalimantan Selatan</option>
-                <option value="Kalimantan Timur">Kalimantan Timur</option>
-                <option value="Kalimantan Utara">Kalimantan Utara</option>
-                <option value="Sulawesi Utara">Sulawesi Utara</option>
-                <option value="Sulawesi Tengah">Sulawesi Tengah</option>
-                <option value="Sulawesi Selatan">Sulawesi Selatan</option>
-                <option value="Sulawesi Tenggara">Sulawesi Tenggara</option>
-                <option value="Gorontalo">Gorontalo</option>
-                <option value="Sulawesi Barat">Sulawesi Barat</option>
-                <option value="Maluku">Maluku</option>
-                <option value="Maluku Utara">Maluku Utara</option>
-                <option value="Papua">Papua</option>
-                <option value="Papua Barat">Papua Barat</option>
-                <option value="Papua Selatan">Papua Selatan</option>
-                <option value="Papua Tengah">Papua Tengah</option>
-                <option value="Papua Pegunungan">Papua Pegunungan</option>
-                <option value="Papua Barat Daya">Papua Barat Daya</option>
+                <option value="aceh">Aceh</option>
+                <option value="sumatera-utara">Sumatera Utara</option>
+                <option value="sumatera-barat">Sumatera Barat</option>
+                <option value="riau">Riau</option>
+                <option value="jambi">Jambi</option>
+                <option value="sumatera-selatan">Sumatera Selatan</option>
+                <option value="bengkulu">Bengkulu</option>
+                <option value="lampung">Lampung</option>
+                <option value="kep-bangka-belitung">Kep. Bangka Belitung</option>
+                <option value="kep-riau">Kep. Riau</option>
+                <option value="dki-jakarta">DKI Jakarta</option>
+                <option value="jawa-barat">Jawa Barat</option>
+                <option value="jawa-tengah">Jawa Tengah</option>
+                <option value="di-yogyakarta">DI Yogyakarta</option>
+                <option value="jawa-timur">Jawa Timur</option>
+                <option value="banten">Banten</option>
+                <option value="bali">Bali</option>
+                <option value="nusa-tenggara-barat">Nusa Tenggara Barat</option>
+                <option value="nusa-tenggara-timur">Nusa Tenggara Timur</option>
+                <option value="kalimantan-barat">Kalimantan Barat</option>
+                <option value="kalimantan-tengah">Kalimantan Tengah</option>
+                <option value="kalimantan-selatan">Kalimantan Selatan</option>
+                <option value="kalimantan-timur">Kalimantan Timur</option>
+                <option value="kalimantan-utara">Kalimantan Utara</option>
+                <option value="sulawesi-utara">Sulawesi Utara</option>
+                <option value="sulawesi-tengah">Sulawesi Tengah</option>
+                <option value="sulawesi-selatan">Sulawesi Selatan</option>
+                <option value="sulawesi-tenggara">Sulawesi Tenggara</option>
+                <option value="gorontalo">Gorontalo</option>
+                <option value="sulawesi-barat">Sulawesi Barat</option>
+                <option value="maluku">Maluku</option>
+                <option value="maluku-utara">Maluku Utara</option>
+                <option value="papua">Papua</option>
+                <option value="papua-barat">Papua Barat</option>
+                <option value="papua-selatan">Papua Selatan</option>
+                <option value="papua-tengah">Papua Tengah</option>
+                <option value="papua-pegunungan">Papua Pegunungan</option>
+                <option value="papua-barat-daya">Papua Barat Daya</option>
             </select>
-
+            <label for="filter-kota">Kota / Kabupaten:</label>
+            <select id="filter-kota" name="kota" class="filter-select" disabled required>
+                <option value="">-- Pilih Kota --</option>
+            </select>
+            
             <label for="nama_bank">Nama Bank:</label>
             <select id="nama_bank" name="nama_bank" required>
                 <option value="">-- Pilih Bank --</option>

@@ -1,5 +1,5 @@
 <?php
-    session_start();
+    require_once 'session_check.php';
     if (!isset($_SESSION['user_id'])) {
         header("Location: ../public/login.html?error=login ulang");
         exit;
@@ -18,7 +18,7 @@
     $kampanye_id = (int) $_POST['kampanye_id'];
     $kampanye = $db->getKampanye($kampanye_id);
     $res = mysqli_fetch_assoc($kampanye);
-    if($res['dana_terkumpul'] != null && $res['dana_terkumpul'] >= 100000){
+    if($res['dana_terkumpul'] != null && $res['dana_terkumpul'] >= 10000){
         header("Location: ../public/dashboard.php?error=hapus_kampanye_ditolak");
         exit;
     }

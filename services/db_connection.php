@@ -29,9 +29,6 @@ class Connection
     }
 
     public function getAllKampanye($limit = null, $offset = 0){
-        // Home page: tampilkan semua kampanye yang belum selesai (sesuai requirements PDF).
-        // JOIN users -> ambil nama penyelenggara untuk ditampilkan di card.
-        // ORDER BY: deadline terdekat dulu, lalu target paling kecil (bonus rubrik).
         $sql = "SELECT k.id, k.nama_kampanye, k.jenis_kampanye, k.target_kampanye,
                        k.dana_terkumpul, k.tanggal_dimulai, k.tanggal_berakhir,
                        k.deskripsi, k.path_gambar, k.user_id, k.rincian,
@@ -187,7 +184,6 @@ class Connection
     public function tolakDonasi($id_donasi, $owner_user_id){
         // Reject: cuma update status='rejected'. Dana_terkumpul tidak diutak-atik
         // (donasi pending memang belum pernah masuk hitungan).
-        // Guard sama: hanya pending yang bisa direject (idempotent), hanya pemilik kampanye.
         $sql = "UPDATE donasi d
                 INNER JOIN kampanye k ON k.id = d.kampanye_id
                 SET d.status = 'rejected'

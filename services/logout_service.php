@@ -1,5 +1,5 @@
 <?php
-    session_start();
+    require_once 'session_check.php';
     $_SESSION = [];
 
     if (ini_get("session.use_cookies")) {

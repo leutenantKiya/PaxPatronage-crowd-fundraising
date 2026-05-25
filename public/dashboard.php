@@ -1,6 +1,7 @@
 <?php
 // echo "Halo donatur";
-session_start();
+require_once __DIR__ . "/../services/session_check.php";
+
 if(!isset($_SESSION['user_id'])){
     header("Location: login.html?error=invalid_session");
     exit;
