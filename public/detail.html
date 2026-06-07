@@ -13,7 +13,7 @@
     $row = mysqli_fetch_assoc($res);
     $rekening  = $db->getRekeningByKampanye($kampanye_id);
     $rekening_row = mysqli_fetch_assoc($rekening);
-    print_r(mysqli_fetch_assoc($res));
+    // print_r(mysqli_fetch_assoc($res));
 
     // Array ( [id] => 2 [nama_kampanye] => Sedekah makan mewah kiya 
     // [jenis_kampanye] => Sedekah 
@@ -101,7 +101,7 @@
             <div class="main-content" id="campaign-content">
                 <div class="campaign-img" id="campaign-img">
                     <div class="hero-img-container" id="hero-img-container">
-                        <img src=<?php echo $path_gambar; ?> alt="Poster Kampanye" class="hero-img">
+                        <img src="<?php echo $path_gambar; ?>" alt="Poster Kampanye" class="hero-img" onerror="this.src='upload/example-detail.png'">
                     </div>
                     <span class="category-badge" id="category-badge"><?php echo $jenis_kampanye ?></span>
                 </div>

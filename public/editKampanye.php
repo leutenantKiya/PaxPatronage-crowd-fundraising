@@ -151,7 +151,7 @@
             echo '<label for="nomor_rekening">Nomor Rekening:</label>';
             echo '<input type="text" id="nomor_rekening" name="nomor_rekening" value="'.$nomor_rekening_db.'" placeholder="Contoh: 1234567890" required>';
 
-            echo '<img src="'.$path_gambar.'?v='.time().'" alt="'.$row["path_gambar"].'" width="300">';
+            echo '<img src="'.$path_gambar.'?v='.time().'" alt="'.$row["path_gambar"].'" width="300" onerror="this.src=\'upload/example-detail.png\'">';
             echo '<label for="foto">Foto Banner:</label>';
             echo '<input type="file" id="foto" name="foto" accept=".jpg, .png, .pdf">';
 

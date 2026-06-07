@@ -9,13 +9,18 @@
     $res_semua_kampanye = $db->getAllKampanye();
     // Convert semua kampanye ke array untuk JSON autocomplete
     $kampanye_arr = [];
+    $penyelenggara_list = [];
+    $slugify = function ($s) {
+        $s = strtolower(trim($s));
+        $s = preg_replace('/[\s.]+/', '-', $s);
+        $s = preg_replace('/-+/', '-', $s);
+        return trim($s, '-');
+    };
     while ($r = mysqli_fetch_assoc($res_semua_kampanye)) {
-        $slugify = function ($s) {
-            $s = strtolower(trim($s));
-            $s = preg_replace('/[\s.]+/', '-', $s);
-            $s = preg_replace('/-+/', '-', $s);
-            return trim($s, '-');
-        };
+        $p_name = $r['nama_penyelenggara'] ?? '';
+        if ($p_name && !in_array($p_name, $penyelenggara_list)) {
+            $penyelenggara_list[] = $p_name;
+        }
         $kampanye_arr[] = [
             'id'             => (int) $r['id'],
             'nama_kampanye'  => $r['nama_kampanye'],
@@ -255,6 +260,38 @@
                             <option value="1000000000+">Lebih dari Rp 1.000.000.000</option>
                         </select>
                     </div>
+                    <!--penyelenggara-->
+                    <div class="filter-section" id="filter-section-penyelenggara">
+                        <label class="filter-label" for="filter-penyelenggara">
+                            Penyelenggara
+                        </label>
+                        <select id="filter-penyelenggara" class="filter-select">
+                            <option value="">-- Pilih Penyelenggara --</option>
+                            <?php
+                                foreach ($penyelenggara_list as $p) {
+                                    $p_slug = $slugify($p);
+                                    echo '<option value="' . htmlspecialchars($p_slug) . '">' . htmlspecialchars($p) . '</option>';
+                                }
+                            ?>
+                        </select>
+                    </div>
+
+                    <!--tanggal-->
+                    <div class="filter-section" id="filter-section-tanggal">
+                        <label class="filter-label">
+                            Rentang Tanggal Berakhir
+                        </label>
+                        <div class="filter-location-group">
+                            <div class="filter-select-wrapper">
+                                <label class="filter-sublabel" for="filter-tanggal-mulai">Dari Tanggal</label>
+                                <input type="date" id="filter-tanggal-mulai" class="filter-select">
+                            </div>
+                            <div class="filter-select-wrapper">
+                                <label class="filter-sublabel" for="filter-tanggal-sampai">Sampai Tanggal</label>
+                                <input type="date" id="filter-tanggal-sampai" class="filter-select">
+                            </div>
+                        </div>
+                    </div>
 
                     <!-- Action Buttons => apply filters -->
                     <div class="filter-actions" id="filter-actions">
@@ -308,8 +345,9 @@
                         $data_category = htmlspecialchars($slugify($row['jenis_kampanye']));
                         $data_province = htmlspecialchars($slugify($row['provinsi'] ?? ''));
                         $data_city     = htmlspecialchars($slugify($row['kota'] ?? ''));
+                        $data_organizer = htmlspecialchars($slugify($row['nama_penyelenggara'] ?? ''));
             ?>
-            <a href="detail.html?id=<?php echo $kampanye_id; ?>" class="funding-card" data-category="<?php echo $data_category; ?>" data-province="<?php echo $data_province; ?>" data-city="<?php echo $data_city; ?>" id="funding-card-<?php echo $idx; ?>">
+            <a href="detail.html?id=<?php echo $kampanye_id; ?>" class="funding-card" data-category="<?php echo $data_category; ?>" data-province="<?php echo $data_province; ?>" data-city="<?php echo $data_city; ?>" data-organizer="<?php echo $data_organizer; ?>" data-deadline="<?php echo date('Y-m-d', $ts_berakhir); ?>" id="funding-card-<?php echo $idx; ?>">
                 <div class="hero-img-container">
                     <img src="<?php echo $path_gambar; ?>" alt="Poster <?php echo $nama_kampanye; ?>" class="hero-img" onerror="this.src='upload/example-detail.png'">
                 </div>
