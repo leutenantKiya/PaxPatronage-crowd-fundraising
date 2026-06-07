@@ -334,7 +334,7 @@ function applyFilter() {
                 }
                 if (filterDateTo) {
                     const toTime = new Date(filterDateTo).getTime();
-                    if (deadlineTime < toTime) {
+                    if (deadlineTime > toTime) {
                     isVisible = false;
                     }
                 }
