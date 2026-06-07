@@ -3,7 +3,8 @@
     require_once __DIR__ . '/../services/session_check.php';
 
     if(!isset($_SESSION['user_id'])){
-        header("Location: home.html?error=login_dulu");
+        header("Location: login.html?error=login_dulu");
+        exit;
     }
 
     if($_SERVER['REQUEST_METHOD'] === 'GET' ){
@@ -220,11 +221,11 @@
                             <div class="upload-container">
                                 <h3>Bukti Transfer</h3>
                                 <label class="upload-box">
-                                    <input type="file" name="bukti_transfer" accept=".jpg,.jpeg,.png,.pdf" class="file-input" required>
+                                    <input type="file" name="bukti_transfer" accept=".jpg" class="file-input" required>
                                     <div class="upload-content">
                                         <div>☁️</div>
                                         <p><strong>Klik atau seret file ke sini</strong></p>
-                                        <small>Mendukung Format: JPG, PNG, PDF (Maks. 2MB)</small>
+                                        <small>Mendukung Format: JPG (Maks. 2MB)</small>
                                     </div>
                                 </label>
                             </div>

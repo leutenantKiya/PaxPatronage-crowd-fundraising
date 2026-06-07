@@ -1,41 +1,45 @@
 <?php
-    require_once __DIR__ . "/../services/session_check.php";
+require_once __DIR__ . "/../services/session_check.php";
 
-    // kalau belum login, redirect ke home dengan error
-    if (!isset($_SESSION['user_id'])) {
-        header("Location: home.html?error=login_dulu");
-        exit;
-    }
+// kalau belum login, redirect ke home dengan error
+if (!isset($_SESSION['user_id'])) {
+    header("Location: login.html?error=login_dulu");
+    exit;
+}
 
-    $user_id  = $_SESSION['user_id'];
-    $userName = $_SESSION['name'] ?? 'User';
+$user_id = $_SESSION['user_id'];
+$userName = $_SESSION['name'] ?? 'User';
 
-    require_once __DIR__ . "/../services/db_connection.php";
-    $db  = new Connection;
-    $res = $db->getDonasiByUser($user_id);
+require_once __DIR__ . "/../services/db_connection.php";
+$db = new Connection;
+$res = $db->getDonasiByUser($user_id);
 
-    // Helper format tanggal Indonesia
-    $bulan_id = ['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sep','Okt','Nov','Des'];
+// Helper format tanggal Indonesia
+$bulan_id = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'];
 
-    // Hitung ringkasan
-    $total_donasi   = 0;
-    $total_nominal  = 0;
-    $count_verified = 0;
-    $count_pending  = 0;
-    $count_rejected = 0;
-    $donasi_arr     = [];
+// Hitung ringkasan
+$total_donasi = 0;
+$total_nominal = 0;
+$count_verified = 0;
+$count_pending = 0;
+$count_rejected = 0;
+$donasi_arr = [];
 
-    while ($row = mysqli_fetch_assoc($res)) {
-        $donasi_arr[] = $row;
-        $total_donasi++;
-        $total_nominal += (float) $row['amount'];
-        if ($row['status'] === 'verified')  $count_verified++;
-        if ($row['status'] === 'pending')   $count_pending++;
-        if ($row['status'] === 'rejected')  $count_rejected++;
-    }
+while ($row = mysqli_fetch_assoc($res)) {
+    $donasi_arr[] = $row;
+    $total_donasi++;
+    $total_nominal += (float) $row['amount'];
+    if ($row['status'] === 'verified')
+        $count_verified++;
+    if ($row['status'] === 'pending')
+        $count_pending++;
+    if ($row['status'] === 'rejected')
+        $count_rejected++;
+}
 ?>
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -43,6 +47,7 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <title>Donasi Saya - PaxPatron</title>
 </head>
+
 <body>
     <!-- header -->
     <header class="site-header" id="site-header">
@@ -62,8 +67,11 @@
             <div class="header-right">
                 <span class="profile-name">Halo, <?php echo htmlspecialchars($userName); ?></span>
                 <div class="profile-picture" id="profile-picture">
-                    <button class="profile-toggle" id="profile-toggle" type="button" aria-haspopup="true" aria-expanded="false">
-                        <img class="avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAWjipIcx9P_d5QCPMxAjv2rssXV8CO11Cz6sxyTQL1yY_ycQ0-ehgBxmElZs13-fpF0DxSdz-9c7ceVoHOAomqriYrNz4PYA3YNq5eS6cSkLg5Mm1R665UPTvFsxN5HO26SI-o0kPT_FXrMO7lQTIoUSR-cVVu0gdk6RDKerIyP_TctBAgo2l7Dfd5tYBCLVWxUt2Y6hfFR3BpY27ewaTW_ywC1db4TgNom-zTp88TxUU7vkLfZVyYWvrKc7PDNgerRaHxLZLHRxc" width="40px" alt="User avatar" id="user-avatar"/>
+                    <button class="profile-toggle" id="profile-toggle" type="button" aria-haspopup="true"
+                        aria-expanded="false">
+                        <img class="avatar"
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuAWjipIcx9P_d5QCPMxAjv2rssXV8CO11Cz6sxyTQL1yY_ycQ0-ehgBxmElZs13-fpF0DxSdz-9c7ceVoHOAomqriYrNz4PYA3YNq5eS6cSkLg5Mm1R665UPTvFsxN5HO26SI-o0kPT_FXrMO7lQTIoUSR-cVVu0gdk6RDKerIyP_TctBAgo2l7Dfd5tYBCLVWxUt2Y6hfFR3BpY27ewaTW_ywC1db4TgNom-zTp88TxUU7vkLfZVyYWvrKc7PDNgerRaHxLZLHRxc"
+                            width="40px" alt="User avatar" id="user-avatar" />
                     </button>
                     <div class="profile-menu" id="profile-menu">
                         <a href="home.html" id="profile-menu-home">Beranda</a>
@@ -148,9 +156,9 @@
             <?php if (count($donasi_arr) > 0): ?>
                 <?php foreach ($donasi_arr as $d):
                     $ts = strtotime($d['created_at']);
-                    $tgl_fmt = date('j', $ts) . ' ' . $bulan_id[(int)date('n', $ts) - 1] . ' ' . date('Y', $ts);
+                    $tgl_fmt = date('j', $ts) . ' ' . $bulan_id[(int) date('n', $ts) - 1] . ' ' . date('Y', $ts);
                     $jam_fmt = date('H:i', $ts);
-                    $amount_fmt = 'Rp ' . number_format((float)$d['amount'], 0, ',', '.');
+                    $amount_fmt = 'Rp ' . number_format((float) $d['amount'], 0, ',', '.');
                     $status = htmlspecialchars($d['status']);
                     $nama_kampanye = htmlspecialchars($d['nama_kampanye']);
                     $jenis_kampanye = htmlspecialchars($d['jenis_kampanye']);
@@ -163,31 +171,33 @@
                     // Status label & class
                     $status_label = ['pending' => 'Menunggu Verifikasi', 'verified' => 'Terverifikasi', 'rejected' => 'Ditolak'][$status] ?? $status;
                     $status_class = 'status-' . $status;
-                ?>
-                <div class="donasi-card" data-status="<?php echo $status; ?>">
-                    <div class="donasi-card-left">
-                        <div class="donasi-img-wrapper">
-                            <img src="<?php echo $path_gambar; ?>" alt="<?php echo $nama_kampanye; ?>" class="donasi-img" onerror="this.src='upload/example-detail.png'">
+                    ?>
+                    <div class="donasi-card" data-status="<?php echo $status; ?>">
+                        <div class="donasi-card-left">
+                            <div class="donasi-img-wrapper">
+                                <img src="<?php echo $path_gambar; ?>" alt="<?php echo $nama_kampanye; ?>" class="donasi-img"
+                                    onerror="this.src='upload/example-detail.png'">
+                            </div>
+                            <div class="donasi-info">
+                                <a href="detail.html?id=<?php echo $kampanye_id; ?>"
+                                    class="donasi-kampanye-name"><?php echo $nama_kampanye; ?></a>
+                                <span class="donasi-category"><?php echo $jenis_kampanye; ?></span>
+                                <span class="donasi-organizer">oleh <?php echo $penyelenggara; ?></span>
+                                <?php if ($pesan): ?>
+                                    <p class="donasi-pesan">"<?php echo $pesan; ?>"</p>
+                                <?php endif; ?>
+                            </div>
                         </div>
-                        <div class="donasi-info">
-                            <a href="detail.html?id=<?php echo $kampanye_id; ?>" class="donasi-kampanye-name"><?php echo $nama_kampanye; ?></a>
-                            <span class="donasi-category"><?php echo $jenis_kampanye; ?></span>
-                            <span class="donasi-organizer">oleh <?php echo $penyelenggara; ?></span>
-                            <?php if ($pesan): ?>
-                                <p class="donasi-pesan">"<?php echo $pesan; ?>"</p>
-                            <?php endif; ?>
+                        <div class="donasi-card-right">
+                            <span class="donasi-amount"><?php echo $amount_fmt; ?></span>
+                            <span class="donasi-metode"><?php echo $metode; ?></span>
+                            <span class="status-badge <?php echo $status_class; ?>"><?php echo $status_label; ?></span>
+                            <span class="donasi-date">
+                                <span class="material-icons date-icon">calendar_today</span>
+                                <?php echo $tgl_fmt; ?> • <?php echo $jam_fmt; ?>
+                            </span>
                         </div>
                     </div>
-                    <div class="donasi-card-right">
-                        <span class="donasi-amount"><?php echo $amount_fmt; ?></span>
-                        <span class="donasi-metode"><?php echo $metode; ?></span>
-                        <span class="status-badge <?php echo $status_class; ?>"><?php echo $status_label; ?></span>
-                        <span class="donasi-date">
-                            <span class="material-icons date-icon">calendar_today</span>
-                            <?php echo $tgl_fmt; ?> • <?php echo $jam_fmt; ?>
-                        </span>
-                    </div>
-                </div>
                 <?php endforeach; ?>
             <?php else: ?>
                 <div class="empty-state-box">
@@ -226,9 +236,12 @@
                 <div class="footer-social" id="footer-social">
                     <h3 id="footer-social-title">Media Sosial</h3>
                     <div class="social-icons" id="social-icons">
-                        <a href="https://www.instagram.com/gwkiyaco/?hl=en" title="Instagram" id="social-instagram"><img src="assets/instagram.png" alt="Instagram" width="24"></a>
-                        <a href="https://x.com/archlinuxmemes/status/1051963941566308352" title="Twitter" id="social-twitter"><img src="assets/twitter.png" alt="Twitter" width="24"></a>
-                        <a href="www.linkedin.com/in/antonius-kiya-255945290" title="LinkedIn" id="social-linkedin"><img src="assets/linkedin.png" alt="LinkedIn" width="24"></a>
+                        <a href="https://www.instagram.com/gwkiyaco/?hl=en" title="Instagram" id="social-instagram"><img
+                                src="assets/instagram.png" alt="Instagram" width="24"></a>
+                        <a href="https://x.com/archlinuxmemes/status/1051963941566308352" title="Twitter"
+                            id="social-twitter"><img src="assets/twitter.png" alt="Twitter" width="24"></a>
+                        <a href="www.linkedin.com/in/antonius-kiya-255945290" title="LinkedIn" id="social-linkedin"><img
+                                src="assets/linkedin.png" alt="LinkedIn" width="24"></a>
                     </div>
                 </div>
             </div>
@@ -277,4 +290,5 @@
         }
     </script>
 </body>
+
 </html>

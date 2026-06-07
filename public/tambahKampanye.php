@@ -75,7 +75,7 @@
             </select> -->
             
             <label for="filter-provinsi">Provinsi:</label>
-            <select id="filter-provinsi" name="filter-provinsi" class="filter-select" required onchange="updateCities()">
+            <select id="filter-provinsi" name="filter" class="filter-select" required onchange="updateCities()">
                 <option value="">-- Pilih Provinsi --</option>
                 <option value="aceh">Aceh</option>
                 <option value="sumatera-utara">Sumatera Utara</option>

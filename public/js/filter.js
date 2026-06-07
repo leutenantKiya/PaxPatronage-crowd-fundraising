@@ -201,6 +201,20 @@ function resetFilter() {
         targetDana.value = '';
     }
 
+    const penyelenggaraSelect = document.getElementById('filter-penyelenggara');
+    if (penyelenggaraSelect) {
+        penyelenggaraSelect.value = '';
+    }
+
+    const tanggalMulai = document.getElementById('filter-tanggal-mulai');
+    if (tanggalMulai) {
+        tanggalMulai.value = '';
+    }
+    const tanggalSampai = document.getElementById('filter-tanggal-sampai');
+    if (tanggalSampai) {
+        tanggalSampai.value = '';
+    }
+
     // Hapus semua filter-out class
     document.querySelectorAll('.funding-card.filtered-out').forEach(card => {
         card.classList.remove('filtered-out');
@@ -236,9 +250,24 @@ function applyFilter() {
     const selectedCategories = Array.from(document.querySelectorAll('#filter-kategori-group input[type="checkbox"]:checked')).map(cb => cb.value);
     const selectedProvince = document.getElementById('filter-provinsi').value;
     const selectedCity = document.getElementById('filter-kota').value;
-    const selectedTarget = document.getElementById('filter-target-dana').value.split('-');
-    const minTarget = parseInt(selectedTarget[0]);
-    const maxTarget = parseInt(selectedTarget) || Infinity;
+    const selectedOrganizer = document.getElementById('filter-penyelenggara').value;
+    
+    const targetDanaVal = document.getElementById('filter-target-dana').value;
+    let minTarget = 0;
+    let maxTarget = Infinity;
+    let hasTargetFilter = false;
+
+    if (targetDanaVal) {
+        hasTargetFilter = true;
+        if (targetDanaVal.includes('-')) {
+            const parts = targetDanaVal.split('-');
+            minTarget = parseInt(parts[0]) || 0;
+            maxTarget = parseInt(parts[1]) || Infinity;
+        } else if (targetDanaVal.endsWith('+')) {
+            minTarget = parseInt(targetDanaVal) || 0;
+            maxTarget = Infinity;
+        }
+    }
     
     const cards = document.querySelectorAll('.funding-card');
     
@@ -246,11 +275,13 @@ function applyFilter() {
         let isVisible = true;
         
         // Range filter
-        if(selectedTarget){
+        if (hasTargetFilter) {
             const cardTarget = card.querySelector('.amount-target');
-            const amount = parseFloat(cardTarget.getAttribute('amount-target'));
-            if (amount < minTarget || amount > maxTarget) {
-                isVisible = false;
+            if (cardTarget) {
+                const amount = parseFloat(cardTarget.getAttribute('amount-target'));
+                if (amount < minTarget || amount > maxTarget) {
+                    isVisible = false;
+                }
             }
         }
 
@@ -275,6 +306,38 @@ function applyFilter() {
             const cardCity = card.getAttribute('data-city');
             if (cardCity !== selectedCity) {
                 isVisible = false;
+            }
+        }
+
+        // Organizer filter
+        if (selectedOrganizer && isVisible) {
+            const cardOrganizer = card.getAttribute('data-organizer');
+            if (cardOrganizer !== selectedOrganizer) {
+                isVisible = false;
+            }
+        }
+
+        // Date range filter
+        if (isVisible) {
+            const filterDateFrom = document.getElementById('filter-tanggal-mulai').value;
+            const filterDateTo   = document.getElementById('filter-tanggal-sampai').value;
+            const cardDeadline   = card.getAttribute('data-deadline') || '';
+
+            if (cardDeadline) {
+                const deadlineTime = new Date(cardDeadline).getTime();
+                
+                if (filterDateFrom) {
+                    const fromTime = new Date(filterDateFrom).getTime();
+                    if (deadlineTime < fromTime) {
+                    isVisible = false;
+                }
+                }
+                if (filterDateTo) {
+                    const toTime = new Date(filterDateTo).getTime();
+                    if (deadlineTime < toTime) {
+                    isVisible = false;
+                    }
+                }
             }
         }
         
@@ -409,12 +472,16 @@ function applyFilter() {
             const badge    = (card.querySelector('.category-badge')?.textContent || '').toLowerCase();
             const province = (card.getAttribute('data-province') || '').replace(/-/g, ' ');
             const city     = (card.getAttribute('data-city') || '').replace(/-/g, ' ');
+            const deadline = (card.querySelector('.deadline-date')?.textContent || '').toLowerCase();
+            const deadlineRaw = (card.getAttribute('data-deadline') || '').toLowerCase();
 
             const isMatch = title.includes(val)
                          || category.includes(val)
                          || badge.includes(val)
                          || province.includes(val)
-                         || city.includes(val);
+                         || city.includes(val)
+                         || deadline.includes(val)
+                         || deadlineRaw.includes(val);
 
             if (isMatch) {
                 card.classList.remove('filtered-out');
