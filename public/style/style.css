@@ -1145,6 +1145,8 @@ main{
     letter-spacing: 0.05em;
 }
 
+
+/* https://www.w3schools.com/css/css3_pagination.asp */
 .pagination {
   display: flex;
   justify-content: center;
